@@ -15,7 +15,7 @@ require (
 
 require (
 	github.com/djherbis/times v1.6.0 // indirect
-	github.com/go-jose/go-jose/v4 v4.0.2 // indirect
+	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	go.temporal.io/api v1.46.0 // indirect
 	golang.org/x/crypto v0.35.0 // indirect
