@@ -1,0 +1,16 @@
+{{- if .Values.secrets.SENTRY_AUTH_TOKEN -}}
+apiVersion: v1
+kind: Secret
+metadata: {{ $fullname := printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+  name: {{ $fullname }}-sentry-token
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    created-by: "Helm"
+    application: "{{ .Values.global.application.name }}-{{ .Values.global.application.version }}"
+type: Opaque
+data:
+  SENTRY_AUTH_TOKEN: {{ .Values.secrets.SENTRY_AUTH_TOKEN | b64enc }}
+{{- end }}

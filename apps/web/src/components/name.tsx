@@ -1,0 +1,8 @@
+export default function Name() {
+  return (
+    <>
+      <span className="gigabit">Gigabit</span>.
+      <span className="host">Host</span>
+    </>
+  );
+}

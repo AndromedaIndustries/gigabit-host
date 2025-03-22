@@ -1,0 +1,4 @@
+name: gigabit-host
+
+include:
+  - apps/dev-containers/docker-compose.yml

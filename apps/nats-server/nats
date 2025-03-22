@@ -1,0 +1,8 @@
+
+
+jetstream {
+    store_dir: /tmp/data/jetstream
+    max_mem: 1G
+    max_file: 100G
+    domain: acme
+}

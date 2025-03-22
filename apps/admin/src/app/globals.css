@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  /* biome-ignore lint: lint/correctness/noUnknownProperty */
+  themes: light --preferslight, sunset --default;
+}
+body {
+  font-family: "Ubuntu", sans-serif;
+}
+
+pre,
+code,
+kbd,
+samp,
+textarea,
+input {
+  font-family: "Monaspace Krypton", monospace;
+}
+
+.logo {
+  font-family: "Monaspace Krypton", monospace;
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.gigabit {
+  color: oklch(72.53% 0.177 56.11);
+}
+
+.host {
+  color: oklch(0.72537 0.177 2.72);
+}

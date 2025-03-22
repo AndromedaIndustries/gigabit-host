@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {{ $fullname := printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+  name: {{ $fullname }}
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+      created-by: Helm
+      application: "{{ .Values.global.application.name }}-{{ .Values.global.application.version }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ $fullname }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ $fullname }}
+    spec:
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      imagePullSecrets:
+        - name: ghcr.io
+      containers:
+        - name: {{ $fullname }}-pod
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: FONTAWESOME_PACKAGE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullname }}-fa-token
+                  key: FONTAWESOME_PACKAGE_TOKEN
+            - name: GRAVATAR_EMAIL
+              value: {{ .Values.env.GRAVATAR_EMAIL }}
+            - name: LOGO_SUB_TITLE
+              value: {{ .Values.env.LOGO_SUB_TITLE }}
+            - name: LOGO_TITLE
+              value: {{ .Values.env.LOGO_TITLE }}
+            - name: ROOT_DOMAIN
+              value: {{ .Values.env.ROOT_DOMAIN }}
+            - name: SITE_DESCRIPTION
+              value: {{ .Values.env.SITE_DESCRIPTION }}
+            - name: SITE_KEYWORDS
+              value: {{ .Values.env.SITE_KEYWORDS }}
+            - name: SITE_NAME
+              value: {{ .Values.env.SITE_NAME }}
+            - name: SITE_TWITTER
+              value: {{ .Values.env.SITE_TWITTER }}
+            - name: SITE_URL
+              value: {{ .Values.env.SITE_URL }}
+            - name: USE_HTTPS
+              value: "{{ .Values.env.USE_HTTPS }}"

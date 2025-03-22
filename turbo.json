@@ -1,0 +1,55 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": ["CI", "ADMIN_PUBLIC_URL", "WEB_PUBLIC_URL", "AUTH_SALT"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "dev:containers": {
+      "dependsOn": ["^dev:containers"],
+      "persistent": false
+    },
+    "dev:containers:reload": {
+      "dependsOn": ["^dev:containers:down", "^dev:containers"],
+      "persistent": false
+    },
+    "dev:containers:down": {
+      "dependsOn": ["^dev:containers:down"],
+      "persistent": false
+    },
+    "db:migrate:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:migrate:deploy": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "env": ["--concurency=12"]
+    },
+    "test": {
+      "cache": false
+    },
+    "//#format-and-lint": {},
+    "//#format-and-lint:fix": {
+      "cache": false
+    }
+  }
+}

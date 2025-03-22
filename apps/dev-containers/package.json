@@ -1,0 +1,8 @@
+{
+  "name": "dev-containers",
+  "scripts": {
+    "dev:containers": "docker compose up -d",
+    "dev:containers:reload": "docker compose up -d --force-recreate",
+    "dev:containers:down": "docker compose down"
+  }
+}

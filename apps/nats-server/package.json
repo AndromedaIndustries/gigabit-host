@@ -1,0 +1,7 @@
+{
+  "name": "nats-server",
+
+  "scripts": {
+    "dev": "/home/xn4p4lm/go/bin/nats-server -c ./nats"
+  }
+}

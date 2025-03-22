@@ -1,0 +1,24 @@
+name: gigabit-host
+services:
+  frontend:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50500:3000"
+
+  cloudflared-tunnel:
+    env_file:
+      - .env
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token $CLOUDFLARE_TUNNEL_TOKEN
+    depends_on:
+      - frontend
+
+networks:
+  gigabit-host-prod:
+    external: true
+    name: gigabit-host-prod

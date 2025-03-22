@@ -1,0 +1,9 @@
+[package]
+name = "proxmox-worker"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+dotenv = "0.15.0"
+proxmox-client = { path = "../../packages/rust/proxmox-client" }

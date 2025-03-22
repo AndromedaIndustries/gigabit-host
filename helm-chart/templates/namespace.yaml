@@ -1,0 +1,10 @@
+{{- if .Values.global.namespace -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.global.namespace }}
+  labels:
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+      created-by: "Helm"
+      application: "{{ .Values.global.application.name }}-{{ .Values.global.application.version }}"
+{{- end }}
