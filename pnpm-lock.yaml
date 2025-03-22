@@ -67,8 +67,8 @@ importers:
         specifier: ^19
         version: 19.0.0(react@19.0.0)
       ulid:
-        specifier: ^2.3.0
-        version: 2.3.0
+        specifier: ^2.4.0
+        version: 2.4.0
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -169,8 +169,8 @@ importers:
         specifier: ^19
         version: 19.0.0(react@19.0.0)
       ulid:
-        specifier: ^2.3.0
-        version: 2.3.0
+        specifier: ^2.4.0
+        version: 2.4.0
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -3739,8 +3739,8 @@ packages:
     resolution: {integrity: sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==}
     engines: {node: '>=0.8.0'}
 
-  ulid@2.3.0:
-    resolution: {integrity: sha512-keqHubrlpvT6G2wH0OEfSW4mquYRcbe/J8NMmveoQOjUqmo+hXtO+ORCpWhdbZ7k72UtY61BL7haGxW6enBnjw==}
+  ulid@2.4.0:
+    resolution: {integrity: sha512-fIRiVTJNcSRmXKPZtGzFQv9WRrZ3M9eoptl/teFJvjOzmpU+/K/JH6HZ8deBfb5vMEpicJcLn7JmvdknlMq7Zg==}
     hasBin: true
 
   unbox-primitive@1.1.0:
@@ -7586,7 +7586,7 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  ulid@2.3.0: {}
+  ulid@2.4.0: {}
 
   unbox-primitive@1.1.0:
     dependencies:
