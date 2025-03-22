@@ -8,12 +8,13 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/luthermonson/go-proxmox v0.2.1
+	github.com/luthermonson/go-proxmox v0.2.2
 	go.temporal.io/sdk v1.33.0
 	go.uber.org/zap v1.27.0
 )
 
 require (
+	github.com/djherbis/times v1.6.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.2 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	go.temporal.io/api v1.44.1 // indirect
@@ -24,7 +25,7 @@ require (
 require (
 	github.com/buger/goterm v1.0.4 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/diskfs/go-diskfs v1.2.0 // indirect; indirect //requires v1.2.0
+	github.com/diskfs/go-diskfs v1.5.0 // indirect; indirect //requires v1.2.0
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/mock v1.6.0 // indirect
@@ -51,6 +52,5 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250127172529-29210b9bc287 // indirect
 	google.golang.org/grpc v1.70.0 // indirect
 	google.golang.org/protobuf v1.36.4 // indirect
-	gopkg.in/djherbis/times.v1 v1.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
