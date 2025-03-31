@@ -14,7 +14,7 @@
     "@repo/database": "workspace:*",
     "@simplewebauthn/browser": "9.0.1",
     "@simplewebauthn/server": "9.0.3",
-    "@swc/core": "^1.11.11",
+    "@swc/core": "^1.11.13",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "next-auth": "5.0.0-beta.25",

@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@prisma/client": "latest",
-    "@swc/core": "^1.11.11"
+    "@swc/core": "^1.11.13"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
