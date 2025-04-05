@@ -8,7 +8,11 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    groups:
+      node-packages:
+        patterns:
+          - "*"
     assignees:
       - "@xn4p4lm"
   - package-ecosystem: "docker"
@@ -32,6 +36,10 @@ updates:
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    groups:
+      go-packages:
+        patterns:
+          - "*"
     assignees:
       - "@xn4p4lm"
