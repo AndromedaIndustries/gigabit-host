@@ -12,9 +12,9 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
     "@repo/database": "workspace:*",
-    "@simplewebauthn/browser": "9.0.1",
-    "@simplewebauthn/server": "9.0.3",
-    "@swc/core": "^1.11.13",
+    "@simplewebauthn/browser": "13.1.0",
+    "@simplewebauthn/server": "13.1.1",
+    "@swc/core": "^1.11.16",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "next-auth": "5.0.0-beta.25",
@@ -24,10 +24,10 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/bcrypt": "^5.0.2",
-    "@types/node": "^22.13.5",
-    "eslint": "9.21.0",
+    "@types/node": "^22.14.0",
+    "eslint": "9.24.0",
     "tsup": "^8.0.2",
     "tsx": "^4",
-    "typescript": "5.5.4"
+    "typescript": "5.8.3"
   }
 }
