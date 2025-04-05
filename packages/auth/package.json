@@ -12,7 +12,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
     "@repo/database": "workspace:*",
-    "@simplewebauthn/browser": "9.0.1",
+    "@simplewebauthn/browser": "13.1.0",
     "@simplewebauthn/server": "9.0.3",
     "@swc/core": "^1.11.13",
     "bcrypt": "^5.1.1",
