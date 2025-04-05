@@ -7,12 +7,13 @@
     }
   },
   "include": [
-    "next-env.d.ts",
     "**/*.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "next-env.d.ts",
     ".next/types/**/*.ts",
-    "tests-examples/demo-todo-app.spec.ts.example"
+    "src/middleware.ts.disabled",
+    "../admin/src/middleware.ts"
   ],
   "exclude": ["node_modules"]
 }

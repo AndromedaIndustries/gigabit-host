@@ -24,16 +24,15 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "next": "^15",
-    "next-auth": "5.0.0-beta.25",
     "react": "^19",
     "react-dom": "^19",
-    "ulid": "^2.4.0"
+    "ulid": "3.0.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.50.1",
-    "@repo/database": "workspace:*",
-    "@repo/auth": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",

@@ -16,14 +16,17 @@ require (
 require (
 	github.com/djherbis/times v1.6.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
+	github.com/pquerna/cachecontrol v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	go.temporal.io/api v1.46.0 // indirect
 	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/oauth2 v0.28.0 // indirect
+	gopkg.in/go-jose/go-jose.v2 v2.6.3 // indirect
 )
 
 require (
 	github.com/buger/goterm v1.0.4 // indirect
+	github.com/coreos/go-oidc v2.3.0+incompatible
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/diskfs/go-diskfs v1.5.2 // indirect; indirect //requires v1.2.0
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect

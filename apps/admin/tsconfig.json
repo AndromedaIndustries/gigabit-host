@@ -12,7 +12,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "tests-examples/demo-todo-app.spec.ts.example"
+    "tests-examples/demo-todo-app.spec.ts.example",
+    "../web/src/auth.ts"
   ],
   "exclude": ["node_modules"]
 }

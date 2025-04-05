@@ -20,9 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="">
         <Navbar />
-        <div className="container mx-auto pb-32 md:pb-24">{children}</div>
+        <div className="">{children}</div>
         <Footer />
       </body>
     </html>

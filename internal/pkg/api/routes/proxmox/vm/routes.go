@@ -13,4 +13,7 @@ func AddVMRoutes(router *mux.Router) {
 	router.HandleFunc("/vm/{hostName}/{vmId}", UpdateVM).Methods(http.MethodPatch)
 	router.HandleFunc("/vm/{hostName}/{vmId}", GetVM).Methods(http.MethodGet)
 	router.HandleFunc("/vm/{hostName}", GetAllVMs).Methods(http.MethodGet)
+	router.HandleFunc("/vm/{vmid}", GetVM).Methods(http.MethodGet)
+	router.HandleFunc("/vm/{vmid}", UpdateVM).Methods(http.MethodPatch)
+	router.HandleFunc("/vm/{vmid}", DeleteVM).Methods(http.MethodDelete)
 }

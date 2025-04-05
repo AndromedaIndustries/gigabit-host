@@ -72,7 +72,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "pnpm dev",
+    command: "turbo dev",
     url: "http://127.0.0.1:3000",
     timeout: 1200,
     reuseExistingServer: !process.env.CI,

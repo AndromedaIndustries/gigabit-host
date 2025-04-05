@@ -18,8 +18,7 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "latest",
-    "@swc/core": "^1.11.13"
+    "@prisma/client": "latest"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

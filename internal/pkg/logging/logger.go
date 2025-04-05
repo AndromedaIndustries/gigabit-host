@@ -5,35 +5,19 @@ import (
 	"go.uber.org/zap"
 )
 
-func InitializeLogging(config *types.Config) func() {
+func InitializeLogging(config *types.Config, app_name string) func() {
 
-	switch config.Environment {
-	case "production":
-		loggerConfig := zap.NewProductionConfig()
-		loggerConfig.InitialFields = map[string]interface{}{
-			"app":         "provisioner",
-			"environment": config.Environment,
-		}
-
-		logger, err := loggerConfig.Build()
-		if err != nil {
-			panic(err)
-		}
-		config.Logger = logger
-
-	default:
-		loggerConfig := zap.NewDevelopmentConfig()
-		loggerConfig.InitialFields = map[string]interface{}{
-			"app":         "provisioner",
-			"environment": config.Environment,
-		}
-
-		logger, err := loggerConfig.Build()
-		if err != nil {
-			panic(err)
-		}
-		config.Logger = logger
+	loggerConfig := zap.NewDevelopmentConfig()
+	loggerConfig.InitialFields = map[string]interface{}{
+		"app":         app_name,
+		"environment": config.Environment,
 	}
+
+	logger, err := loggerConfig.Build()
+	if err != nil {
+		panic(err)
+	}
+	config.Logger = logger
 
 	return func() {
 		config.Logger.Sync()

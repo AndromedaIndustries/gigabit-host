@@ -2,7 +2,7 @@ import { type Prisma, PrismaClient } from "../generated/client";
 
 const prisma = new PrismaClient();
 
-const skus: Prisma.skusCreateInput[] = [
+const skus: Prisma.SkuCreateInput[] = [
   {
     name: "Shared 4th Gen AMD Small",
     sku: "s4ae-small",
@@ -103,10 +103,10 @@ const skus: Prisma.skusCreateInput[] = [
 
 export async function main() {
   // Delete all existing data
-  await prisma.skus.deleteMany();
+  await prisma.sku.deleteMany();
 
   for (const sku of skus) {
-    await prisma.skus.create({ data: sku });
+    await prisma.sku.create({ data: sku });
   }
 }
 
