@@ -1,4 +1,4 @@
-export default async function Home() {
+export default async function Dashboard() {
 
     return (
         <div>

@@ -6,8 +6,10 @@ const skus: Prisma.SkuCreateInput[] = [
   {
     name: "Shared 4th Gen AMD Small",
     sku: "s4ae-small",
+    stripe_personal_sku: "price_1RBNGBClZbs5CDDAPAKdBM81", // Test SKU
+    stripe_business_sku: "price_1R7LiaClZbs5CDDAVk7OI9s1", // Test SKU
     type: "Shared",
-    category: "VM",
+    category: "virtual_machine",
     description: "A perfect VM for small or persoanl projects.",
     price: 10,
     attributes: {
@@ -30,8 +32,10 @@ const skus: Prisma.SkuCreateInput[] = [
   {
     name: "Shared 4th Gen AMD Medium",
     sku: "s4ae-medium",
+    stripe_personal_sku: "price_1RBNI1ClZbs5CDDADiexFBTN", // Test SKU
+    stripe_business_sku: "price_1R7Lk7ClZbs5CDDAalmS9XMe", // Test SKU
     type: "Shared",
-    category: "VM",
+    category: "virtual_machine",
     description: "Great for hosting multiple projects or a small business.",
     price: 40,
     attributes: {
@@ -54,8 +58,10 @@ const skus: Prisma.SkuCreateInput[] = [
   {
     name: "Shared 4th Gen AMD Large",
     sku: "s4ae-large",
+    stripe_personal_sku: "price_1RBNIXClZbs5CDDAo4NUmeO0", // Test SKU
+    stripe_business_sku: "price_1R7LkJClZbs5CDDAecL3u8nm", // Test SKU
     type: "Shared",
-    category: "VM",
+    category: "virtual_machine",
     description: "Great for those who need more oomph.",
     price: 80,
     attributes: {
@@ -78,8 +84,10 @@ const skus: Prisma.SkuCreateInput[] = [
   {
     name: "Shared 4th Gen AMD Extra Large",
     sku: "s4ae-xlarge",
+    stripe_personal_sku: "price_1RBNJSClZbs5CDDAKuX6xmEt", // Test SKU
+    stripe_business_sku: "price_1R7LkUClZbs5CDDA9thUBOaJ", // Test SKU
     type: "Shared",
-    category: "VM",
+    category: "virtual_machine",
     description: "For those who need the most power.",
     price: 160,
     attributes: {

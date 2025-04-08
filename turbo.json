@@ -41,7 +41,6 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true,
       "env": ["--concurency=12"]
     },
     "test": {

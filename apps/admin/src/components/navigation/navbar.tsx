@@ -1,11 +1,16 @@
 import Link from "next/link";
 import Name from "../name";
 import { createClient } from "@/utils/supabase/server";
+import Logout from "@/utils/supabase/logout";
 
 export default async function Navbar() {
   const supabase = await createClient();
   const userResponse = await supabase.auth.getUser();
-  //const user = userResponse.data.user
+  const user = userResponse.data.user;
+
+  const first_name = user?.user_metadata.first_name || null
+
+
 
   return (
     <div className="navbar bg-base-300 shadow-sm fixed">
@@ -33,19 +38,27 @@ export default async function Navbar() {
             </svg>
           </button>
         </div>
-        <Link href={"/"} className="btn btn-ghost logo">
+        <Link href={"/dashboard"} className="btn btn-ghost logo">
           <Name />
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
       </div>
       <div className="navbar-end">
-        {(userResponse.data.user != null) ? (
-          <Link href="/logout" className="btn">
-            Logout
-          </Link>
+        {(userResponse.data.user != null) && first_name != null ? (
+          <div className="flex-row flex items-center">
+            <div>Welcome, {first_name}</div>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={Logout}
+            >
+              Sign Out
+            </button>
+
+          </div>
         ) : null}
       </div>
-    </div>
+    </div >
   );
 }

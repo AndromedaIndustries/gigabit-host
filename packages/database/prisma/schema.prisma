@@ -9,55 +9,74 @@ datasource db {
 }
 
 model Permission {
-  id    String @id @default(ulid()) @db.VarChar(255)
-  name  String @unique @db.VarChar(255)
-  roles Role[] // Many-to-many relation with Role
+  id   String @id @default(ulid()) @db.VarChar(255)
+  name String @unique @db.VarChar(255)
+}
+
+model Ssh_keys {
+  id         String    @id @default(ulid()) @db.VarChar(255)
+  user_id    String    @db.Uuid
+  name       String    @db.VarChar(255)
+  public_key String    @db.Text
+  avaliable  Boolean   @default(true)
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_at DateTime  @updatedAt @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
 }
 
 model Role {
-  id          String       @id @default(ulid()) @db.VarChar(255)
-  name        String       @unique @db.VarChar(255)
-  description String?      @db.Text
-  created_at  DateTime     @default(now()) @db.Timestamp(6)
-  updated_at  DateTime     @updatedAt @db.Timestamp(6)
-  permissions Permission[]
-  accounts    Account[]
+  id          String   @id @default(ulid()) @db.VarChar(255)
+  name        String   @unique @db.VarChar(255)
+  description String?  @db.Text
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @updatedAt @db.Timestamp(6)
+  role_ids    String[] @db.VarChar(255)
 }
 
 model Account {
-  id          String     @id @default(ulid()) @db.VarChar(255)
-  user_id     String     @db.VarChar(255)
-  name        String     @db.VarChar(255)
-  description String?    @db.Text
-  created_at  DateTime   @default(now()) @db.Timestamp(6)
-  updated_at  DateTime   @updatedAt @db.Timestamp(6)
-  roles       Role[]
-  services    Services[]
+  id          String    @id @default(ulid()) @db.VarChar(255)
+  name        String    @db.VarChar(255)
+  description String?   @db.Text
+  created_at  DateTime  @default(now()) @db.Timestamp(6)
+  updated_at  DateTime  @updatedAt @db.Timestamp(6)
+  deleted_at  DateTime? @db.Timestamp(6)
+  service_ids String[]  @db.VarChar(255)
+  user_ids    String[]  @db.Uuid
 }
 
 model Sku {
-  id          String  @id @default(ulid()) @db.VarChar(255)
-  sku         String  @unique @db.VarChar(255)
-  name        String  @db.VarChar(255)
-  type        String  @db.VarChar(255)
-  description String  @db.Text
-  category    String  @db.VarChar(255)
-  price       Float   @db.Real
-  attributes  Json    @db.Json
-  popular     Boolean @default(false)
-  available   Boolean @default(false)
-  quantity    Int     @default(0)
+  id                  String  @id @default(ulid()) @db.VarChar(255)
+  sku                 String  @unique @db.VarChar(255)
+  stripe_personal_sku String  @db.VarChar(255)
+  stripe_business_sku String  @db.VarChar(255)
+  name                String  @db.VarChar(255)
+  type                String  @db.VarChar(255)
+  description         String  @db.Text
+  category            String  @db.VarChar(255)
+  price               Float   @db.Real
+  attributes          Json    @db.Json
+  popular             Boolean @default(false)
+  available           Boolean @default(false)
+  quantity            Int     @default(0)
 }
 
 model Services {
-  id              String   @id @default(ulid()) @db.VarChar(255)
-  user_id         String   @db.VarChar(255)
-  sku_id          String   @db.VarChar(255)
-  subscription    String   @db.VarChar(255)
-  subscription_id String   @db.VarChar(255)
-  status          String   @db.VarChar(255)
-  created_at      DateTime @default(now()) @db.Timestamp(6)
-  updated_at      DateTime @updatedAt @db.Timestamp(6)
-  accountId       String?  @db.VarChar(255)
-  Account         Account? @relation(fields: [accountId], references: [id])
+  id                  String    @id @default(ulid()) @db.VarChar(255)
+  user_id             String    @db.Uuid
+  type                String    @db.VarChar(255)
+  hostname            String    @db.VarChar(255)
+  os                  String    @db.VarChar(255)
+  public_key          String    @db.Text
+  metadata            Json      @db.Json
+  sku_id              String    @db.VarChar(255)
+  subscription        String    @db.VarChar(255)
+  subscription_status String    @db.VarChar(255)
+  subscription_id     String    @db.VarChar(255)
+  status              String    @db.VarChar(255)
+  payment_ids         String[]  @db.VarChar(255)
+  payment_status      String    @db.VarChar(255)
+  created_at          DateTime  @default(now()) @db.Timestamp(6)
+  updated_at          DateTime  @updatedAt @db.Timestamp(6)
+  deleted_at          DateTime? @db.Timestamp(6)
+  accountId           String?   @db.VarChar(255)
 }
