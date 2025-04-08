@@ -1,0 +1,90 @@
+import { VM_Specs } from "@/components/service/client/vms";
+import { ListSSHKeys, AddSSHKeyModalDialog } from "@/components/ssh";
+import { createClient } from "@/utils/supabase/server";
+import { prisma } from "database";
+
+export default async function Purchase() {
+    const supabase = await createClient();
+    const userObject = await supabase.auth.getUser();
+    const email = userObject.data.user?.email
+
+    const account_type = userObject.data.user?.app_metadata?.account_type
+    const userID = userObject.data.user?.id
+
+    if (!userID) {
+        throw new Error("No user found");
+    }
+
+    const sshKeys = await prisma.ssh_keys.findMany({
+        where: {
+            user_id: userID,
+        },
+    })
+
+    const vms = await prisma.sku.findMany(
+        {
+            where: {
+                category: "virtual_machine",
+            },
+        }
+    )
+
+    return (
+        <div>
+            <form action="/api/checkout/session" method="POST">
+                <fieldset className="fieldset bg-base-200 border border-base-300 p-4 rounded-box justify-center w-fit md:w-2/4">
+                    <legend className="fieldset-legend">Configure your VM</legend>
+                    <input type="hidden" id="email" name="email" value={email} />
+
+                    {(account_type !== "Personal") || (account_type !== "Business") && (
+                        <div>
+                            <div className="alert alert-error">
+                                You must set your account type before purchasing a VM.
+                            </div>
+                            <label htmlFor="account_type" className="fieldset-label">Account Type</label>
+                            <select
+                                required
+                                id="account_type"
+                                name="account_type"
+                                defaultValue={account_type}
+                                className="select w-full"
+                            >
+                                <option disabled>Set Account Type</option>
+                                <option>Personal</option>
+                                <option>Business</option>
+                            </select>
+                        </div>
+                    )}
+
+                    <label htmlFor="hostname" className="fieldset-label">Hostname</label>
+                    <input id="hostname" name="hostname" type="text" className="input validator w-full" required placeholder="my.awesome.server"
+                        pattern="\b[a-z0-9\-\.]*\.[a-z]{1,}\b"
+                        title="Must be valid FQDN" />
+
+                    <VM_Specs vm_list={vms} />
+
+
+                    <label htmlFor="os" className="fieldset-label">OS</label>
+                    <select id="os" name="os" className="select select-bordered w-full">
+                        <option value="ubuntu-24.04">Ubuntu 24.04</option>
+                        <option value="ubuntu-24.10">Ubuntu 24.10</option>
+                        <option value="debian-12">Debian 12</option>
+                    </select>
+
+
+                    <label htmlFor="ssh_key" className="fieldset-label">SSH Key</label>
+                    <ListSSHKeys id="ssh_key" userID={userID} ssh_keys={sshKeys} />
+
+
+                    <div className="w-full pt-5">
+                        <button type="submit" className="btn btn-primary w-full">Purchase</button>
+                    </div>
+
+                </fieldset>
+            </form>
+            <div>
+                <AddSSHKeyModalDialog userID={userID} />
+            </div>
+        </div >
+    )
+}

@@ -23,12 +23,15 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "database": "workspace:*",
+    "@stripe/stripe-js": "^7.0.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4",
     "next": "^15",
     "react": "^19",
     "react-dom": "^19",
-    "ulid": "3.0.0",
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.49.4"
+    "stripe": "^18.0.0",
+    "ulid": "3.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
