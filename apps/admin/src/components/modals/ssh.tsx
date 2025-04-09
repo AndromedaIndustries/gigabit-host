@@ -11,41 +11,20 @@ type ssh_key_modal_props = {
 }
 
 type ListSSHKeysProps = {
-    userID?: string;
     id?: string;
-    className?: string;
     ssh_keys: Ssh_keys[];
 };
 
 
-export function ListSSHKeys({ userID, ssh_keys, id, className }: ListSSHKeysProps) {
-    const [sshKeys, setSshKeys] = useState<Ssh_keys[]>([]);
+export function ListSSHModalKeys({ ssh_keys, id }: ListSSHKeysProps) {
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useEffect(() => {
-        setSshKeys(ssh_keys);
-    }, []);
-
-    function fetchSshKeys() {
-        fetch("/api/settings/ssh").then((response) => {
-            if (response.status === 200) {
-                response.json().then((data) => {
-                    setSshKeys(data);
-                });
-            }
-        }).catch((error) => {
-            console.log("Error fetching SSH keys:", error);
-        });
-    }
-
-
-    if (sshKeys.length === 0) {
+    if (ssh_keys.length === 0) {
         return (
             <div className="join">
                 <select id={id} name={id} className="select select-bordered w-full" defaultValue="">
                     <option disabled value="">No SSH Keys - Please Click New</option>
                 </select>
-                <AddSSHKeyButton className="btn btn-neutral join-item" btn_name="New" />
+                <AddSSHKeyModalButton className="btn btn-neutral join-item" btn_name="New" />
             </div>
         )
     }
@@ -53,19 +32,19 @@ export function ListSSHKeys({ userID, ssh_keys, id, className }: ListSSHKeysProp
     return (
         <div className="join">
             <select id={id} name={id} className="select select-bordered w-full">
-                {sshKeys.map((sshKey) => (
+                {ssh_keys.map((sshKey) => (
                     <option key={sshKey.id} value={sshKey.id} className="flex flex-col">
                         {sshKey.name}
                     </option>
                 ))}
             </ select>
-            <AddSSHKeyButton className="btn btn-neutral join-item" btn_name="New" />
+            <AddSSHKeyModalButton className="btn btn-neutral join-item" btn_name="New" />
         </div>
     );
 }
 
 
-export function AddSSHKeyButton({ className, btn_name }: ssh_key_modal_props) {
+export function AddSSHKeyModalButton({ className, btn_name }: ssh_key_modal_props) {
 
     function openModal() {
         const modal = document.getElementById("ssh_key_modal") as HTMLDialogElement | null;

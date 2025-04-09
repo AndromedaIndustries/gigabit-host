@@ -19,7 +19,7 @@ export default async function Home() {
             custom solution.
           </div>
         </div>
-        <VmProductCarousel type="Shared" />
+        <VmProductCarousel type="shared" />
       </div>
     </div>
   );

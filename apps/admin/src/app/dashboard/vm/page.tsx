@@ -1,3 +1,4 @@
+import { VmCard } from "@/components/cards/vm";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import Link from "next/link"
@@ -23,21 +24,10 @@ export default async function VMs() {
                     </div>
                 </div>
 
-                {vms.length === 0 ? null : (
-                    <div>
-                        {vms.map((vm) => (
-                            <div className="card card-border bg-base-300 w-64 h-64" key={vm.id}>
-                                <div className="card-body items-center text-center">
-                                    <h2 className="card-title">{vm.hostname}</h2>
-                                    <p>""</p>
-                                    <div className="card-actions justify-end">
-                                        <button type="button" className="btn btn-primary">manage</button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                {vms.length === 0 ? null :
+                    vms.map((vm) => (
+                        <VmCard vm={vm} key={vm.id} />
+                    ))}
             </div>
         </div>
     );

@@ -1,5 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
-import { saveSettings } from "./settings";
+import { saveSettings, deleteAccount } from "./settings";
+import AccountType from "@/components/input/accountType";
+import SetName from "@/components/input/setName";
+import { OpenPasswordModal, UpdatePasswordModal } from "@/components/modals/password";
 
 export default async function Settings() {
     const supabase = await createClient();
@@ -10,36 +13,16 @@ export default async function Settings() {
     const email = user?.email;
     const accountType = user?.user_metadata.account_type || "Set Account Type";
     return (
-        <div>
-            {/* Using a server action for form submission */}
+        <div className="w-fit bg-base-200 border-base-300 rounded-box">
+
             <form action={saveSettings}>
-                <fieldset className="fieldset w-xs bg-base-200 border border-base-300 p-4 rounded-box">
+                <fieldset className="fieldset w-xs bg-base-200  border-base-300 p-4 ">
                     <legend className="fieldset-legend">Account Information</legend>
-
-                    <label htmlFor="first_name" className="fieldset-label">First Name</label>
-                    <input
-                        required
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        className="input"
-                        defaultValue={first_name}
-                    />
-
-                    <label htmlFor="last_name" className="fieldset-label">Last Name</label>
-                    <input
-                        required
-                        id="last_name"
-                        name="last_name"
-                        type="text"
-                        className="input"
-                        defaultValue={last_name}
-                    />
-
 
                     <label htmlFor="email" className="fieldset-label">Email</label>
                     <input
                         required
+                        disabled
                         id="email"
                         name="email"
                         type="text"
@@ -47,22 +30,25 @@ export default async function Settings() {
                         defaultValue={email}
                     />
 
-                    <label htmlFor="account_type" className="fieldset-label">Account Type</label>
-                    <select
-                        required
-                        id="account_type"
-                        name="account_type"
-                        defaultValue={accountType}
-                        className="select"
-                    >
-                        <option disabled>Set Account Type</option>
-                        <option>Personal</option>
-                        <option>Business</option>
-                    </select>
+                    <OpenPasswordModal />
+
+                    <SetName first_name={first_name} last_name={last_name} />
+
+
+
+                    <AccountType accountType={accountType} />
 
                     <button type="submit" className="btn btn-primary">Save</button>
                 </fieldset>
             </form>
+            {(user?.role === "superadmin") ? null : (
+                <form action={deleteAccount}>
+                    <fieldset className="fieldset w-xs bg-base-200 p-4 rounded-box">
+                        <button type="submit" className="btn btn-warning">Delete Account</button>
+                    </fieldset>
+                </form>
+            )}
+            <UpdatePasswordModal />
         </div>
     );
 }

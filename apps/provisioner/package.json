@@ -1,7 +1,0 @@
-{
-  "name": "provisioner",
-  "scripts": {
-    "dev": "",
-    "dev2": "/home/xn4p4lm/.cargo/bin/cargo run ."
-  }
-}

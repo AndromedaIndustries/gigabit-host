@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/utils/stripe/stripe";
 import { redirect } from "next/navigation";
+import { prisma } from "database";
+import { UpdateService } from "@/utils/database/services/update";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -18,10 +20,38 @@ export async function GET(request: Request) {
     expand: ["line_items", "payment_intent"],
   });
 
-  const { status, customer_details } = session;
+  const { status, subscription } = session;
+
+  const newService = await prisma.services.findFirst({
+    where: {
+      initial_checkout_id: session.id,
+    },
+  });
+
+  if (!newService) {
+    return NextResponse.json({ error: "No service found" });
+  }
+
+  if (!subscription) {
+    return NextResponse.json({ error: "No subscription found" });
+  }
 
   if (status === "open") {
-    redirect("/dashboard/vm");
+    newService.status = "pending";
+    newService.status_reason = "Payment pending";
+  }
+
+  if (status === "complete") {
+    newService.subscription_active = true;
+    newService.status = "active";
+    newService.status_reason = `Payment processed successfully - Subscription ${subscription.toString()} created`;
+    newService.subscription_id = subscription.toString();
+  }
+
+  const updated_service = UpdateService(newService);
+
+  if (!updated_service) {
+    return NextResponse.json({ error: "Service failed to update" });
   }
 
   if (status === "complete") {

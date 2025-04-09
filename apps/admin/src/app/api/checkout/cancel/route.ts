@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/utils/stripe/stripe";
 import { redirect } from "next/navigation";
+import { prisma } from "database";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -19,8 +20,27 @@ export async function GET(request: Request) {
     expand: ["line_items", "payment_intent"],
   });
 
-  const { status, customer_details } = session;
-  const customerEmail = customer_details?.email;
+  const { status } = session;
+
+  if (!status) {
+    return NextResponse.json({ error: "No status found" });
+  }
+
+  const service = await prisma.services.findFirst({
+    where: {
+      initial_checkout_id: session_id,
+    },
+  });
+
+  if (service) {
+    const vm_id = service?.id;
+
+    await prisma.services.delete({
+      where: {
+        id: service.id,
+      },
+    });
+  }
 
   redirect(`/dashboard/vm/new?canceled=${canceled}`);
 }
