@@ -32,7 +32,6 @@ export function VM_Specs({ vm_list }: specs) {
                     <option key={vm.id} value={vm.id}>{vm.sku}</option>
                 ))}
             </select>
-            <p className="validator-hint">Required</p>
             {(selectedVm !== null) && (
                 <div>
                     <div className="flex pt-2 text-center justify-center w-full">

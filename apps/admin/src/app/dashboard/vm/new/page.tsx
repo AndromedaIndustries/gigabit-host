@@ -1,5 +1,5 @@
 import { VM_Specs } from "@/components/service/client/vms";
-import { ListSSHKeys, AddSSHKeyModalDialog } from "@/components/ssh";
+import { ListSSHModalKeys, AddSSHKeyModalDialog } from "@/components/modals/ssh";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 
@@ -34,7 +34,6 @@ export default async function Purchase() {
             <form action="/api/checkout/session" method="POST">
                 <fieldset className="fieldset bg-base-200 border border-base-300 p-4 rounded-box justify-center w-fit md:w-2/4">
                     <legend className="fieldset-legend">Configure your VM</legend>
-                    <input type="hidden" id="email" name="email" value={email} />
 
                     {(account_type !== "Personal") || (account_type !== "Business") && (
                         <div>
@@ -71,9 +70,13 @@ export default async function Purchase() {
                         <option value="debian-12">Debian 12</option>
                     </select>
 
+                    <label htmlFor="user" className="fieldset-label">Username</label>
+                    <input id="user" name="user" type="text" className="input validator w-full" required placeholder="imauser"
+                        pattern="\b[a-z0-9\-]*"
+                        title="Must be a valid *nix username" />
 
-                    <label htmlFor="ssh_key" className="fieldset-label">SSH Key</label>
-                    <ListSSHKeys id="ssh_key" userID={userID} ssh_keys={sshKeys} />
+                    <label htmlFor="public_key" className="fieldset-label">SSH Public Key</label>
+                    <ListSSHModalKeys id="public_key" ssh_keys={sshKeys} />
 
 
                     <div className="w-full pt-5">

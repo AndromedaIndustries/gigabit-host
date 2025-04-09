@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { login, signup } from './actions'
 
 
@@ -33,7 +34,7 @@ export default function LoginPage() {
                     <div className="text-center">
                         Don&apos;t have an account?
                     </div>
-                    <button type="submit" formAction={signup} className="btn btn-outline btn-primary">Sign up</button>
+                    <Link href={"/signup"} className="btn btn-outline btn-primary">Sign up</Link>
                 </div>
             </form>
         </div>

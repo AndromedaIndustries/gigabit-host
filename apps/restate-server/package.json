@@ -1,6 +1,0 @@
-{
-  "name": "restate-server",
-  "scripts": {
-    "dev": "restate-server -c ./config.toml --base-dir /tmp/restate-server"
-  }
-}

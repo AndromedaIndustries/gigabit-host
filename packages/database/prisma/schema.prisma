@@ -24,15 +24,6 @@ model Ssh_keys {
   deleted_at DateTime? @db.Timestamp(6)
 }
 
-model Role {
-  id          String   @id @default(ulid()) @db.VarChar(255)
-  name        String   @unique @db.VarChar(255)
-  description String?  @db.Text
-  created_at  DateTime @default(now()) @db.Timestamp(6)
-  updated_at  DateTime @updatedAt @db.Timestamp(6)
-  role_ids    String[] @db.VarChar(255)
-}
-
 model Account {
   id          String    @id @default(ulid()) @db.VarChar(255)
   name        String    @db.VarChar(255)
@@ -40,6 +31,7 @@ model Account {
   created_at  DateTime  @default(now()) @db.Timestamp(6)
   updated_at  DateTime  @updatedAt @db.Timestamp(6)
   deleted_at  DateTime? @db.Timestamp(6)
+  metadata    Json      @default("{}") @db.Json
   service_ids String[]  @db.VarChar(255)
   user_ids    String[]  @db.Uuid
 }
@@ -54,7 +46,7 @@ model Sku {
   description         String  @db.Text
   category            String  @db.VarChar(255)
   price               Float   @db.Real
-  attributes          Json    @db.Json
+  attributes          Json    @default("{}") @db.Json
   popular             Boolean @default(false)
   available           Boolean @default(false)
   quantity            Int     @default(0)
@@ -67,14 +59,17 @@ model Services {
   hostname            String    @db.VarChar(255)
   os                  String    @db.VarChar(255)
   public_key          String    @db.Text
-  metadata            Json      @db.Json
+  metadata            Json      @default("{}") @db.Json
   sku_id              String    @db.VarChar(255)
-  subscription        String    @db.VarChar(255)
-  subscription_status String    @db.VarChar(255)
-  subscription_id     String    @db.VarChar(255)
+  current_sku_name    String    @db.VarChar(255)
+  initial_sku_name    String    @db.VarChar(255)
+  subscription_active Boolean   @default(false)
+  subscription_id     String?   @db.VarChar(255)
+  initial_checkout_id String?   @db.VarChar(255)
   status              String    @db.VarChar(255)
+  status_reason       String?   @db.Text
   payment_ids         String[]  @db.VarChar(255)
-  payment_status      String    @db.VarChar(255)
+  payment_status      String?   @db.VarChar(255)
   created_at          DateTime  @default(now()) @db.Timestamp(6)
   updated_at          DateTime  @updatedAt @db.Timestamp(6)
   deleted_at          DateTime? @db.Timestamp(6)

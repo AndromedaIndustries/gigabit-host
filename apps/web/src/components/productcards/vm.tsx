@@ -1,4 +1,4 @@
-import type { skus } from "@repo/database";
+import type { Sku } from "database";
 
 interface attributes {
   cpu_mfg: string;
@@ -34,8 +34,8 @@ function formatTitleCase(input: string): string {
   return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
-export default function VmCard(product: skus) {
-  if (product.category !== "VM") {
+export default function VmCard(product: Sku) {
+  if (product.category !== "virtual_machine") {
     return null;
   }
   let cpu_mfg = null;

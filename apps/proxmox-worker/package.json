@@ -1,6 +1,0 @@
-{
-  "name": "proxmox-worker",
-  "scripts": {
-    "dev": "/home/xn4p4lm/.cargo/bin/cargo run ."
-  }
-}

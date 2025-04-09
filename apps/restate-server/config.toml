@@ -1,3 +1,0 @@
-[ingress]
-bind-address = "0.0.0.0:8282"
-advertised-ingress-endpoint = "http://127.0.0.1:8282/"
