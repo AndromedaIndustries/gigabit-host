@@ -2,12 +2,11 @@ import { VM_Specs } from "@/components/service/client/vms";
 import { ListSSHModalKeys, AddSSHKeyModalDialog } from "@/components/modals/ssh";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
+import OsSelector from "@/components/input/osSelector";
 
 export default async function Purchase() {
     const supabase = await createClient();
     const userObject = await supabase.auth.getUser();
-    const email = userObject.data.user?.email
-
     const account_type = userObject.data.user?.app_metadata?.account_type
     const userID = userObject.data.user?.id
 
@@ -24,7 +23,7 @@ export default async function Purchase() {
     const vms = await prisma.sku.findMany(
         {
             where: {
-                category: "virtual_machine",
+                sku_type: "virtual_machine",
             },
         }
     )
@@ -62,13 +61,7 @@ export default async function Purchase() {
 
                     <VM_Specs vm_list={vms} />
 
-
-                    <label htmlFor="os" className="fieldset-label">OS</label>
-                    <select id="os" name="os" className="select select-bordered w-full">
-                        <option value="ubuntu-24.04">Ubuntu 24.04</option>
-                        <option value="ubuntu-24.10">Ubuntu 24.10</option>
-                        <option value="debian-12">Debian 12</option>
-                    </select>
+                    <OsSelector />
 
                     <label htmlFor="user" className="fieldset-label">Username</label>
                     <input id="user" name="user" type="text" className="input validator w-full" required placeholder="imauser"

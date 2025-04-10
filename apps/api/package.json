@@ -1,7 +1,0 @@
-{
-  "name": "api",
-  "scripts": {
-    "dev": "",
-    "dev2": "go run main.go"
-  }
-}

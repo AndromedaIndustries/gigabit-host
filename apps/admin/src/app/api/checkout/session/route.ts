@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     const newService = await prisma.services.create({
       data: {
         user_id: userID,
-        type: "virtual_machine",
+        service_type: "virtual_machine",
         hostname: hostname,
         os: os,
         metadata: JSON.stringify({
