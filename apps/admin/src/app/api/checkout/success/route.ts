@@ -50,6 +50,11 @@ export async function GET(request: Request) {
 
   const updated_service = UpdateService(newService);
 
+  // TODO: Add call to temporal to start the new VM workflow
+  // Data to send to temporal:
+  // - User ID for validation
+  // - Service ID to configure the VM and update the service
+
   if (!updated_service) {
     return NextResponse.json({ error: "Service failed to update" });
   }

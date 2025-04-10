@@ -17,6 +17,8 @@ require (
 	github.com/djherbis/times v1.6.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
+	github.com/supabase-community/auth-go v1.3.2 // indirect
+	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80 // indirect
 	go.temporal.io/api v1.46.0 // indirect
 	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/oauth2 v0.28.0 // indirect
