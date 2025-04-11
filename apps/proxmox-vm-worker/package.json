@@ -1,5 +1,5 @@
 {
-  "name": "proxmox-worker",
+  "name": "proxmox-vm-worker",
   "scripts": {
     "dev": "./runWorker.sh ./run_worker.py"
   }

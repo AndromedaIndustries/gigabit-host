@@ -21,15 +21,24 @@ export async function POST(request: Request) {
   const account_type = user.data.user?.user_metadata.account_type;
   const userID = user.data.user?.id;
 
+  if (!user.data.user) {
+    throw new Error("No user found");
+  }
+  const email = user.data.user.email;
+
   if (!userID) {
     throw new Error("No user found");
   }
 
-  const email = data.get("email") as string;
+  if (!email) {
+    throw new Error("No email found");
+  }
+
   const hostname = data.get("hostname") as string;
-  const vm_id = data.get("size") as string;
-  const os = data.get("os") as string;
-  const public_key = data.get("public_key") as string;
+  const vm_id = data.get("vm_id") as string;
+  const os_id = data.get("os_id") as string;
+  const public_key_id = data.get("public_key_id") as string;
+  const ssh_user = data.get("ssh_user") as string;
   let price = "";
   const vm = await prisma.sku.findUnique({
     where: {
@@ -88,20 +97,32 @@ export async function POST(request: Request) {
       throw new Error("Session URL is not defined");
     }
 
+    const template = await prisma.proxmoxTemplates.findUnique({
+      where: {
+        id: os_id,
+      },
+    });
+    if (!template) {
+      throw new Error("Template not found");
+    }
+
     const newService = await prisma.services.create({
       data: {
         user_id: userID,
         service_type: "virtual_machine",
         hostname: hostname,
-        os: os,
+        template_id: os_id,
+        os_name: template.name,
+        os_version: template.version,
         metadata: JSON.stringify({
           initial_sku: vm.sku,
           initial_price: vm.price,
         }),
-        public_key: public_key,
+        public_key_id: public_key_id,
+        username: ssh_user,
         sku_id: vm_id,
-        current_sku_name: vm.sku,
-        initial_sku_name: vm.sku,
+        current_sku_id: vm.id,
+        initial_sku_id: vm.id,
         initial_checkout_id: session.id,
         status: "pending",
       },

@@ -3,7 +3,7 @@ from temporalio import workflow
 
 # Import activity, passing it through the sandbox without reloading the module
 with workflow.unsafe.imports_passed_through():
-    from tasks.activities.templateActivity import update_proxmox_templates
+    from tasks.activities.vm.templateActivity import update_proxmox_templates
 
 
 @workflow.defn

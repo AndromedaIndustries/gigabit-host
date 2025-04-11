@@ -1,12 +1,28 @@
 import os
 from supabase import create_client, Client
+from supabase.client import ClientOptions
 import psycopg2
 
 
 def get_supabase_client() -> Client:
     url: str = os.environ.get("SUPABASE_URL")
+    if not url:
+        raise ValueError("SUPABASE_URL is not set")
+
     key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-    supabase: Client = create_client(url, key)
+    if not key:
+        raise ValueError("SUPABASE_SERVICE_ROLE_KEY is not set")
+
+    supabase: Client = create_client(
+        url,
+        key,
+        options=ClientOptions(
+            postgrest_client_timeout=10,
+            storage_client_timeout=10,
+            schema="public",
+        ),
+    )
+
     return supabase
 
 

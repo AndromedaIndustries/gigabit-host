@@ -1,6 +1,6 @@
 #!/bin/bash
 # Path to the virtual environment directory
-VENV_DIR="/home/xn4p4lm/projects/andromeda/gigabit-host/apps/proxmox-worker/.venv"
+VENV_DIR="/home/xn4p4lm/projects/andromeda/gigabit-host/apps/proxmox-vm-worker/.venv"
 
 # Check if the virtual environment exists
 if [ ! -d "$VENV_DIR" ]; then
@@ -12,7 +12,7 @@ fi
 # disable=SC1091
 . "$VENV_DIR/bin/activate" 
 
-pip install -r requirements.txt
+pip install -r requirements.txt 1> /dev/null
 
 # Run the Python program and pass any arguments given to the script
 python3.10 "$@"

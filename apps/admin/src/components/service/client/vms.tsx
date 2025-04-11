@@ -25,8 +25,8 @@ export function VM_Specs({ vm_list }: specs) {
 
     return (
         <div>
-            <label htmlFor="size" className="fieldset-label">Size</label>
-            <select id="size" required name="size" onChange={handleVmChange} defaultValue="" className="select select-bordered validator w-full">
+            <label htmlFor="vm_id" className="fieldset-label">Size</label>
+            <select id="vm_id" required name="vm_id" onChange={handleVmChange} defaultValue="" className="select select-bordered validator w-full">
                 <option disabled value="">Select a VM</option>
                 {vm_list.map((vm) => (
                     <option key={vm.id} value={vm.id}>{vm.sku}</option>
