@@ -63,13 +63,13 @@ export default async function Purchase() {
 
                     <OsSelector />
 
-                    <label htmlFor="user" className="fieldset-label">Username</label>
-                    <input id="user" name="user" type="text" className="input validator w-full" required placeholder="imauser"
+                    <label htmlFor="ssh_user" className="fieldset-label">Username</label>
+                    <input id="ssh_user" name="ssh_user" type="text" className="input validator w-full" required placeholder="imauser"
                         pattern="\b[a-z0-9\-]*"
                         title="Must be a valid *nix username" />
 
-                    <label htmlFor="public_key" className="fieldset-label">SSH Public Key</label>
-                    <ListSSHModalKeys id="public_key" ssh_keys={sshKeys} />
+                    <label htmlFor="public_key_id" className="fieldset-label">SSH Public Key</label>
+                    <ListSSHModalKeys id="public_key_id" ssh_keys={sshKeys} />
 
 
                     <div className="w-full pt-5">

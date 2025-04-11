@@ -10,11 +10,11 @@ export default async function OsSelector() {
 
     return (
         <div>
-            <label htmlFor="os" className="fieldset-label">OS</label>
-            <select id="os" name="os" className="select select-bordered w-full">
+            <label htmlFor="os_id" className="fieldset-label">OS</label>
+            <select id="os_id" name="os_id" className="select select-bordered w-full">
                 <option disabled>Select an OS</option>
                 {templates.map((template) => {
-                    return <option key={template.name} value={template.name}>{template.name} - {template.version}</option>
+                    return <option key={template.id} value={template.id}>{template.name} - {template.version}</option>
                 })}
             </select>
         </div>

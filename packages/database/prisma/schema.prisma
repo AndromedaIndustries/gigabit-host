@@ -61,7 +61,7 @@ model Sku {
   stripe_personal_sku String  @db.VarChar(255)
   stripe_business_sku String  @db.VarChar(255)
   name                String  @db.VarChar(255)
-  sku_type                String  @db.VarChar(255)
+  sku_type            String  @db.VarChar(255)
   description         String  @db.Text
   category            String  @db.VarChar(255)
   price               Float   @db.Real
@@ -76,12 +76,15 @@ model Services {
   user_id             String    @db.Uuid
   service_type        String    @db.VarChar(255)
   hostname            String    @db.VarChar(255)
-  os                  String    @db.VarChar(255)
-  public_key          String    @db.Text
+  template_id         String    @db.VarChar(255)
+  os_name             String    @db.VarChar(255)
+  os_version          String    @db.VarChar(255)
+  public_key_id       String    @db.Text
+  username            String    @db.VarChar(255)
   metadata            Json      @default("{}") @db.Json
   sku_id              String    @db.VarChar(255)
-  current_sku_name    String    @db.VarChar(255)
-  initial_sku_name    String    @db.VarChar(255)
+  current_sku_id      String    @db.VarChar(255)
+  initial_sku_id      String    @db.VarChar(255)
   subscription_active Boolean   @default(false)
   subscription_id     String?   @db.VarChar(255)
   initial_checkout_id String?   @db.VarChar(255)

@@ -3,6 +3,7 @@ import { stripe } from "@/utils/stripe/stripe";
 import { redirect } from "next/navigation";
 import { prisma } from "database";
 import { UpdateService } from "@/utils/database/services/update";
+import createTemporalClient from "@/utils/temporal/client";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -49,11 +50,21 @@ export async function GET(request: Request) {
   }
 
   const updated_service = UpdateService(newService);
+  const temporal_client = await createTemporalClient();
 
-  // TODO: Add call to temporal to start the new VM workflow
-  // Data to send to temporal:
-  // - User ID for validation
-  // - Service ID to configure the VM and update the service
+  const data = {
+    user_id: newService.user_id,
+    service_id: newService.id,
+  };
+
+  const temporal_workflow = await temporal_client.workflow.start(
+    "NewProxmoxVM",
+    {
+      args: [data],
+      taskQueue: "proxmox",
+      workflowId: `new_service_${newService.id}`,
+    }
+  );
 
   if (!updated_service) {
     return NextResponse.json({ error: "Service failed to update" });
