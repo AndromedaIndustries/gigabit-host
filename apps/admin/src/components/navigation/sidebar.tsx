@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Sidebar() {
     return (
-        <ul className="menu bg-base-200 rounded-box w-56">
+        <ul className="menu bg-base-200 rounded-box w-56 fixed">
             <li><Link href={"/dashboard/vm"}>VMs</Link></li>
             {/* <li><Link href={"/dashboard/firewall"}>Firewall</Link></li> */}
             {/* <li><Link href={"/dashboard/account"}>Account</Link></li> */}

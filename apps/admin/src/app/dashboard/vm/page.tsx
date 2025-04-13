@@ -11,6 +11,7 @@ export default async function VMs() {
     const vms = await prisma.services.findMany({
         where: {
             user_id: user_id,
+            subscription_active: true
         },
     });
     return (

@@ -29,7 +29,7 @@ export default async function Purchase() {
     )
 
     return (
-        <div>
+        <div className="pb-32">
             <form action="/api/checkout/session" method="POST">
                 <fieldset className="fieldset bg-base-200 border border-base-300 p-4 rounded-box justify-center w-fit md:w-2/4">
                     <legend className="fieldset-legend">Configure your VM</legend>
@@ -81,6 +81,6 @@ export default async function Purchase() {
             <div>
                 <AddSSHKeyModalDialog userID={userID} />
             </div>
-        </div >
+        </div>
     )
 }

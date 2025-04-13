@@ -28,10 +28,7 @@ export default async function VmManagementPage({
         <div>
             <h1>{vm?.hostname}</h1>
 
-            <div>
-                <h2>Size</h2>
-                <p>{vm?.current_sku_name}</p>
-            </div>
+
 
             <div>
                 <h2>Subscription Status</h2>

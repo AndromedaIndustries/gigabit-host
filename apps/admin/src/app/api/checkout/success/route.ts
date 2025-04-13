@@ -4,10 +4,20 @@ import { redirect } from "next/navigation";
 import { prisma } from "database";
 import { UpdateService } from "@/utils/database/services/update";
 import createTemporalClient from "@/utils/temporal/client";
+import { createClient } from "@/utils/supabase/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const session_id = searchParams.get("session_id");
+
+  const authClient = await createClient();
+  const supabaseSessionData = await authClient.auth.getSession();
+  if (supabaseSessionData.error) {
+    return NextResponse.json({ error: supabaseSessionData.error });
+  }
+  if (!supabaseSessionData.data.session) {
+    return NextResponse.json({ error: "No session found" });
+  }
 
   if (!session_id) {
     return NextResponse.json(
@@ -55,6 +65,7 @@ export async function GET(request: Request) {
   const data = {
     user_id: newService.user_id,
     service_id: newService.id,
+    token: supabaseSessionData.data.session.access_token,
   };
 
   const temporal_workflow = await temporal_client.workflow.start(
@@ -65,6 +76,10 @@ export async function GET(request: Request) {
       workflowId: `new_service_${newService.id}`,
     }
   );
+
+  if (!temporal_workflow.workflowId) {
+    return NextResponse.json({ error: "Workflow failed to start" });
+  }
 
   if (!updated_service) {
     return NextResponse.json({ error: "Service failed to update" });
