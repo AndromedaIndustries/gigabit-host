@@ -105,7 +105,7 @@ importers:
         version: 4.1.4
       '@types/node':
         specifier: ^22
-        version: 22.14.1
+        version: 22.15.2
       '@types/react':
         specifier: ^19
         version: 19.1.2
@@ -200,7 +200,7 @@ importers:
         version: 4.1.4
       '@types/node':
         specifier: ^22
-        version: 22.14.1
+        version: 22.15.2
       '@types/react':
         specifier: ^19
         version: 19.1.2
@@ -242,8 +242,8 @@ importers:
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':
-        specifier: ^22.14.1
-        version: 22.14.1
+        specifier: ^22.15.2
+        version: 22.15.2
       eslint:
         specifier: 9.25.1
         version: 9.25.1(jiti@2.4.2)
@@ -321,10 +321,10 @@ importers:
         version: link:../typescript-config
       '@turbo/gen':
         specifier: ^2.5.1
-        version: 2.5.1(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.3)
+        version: 2.5.1(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.15.2)(typescript@5.8.3)
       '@types/node':
-        specifier: ^22.14.1
-        version: 22.14.1
+        specifier: ^22.15.2
+        version: 22.15.2
       '@types/react':
         specifier: 19.1.2
         version: 19.1.2
@@ -1452,8 +1452,8 @@ packages:
   '@types/minimatch@5.1.2':
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
 
-  '@types/node@22.14.1':
-    resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
+  '@types/node@22.15.2':
+    resolution: {integrity: sha512-uKXqKN9beGoMdBfcaTY1ecwz6ctxuJAcUlwE55938g0ZJ8lRxwAZqRz2AJ4pzpt5dHdTPMB863UZ0ESiFUcP7A==}
 
   '@types/phoenix@1.6.6':
     resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
@@ -4613,7 +4613,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@turbo/gen@2.5.1(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.3)':
+  '@turbo/gen@2.5.1(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.15.2)(typescript@5.8.3)':
     dependencies:
       '@turbo/workspaces': 2.5.1
       commander: 10.0.1
@@ -4623,7 +4623,7 @@ snapshots:
       node-plop: 0.26.3
       picocolors: 1.0.1
       proxy-agent: 6.5.0
-      ts-node: 10.9.2(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.3)
+      ts-node: 10.9.2(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.15.2)(typescript@5.8.3)
       update-check: 1.5.4
       validate-npm-package-name: 5.0.1
     transitivePeerDependencies:
@@ -4659,7 +4659,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
 
   '@types/inquirer@6.5.0':
     dependencies:
@@ -4672,7 +4672,7 @@ snapshots:
 
   '@types/minimatch@5.1.2': {}
 
-  '@types/node@22.14.1':
+  '@types/node@22.15.2':
     dependencies:
       undici-types: 6.21.0
 
@@ -4688,13 +4688,13 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
 
   '@types/tinycolor2@1.4.6': {}
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
 
   '@typescript-eslint/eslint-plugin@8.30.1(@typescript-eslint/parser@8.30.1(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3))(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -6662,7 +6662,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       long: 5.3.1
 
   proxmox-api@1.1.1:
@@ -7066,7 +7066,7 @@ snapshots:
 
   stripe@18.0.0:
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       qs: 6.14.0
 
   styled-jsx@5.1.6(react@19.1.0):
@@ -7154,14 +7154,14 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.3):
+  ts-node@10.9.2(@swc/core@1.11.22(@swc/helpers@0.5.15))(@types/node@22.15.2)(typescript@5.8.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       acorn: 8.14.1
       acorn-walk: 8.3.4
       arg: 4.1.3
