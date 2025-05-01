@@ -40,7 +40,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "daisyui": "5.0.30",
+    "daisyui": "5.0.35",
     "eslint": "^9",
     "eslint-config-next": "^15",
     "postcss": "^8",
