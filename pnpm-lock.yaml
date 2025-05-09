@@ -83,7 +83,7 @@ importers:
         version: 19.1.0(react@19.1.0)
       stripe:
         specifier: ^18.1.0
-        version: 18.1.0(@types/node@22.15.16)
+        version: 18.1.0(@types/node@22.15.17)
       ulid:
         specifier: 3.0.0
         version: 3.0.0
@@ -105,7 +105,7 @@ importers:
         version: 4.1.5
       '@types/node':
         specifier: ^22
-        version: 22.15.16
+        version: 22.15.17
       '@types/react':
         specifier: ^19
         version: 19.1.3
@@ -200,7 +200,7 @@ importers:
         version: 4.1.5
       '@types/node':
         specifier: ^22
-        version: 22.15.16
+        version: 22.15.17
       '@types/react':
         specifier: ^19
         version: 19.1.3
@@ -242,8 +242,8 @@ importers:
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':
-        specifier: ^22.15.16
-        version: 22.15.16
+        specifier: ^22.15.17
+        version: 22.15.17
       eslint:
         specifier: 9.26.0
         version: 9.26.0(jiti@2.4.2)
@@ -272,8 +272,8 @@ importers:
         specifier: ^9.26.0
         version: 9.26.0(jiti@2.4.2)
       eslint-config-prettier:
-        specifier: ^10.1.3
-        version: 10.1.3(eslint@9.26.0(jiti@2.4.2))
+        specifier: ^10.1.5
+        version: 10.1.5(eslint@9.26.0(jiti@2.4.2))
       eslint-plugin-only-warn:
         specifier: ^1.1.0
         version: 1.1.0
@@ -321,10 +321,10 @@ importers:
         version: link:../typescript-config
       '@turbo/gen':
         specifier: ^2.5.3
-        version: 2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.16)(typescript@5.8.3)
+        version: 2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.17)(typescript@5.8.3)
       '@types/node':
-        specifier: ^22.15.16
-        version: 22.15.16
+        specifier: ^22.15.17
+        version: 22.15.17
       '@types/react':
         specifier: 19.1.3
         version: 19.1.3
@@ -1456,8 +1456,8 @@ packages:
   '@types/minimatch@5.1.2':
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
 
-  '@types/node@22.15.16':
-    resolution: {integrity: sha512-3pr+KjwpVujqWqOKT8mNR+rd09FqhBLwg+5L/4t0cNYBzm/yEiYGCxWttjaPBsLtAo+WFNoXzGJfolM1JuRXoA==}
+  '@types/node@22.15.17':
+    resolution: {integrity: sha512-wIX2aSZL5FE+MR0JlvF87BNVrtFWf6AE6rxSE9X7OwnVvoyCQjpzSRJ+M87se/4QCkCiebQAqrJ0y6fwIyi7nw==}
 
   '@types/phoenix@1.6.6':
     resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
@@ -2130,8 +2130,8 @@ packages:
       typescript:
         optional: true
 
-  eslint-config-prettier@10.1.3:
-    resolution: {integrity: sha512-vDo4d9yQE+cS2tdIT4J02H/16veRvkHgiLDRpej+WL67oCfbOb97itZXn8wMPJ/GsiEBVjrjs//AVNw2Cp1EcA==}
+  eslint-config-prettier@10.1.5:
+    resolution: {integrity: sha512-zc1UmCpNltmVY34vuLRV61r1K27sWuX39E+uyUnY8xS2Bex88VV9cugG+UZbRSRGtGyFboj+D8JODyme1plMpw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -4794,7 +4794,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@turbo/gen@2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.16)(typescript@5.8.3)':
+  '@turbo/gen@2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.17)(typescript@5.8.3)':
     dependencies:
       '@turbo/workspaces': 2.5.3
       commander: 10.0.1
@@ -4804,7 +4804,7 @@ snapshots:
       node-plop: 0.26.3
       picocolors: 1.0.1
       proxy-agent: 6.5.0
-      ts-node: 10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.16)(typescript@5.8.3)
+      ts-node: 10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.17)(typescript@5.8.3)
       update-check: 1.5.4
       validate-npm-package-name: 5.0.1
     transitivePeerDependencies:
@@ -4840,7 +4840,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.15.16
+      '@types/node': 22.15.17
 
   '@types/inquirer@6.5.0':
     dependencies:
@@ -4853,7 +4853,7 @@ snapshots:
 
   '@types/minimatch@5.1.2': {}
 
-  '@types/node@22.15.16':
+  '@types/node@22.15.17':
     dependencies:
       undici-types: 6.21.0
 
@@ -4869,13 +4869,13 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 22.15.16
+      '@types/node': 22.15.17
 
   '@types/tinycolor2@1.4.6': {}
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 22.15.16
+      '@types/node': 22.15.17
 
   '@typescript-eslint/eslint-plugin@8.32.0(@typescript-eslint/parser@8.32.0(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -5670,7 +5670,7 @@ snapshots:
       - eslint-plugin-import-x
       - supports-color
 
-  eslint-config-prettier@10.1.3(eslint@9.26.0(jiti@2.4.2)):
+  eslint-config-prettier@10.1.5(eslint@9.26.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.26.0(jiti@2.4.2)
 
@@ -6918,7 +6918,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.15.16
+      '@types/node': 22.15.17
       long: 5.3.1
 
   proxmox-api@1.1.1:
@@ -7371,11 +7371,11 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  stripe@18.1.0(@types/node@22.15.16):
+  stripe@18.1.0(@types/node@22.15.17):
     dependencies:
       qs: 6.14.0
     optionalDependencies:
-      '@types/node': 22.15.16
+      '@types/node': 22.15.17
 
   styled-jsx@5.1.6(react@19.1.0):
     dependencies:
@@ -7469,14 +7469,14 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.16)(typescript@5.8.3):
+  ts-node@10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.17)(typescript@5.8.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.15.16
+      '@types/node': 22.15.17
       acorn: 8.14.1
       acorn-walk: 8.3.4
       arg: 4.1.3
