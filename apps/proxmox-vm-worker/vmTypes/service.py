@@ -65,4 +65,9 @@ class Service(BaseModel):
             return Metadata(**value)
         return value
 
-    model_config = {"json_encoders": {ULID: lambda v: str(v)}}
+    model_config = {
+        "json_encoders": {
+            ULID: lambda v: str(v),
+            datetime: lambda dt: dt.isoformat(),
+        }
+    }
