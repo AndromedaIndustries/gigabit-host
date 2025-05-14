@@ -11,9 +11,7 @@
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "src/middleware.ts.disabled",
-    "../admin/src/middleware.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

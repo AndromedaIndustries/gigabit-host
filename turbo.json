@@ -1,12 +1,19 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": ["CI", "ADMIN_PUBLIC_URL", "WEB_PUBLIC_URL", "AUTH_SALT"],
+  "globalEnv": [
+    "CI",
+    "ADMIN_PUBLIC_URL",
+    "WEB_PUBLIC_URL",
+    "AUTH_SALT",
+    "STRIPE_SECRET_KEY"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["--concurency=12", "STRIPE_SECRET_KEY"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -41,7 +48,7 @@
     },
     "dev": {
       "cache": false,
-      "env": ["--concurency=12"]
+      "env": ["--concurency=12", "STRIPE_SECRET_KEY"]
     },
     "test": {
       "cache": false

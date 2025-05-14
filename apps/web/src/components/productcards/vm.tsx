@@ -35,7 +35,7 @@ function formatTitleCase(input: string): string {
 }
 
 export default function VmCard(product: Sku) {
-  if (product.category !== "virtual_machine") {
+  if (product.sku_type !== "virtual_machine") {
     return null;
   }
   let cpu_mfg = null;

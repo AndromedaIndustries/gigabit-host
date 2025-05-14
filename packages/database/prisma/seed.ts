@@ -4,13 +4,39 @@ const prisma = new PrismaClient();
 
 const skus: Prisma.SkuCreateInput[] = [
   {
+    name: "Shared 4th Gen AMD Micro",
+    sku: "s4ae-micro",
+    stripe_personal_sku: "price_1RBNGBClZbs5CDDAPAKdBM81", // Test SKU
+    stripe_business_sku: "price_1R7LiaClZbs5CDDAVk7OI9s1", // Test SKU
+    sku_type: "virtual_machine",
+    category: "shared",
+    description: "A perfect VM for small persoanl projects.",
+    price: 10,
+    attributes: {
+      cpu_mfg: "AMD",
+      cpu_type: "EPYC",
+      cpu_model: "9354P",
+      cpu_assignment: "shared",
+      cpu_generation: 4,
+      cpu_cores: 1,
+      memory: 1,
+      storage_size: 50,
+      storage_type: "NVMe",
+      catagory: "s4ae",
+      size: "micro",
+    },
+    popular: false,
+    available: false,
+    quantity: 25,
+  },
+  {
     name: "Shared 4th Gen AMD Small",
     sku: "s4ae-small",
     stripe_personal_sku: "price_1RBNGBClZbs5CDDAPAKdBM81", // Test SKU
     stripe_business_sku: "price_1R7LiaClZbs5CDDAVk7OI9s1", // Test SKU
     sku_type: "virtual_machine",
     category: "shared",
-    description: "A perfect VM for small or persoanl projects.",
+    description: "A perfect VM for simple project or persoanl projects.",
     price: 20,
     attributes: {
       cpu_mfg: "AMD",
@@ -23,11 +49,11 @@ const skus: Prisma.SkuCreateInput[] = [
       storage_size: 50,
       storage_type: "NVMe",
       catagory: "s4ae",
-      size: "large",
+      size: "small",
     },
     popular: false,
     available: false,
-    quantity: 25,
+    quantity: 50,
   },
   {
     name: "Shared 4th Gen AMD Medium",
@@ -49,11 +75,11 @@ const skus: Prisma.SkuCreateInput[] = [
       storage_size: 100,
       storage_type: "NVMe",
       catagory: "s4ae",
-      size: "large",
+      size: "medium",
     },
     popular: false,
     available: false,
-    quantity: 25,
+    quantity: 30,
   },
   {
     name: "Shared 4th Gen AMD Large",
@@ -101,11 +127,11 @@ const skus: Prisma.SkuCreateInput[] = [
       storage_size: 400,
       storage_type: "NVMe",
       catagory: "s4ae",
-      size: "large",
+      size: "xlarge",
     },
     popular: false,
     available: false,
-    quantity: 15,
+    quantity: 20,
   },
 ];
 

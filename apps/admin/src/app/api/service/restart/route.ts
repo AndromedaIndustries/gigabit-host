@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "database";
 import { proxmoxClient } from "@/utils/proxmox/client";
 
-export default async function POST(request: Request) {
+export async function POST(request: Request) {
   const proxmox = await proxmoxClient();
 
   const body = await request.json();

@@ -1,15 +1,21 @@
 #use the node base image provided by the official Docker Hub
 FROM node:current-bullseye-slim AS builder
+WORKDIR /app
+
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# ADD required next.js files 
-COPY . /app
+# bring in workspace config + root lockfile
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+
+# bring in all workspaces
+COPY packages ./packages
+COPY apps/admin ./apps/admin
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /app/apps/admin
 
 # Install the production dependencies into a separate layer
 FROM builder AS prod-deps
