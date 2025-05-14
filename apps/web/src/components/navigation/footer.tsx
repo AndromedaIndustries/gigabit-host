@@ -13,8 +13,7 @@ export default function Footer() {
         </div>
         <div className="">
           Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
-          {new Date().getFullYear()} - All rights reserved by Andromeda
-          Industries
+          {new Date().getFullYear()} - All rights reserved by Andromeda Industries
         </div>
       </aside>
     </footer>
