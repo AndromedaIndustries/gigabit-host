@@ -1,6 +1,6 @@
 {
   "name": "temporal",
   "scripts": {
-    "dev": "/home/linuxbrew/.linuxbrew/bin/temporal server start-dev"
+    "dev": "temporal server start-dev"
   }
 }
