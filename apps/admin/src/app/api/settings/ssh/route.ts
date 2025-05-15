@@ -77,3 +77,62 @@ export async function GET() {
 
   return NextResponse.json(ssh_keys);
 }
+
+export async function DELETE(request: Request) {
+  const supabase = await createClient();
+  const userObject = await supabase.auth.getUser();
+
+  if (!userObject) {
+    return NextResponse.redirect("/login");
+  }
+  try {
+    const body = await request.json();
+    const {ssh_key_id} = body;
+
+    if(!ssh_key_id){
+      return NextResponse.json(
+        { error: "SSH key id is required" },
+        { status: 400 }
+      );
+    }
+
+    const ssh_key = await prisma.ssh_keys.findFirst({
+        where: {
+          id: ssh_key_id,
+        }
+    })
+
+    if((!ssh_key) || (ssh_key?.user_id != userObject.data.user?.id)) {
+      return NextResponse.json(
+          { error: "SSH key doesn't exist or not owned by requesting user" },
+          { status: 400 }
+      );
+    }
+
+    const ssh_key_delete_reply = await prisma.ssh_keys.delete({
+      where: {
+        user_id: userObject.data.user?.id,
+        id: ssh_key_id
+      }
+    })
+
+    if(!ssh_key_delete_reply){
+      return NextResponse.json(
+          { error: "Failed to delete ssh key" },
+          { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+        { message: "SSH key deleted successfully" },
+        { status: 201 }
+    );
+
+  } catch (error) {
+    console.error("Error deleting SSH key:", error);
+    return NextResponse.json(
+        { error: "Internal Server Error" },
+        { status: 500 }
+    );
+  }
+}

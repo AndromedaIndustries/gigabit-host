@@ -3,6 +3,8 @@ import { saveSettings, deleteAccount } from "./settings";
 import AccountType from "@/components/input/accountType";
 import SetName from "@/components/input/setName";
 import { OpenPasswordModal, UpdatePasswordModal } from "@/components/modals/password";
+import {SshCard} from "@/components/cards/ssh";
+import {prisma} from "database";
 
 export default async function Settings() {
     const supabase = await createClient();
@@ -12,6 +14,12 @@ export default async function Settings() {
     const last_name = user?.user_metadata.last_name;
     const email = user?.email;
     const accountType = user?.user_metadata.account_type || "Set Account Type";
+    const sshKeys = await prisma.ssh_keys.findMany({
+        where: {
+            user_id: user?.id,
+        },
+    })
+
     return (
         <div className="w-fit bg-base-200 border-base-300 rounded-box">
 
@@ -49,6 +57,7 @@ export default async function Settings() {
                 </form>
             )}
             <UpdatePasswordModal />
+            <SshCard ssh_keys={sshKeys} />
         </div>
     );
 }
