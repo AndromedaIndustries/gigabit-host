@@ -25,6 +25,9 @@ export default async function Purchase() {
             where: {
                 sku_type: "virtual_machine",
             },
+            orderBy: {
+                price: 'asc'
+            }
         }
     )
 
