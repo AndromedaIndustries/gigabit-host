@@ -43,7 +43,7 @@ jobs:
           file: .docker/dockerfile.${{ matrix.service }}
           push: true
           tags: |
-            ${{ github.ref_name == 'main' && format('ghcr.io/{0}:{1}:latest',github.repository, matrix.service) }}
-            ghcr.io/${{ github.repository }}:${{ matrix.service }}:${{ github.sha }}
+            ${{ github.ref_name == 'main' && format('ghcr.io/{0}/{1}:latest',github.repository, matrix.service) }}
+            ghcr.io/${{ github.repository }}/${{ matrix.service }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
