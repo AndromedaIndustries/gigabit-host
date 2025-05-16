@@ -1,11 +1,12 @@
-node_modules
 .git
 .gitignore
 *.md
 dist
 charts
 .vscode
-.next
 .github
 compose.yaml
+node_modules
 .env
+.turbo
+.next

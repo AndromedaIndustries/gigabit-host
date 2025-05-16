@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { prisma } from "database";
 import { redirect } from "next/navigation";
 
-import { stripe } from "@/utils/stripe/stripe";
+import { getStripe } from "@/utils/stripe/stripe";
 import { NextResponse } from "next/server";
 
 // This action runs on the server
@@ -72,6 +72,8 @@ export async function POST(request: Request) {
   nextMonth.setDate(1);
   nextMonth.setHours(0, 0, 0, 0);
   const nextMonthTimestamp = Math.floor(nextMonth.getTime() / 1000);
+
+  const stripe = getStripe();
 
   try {
     const session = await stripe.checkout.sessions.create({

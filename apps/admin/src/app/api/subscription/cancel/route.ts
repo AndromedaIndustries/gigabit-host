@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/utils/stripe/stripe";
+import { getStripe } from "@/utils/stripe/stripe";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import { revalidatePath } from "next/cache";
@@ -30,6 +30,8 @@ export async function POST(request: Request) {
   if (!vm) {
     return NextResponse.json({ error: "No VM found" });
   }
+
+  const stripe = getStripe();
 
   const id = vm.subscription_id;
 
