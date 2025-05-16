@@ -39,7 +39,7 @@ jobs:
       - name: Build & Push ${{ matrix.service }} image
         uses: docker/build-push-action@v6
         with:
-          file: .docker/dockerfile.${{ matrix.service }}
+          file: docker/dockerfile.${{ matrix.service }}
           push: true
           tags: |
             ${{ github.ref_name == 'main' && format('ghcr.io/andromedaindustries/gigabit-host/{0}:latest', matrix.service) }}
