@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/utils/stripe/stripe";
+import { getStripe } from "@/utils/stripe/stripe";
 import { redirect } from "next/navigation";
 import { prisma } from "database";
 import { UpdateService } from "@/utils/database/services/update";
@@ -25,6 +25,8 @@ export async function GET(request: Request) {
       { status: 400 }
     );
   }
+
+  const stripe = getStripe();
 
   // Retrieve the session from Stripe
   const session = await stripe.checkout.sessions.retrieve(session_id, {

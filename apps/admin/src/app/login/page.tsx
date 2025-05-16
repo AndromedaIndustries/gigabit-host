@@ -3,6 +3,8 @@ import { login, signup } from './actions'
 
 
 export default function LoginPage() {
+
+
     return (
         <div className="flex items-center justify-center h-screen bg-base-100">
             <form className="flex flex-col gap-4 p-6 bg-base-200 rounded-lg shadow-md w-full max-w-sm mx-auto justify-center">

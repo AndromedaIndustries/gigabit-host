@@ -1,11 +1,17 @@
+// /utils/stripe/stripe.ts
 import "server-only";
-
 import Stripe from "stripe";
 
-const secret_key = process.env.STRIPE_SECRET_KEY;
+let _stripe: Stripe | undefined;
 
-if (!secret_key) {
-  throw new Error("STRIPE_SECRET_KEY is not defined");
+function getSecretKey(): string {
+  const k = process.env.STRIPE_SECRET_KEY;
+  if (!k) throw new Error("Stripe secret key is not defined");
+  return k;
 }
-
-export const stripe = new Stripe(secret_key);
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    _stripe = new Stripe(getSecretKey());
+  }
+  return _stripe;
+}
