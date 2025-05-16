@@ -12,6 +12,10 @@ on:
       - dev
   workflow_dispatch:
 
+permissions:
+  contents: read # keep this if you’re checking out source
+  packages: write # allow pushing to GHCR
+
 jobs:
   build:
     runs-on: ubuntu-latest
