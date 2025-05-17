@@ -57,7 +57,7 @@ export default async function Settings() {
                 </form>
             )}
             <UpdatePasswordModal />
-            <SshCard ssh_keys={sshKeys} />
+            <SshCard ssh_keys={sshKeys} userID={user?.id} />
         </div>
     );
 }
