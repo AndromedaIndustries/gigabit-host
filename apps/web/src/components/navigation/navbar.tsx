@@ -1,28 +1,11 @@
 import Link from "next/link";
 import Name from "../name";
 
-// export default function Navbar() {
-//     return (
-//         <div className="navbar bg-base-100 shadow-sm">
-//             <Link href={"/"} className="flex-1 px-5">
-//                 <div className="logo ">
-//                     <Name />
-//                 </div>
-//             </Link>
-//             <div className="flex-none">
-//                 <ul className="menu menu-horizontal px-1">
-//                     <li><Link href={"/about"}>About</Link></li>
-//                     {/* <li><Link href={"/contact"}>Contact</Link></li> */}
-//                 </ul>
-//             </div>
-//         </div>
-//     );
-// }
+function getAdminPanelUrl() {
+  return process.env.NEXT_PUBLIC_ADMIN_URL || "https://localhost:3001";
+}
 
 export default function Navbar() {
-  function getAdminPanelUrl() {
-    return process.env.ADMIN_URL || "https://localhost:3001";
-  }
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
