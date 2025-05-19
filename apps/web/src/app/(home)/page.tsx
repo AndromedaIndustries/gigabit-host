@@ -1,7 +1,17 @@
+export const dynamic = 'force-dynamic';
 import MainHero from "@/components/mainHero";
 import VmProductCarousel from "@/components/productcarousel/vm";
+import { prisma } from "database";
 
 export default async function Home() {
+
+  const skus = await prisma.sku.findMany({
+    where: {
+      sku_type: "virtual_machine",
+      category: "shared",
+    },
+  });
+
   return (
     <div>
       <MainHero />
@@ -19,8 +29,8 @@ export default async function Home() {
             custom solution.
           </div>
         </div>
-        <VmProductCarousel type="shared" />
+        <VmProductCarousel skus={skus} />
       </div>
-    </div>
+    </div >
   );
 }

@@ -1,15 +1,8 @@
 import VmCard from "@/components/productcards/vm";
-import { log } from "console";
-import { prisma } from "database";
+import { Sku } from "database";
 
-export default async function VmProductCarousel({ type }: { type: string }) {
-  const skus = await prisma.sku.findMany({
-    where: {
-      sku_type: "virtual_machine",
-      category: type,
-    },
-  });
 
+export default async function VmProductCarousel({ skus }: { skus: Sku[] }) {
   // log("skus", skus);
 
   if (skus.length === 0) {
