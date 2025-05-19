@@ -21,7 +21,7 @@ import Name from "../name";
 
 export default function Navbar() {
   function getAdminPanelUrl() {
-    return process.env.ADMIN_PUBLIC_URL || "https://localhost:3001";
+    return process.env.ADMIN_URL || "https://localhost:3001";
   }
 
   return (

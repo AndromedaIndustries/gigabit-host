@@ -3,8 +3,8 @@
   "ui": "tui",
   "globalEnv": [
     "CI",
-    "ADMIN_PUBLIC_URL",
-    "WEB_PUBLIC_URL",
+    "ADMIN_URL",
+    "WEB_URL",
     "AUTH_SALT",
     "STRIPE_SECRET_KEY",
     "POSTGRES_SUPABASE_URL"
