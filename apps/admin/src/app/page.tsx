@@ -15,7 +15,7 @@ export default async function Dashboard() {
     });
 
     if (!user_id) {
-        redirect("/login");
+        redirect("/dashboard/login");
     }
 
     return (
