@@ -4,14 +4,16 @@ import Link from "next/link";
 
 export default function Footer() {
 
+  const webUrl = process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000";
+
   return (
     <footer className="fixed bottom-0 left-0 w-full footer sm:footer-horizontal footer-center bg-base-200 p-4">
       <aside>
         <div className="justify-between flex flex-row gap-4">
-          <Link href={"/"}>Gigabit.Host</Link>
-          <Link href={"/tos"}>Terms of Service</Link>
-          <Link href={"/aup"}>Acceptable Use Policy</Link>
-          <Link href={"/privacy"}>Privacy Policy</Link>
+          <Link href={`${webUrl}/`}>Gigabit.Host</Link>
+          <Link href={`${webUrl}/tos`}>Terms of Service</Link>
+          <Link href={`${webUrl}/aup`}>Acceptable Use Policy</Link>
+          <Link href={`${webUrl}/privacy`}>Privacy Policy</Link>
         </div>
         <div className="">
           Copyright <FontAwesomeIcon icon={faCopyright} />{" "}

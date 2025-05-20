@@ -3,6 +3,8 @@ import Name from "../name";
 
 export default function Navbar() {
 
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001";
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -68,7 +70,7 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link href={"/dashboard"} className="btn">
+        <Link href={`${adminUrl}/dashboard`} className="btn">
           Admin Panel
         </Link>
       </div>

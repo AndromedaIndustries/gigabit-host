@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
     const supabase = await createClient();
@@ -12,6 +13,10 @@ export default async function Dashboard() {
             subscription_active: true
         },
     });
+
+    if (!user_id) {
+        redirect("/login");
+    }
 
     return (
         <div>

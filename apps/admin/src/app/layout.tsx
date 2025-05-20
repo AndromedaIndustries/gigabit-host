@@ -26,13 +26,15 @@ export default async function RootLayout({
   const user = (await supabaseClent.auth.getUser()).data.user;
 
   if (!user) {
-    return (<html lang="en">
-      <body className="">
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>);
+    return (
+      <html lang="en">
+        <body className="">
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    );
   }
 
   return (
