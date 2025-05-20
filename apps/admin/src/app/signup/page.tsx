@@ -1,9 +1,17 @@
 import AccountType from '@/components/input/accountType'
 import { signup } from './actions'
 import SetName from '@/components/input/setName'
+import { redirect } from 'next/navigation';
 
 
 export default function SignupPage() {
+
+    const allowSignup = process.env.NEXT_PUBLIC_ALLOW_SIGNUP || false;
+
+    if (allowSignup !== "true") {
+        redirect("/login");
+    }
+
     return (
         <div className="flex items-center justify-center h-screen bg-base-100">
             <form className="flex flex-col gap-4 p-6 bg-base-200 rounded-lg shadow-md w-full max-w-sm mx-auto justify-center">

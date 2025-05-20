@@ -4,6 +4,8 @@ import { login, signup } from './actions'
 
 export default function LoginPage() {
 
+    const allowSignup = process.env.NEXT_PUBLIC_ALLOW_SIGNUP || false;
+
 
     return (
         <div className="flex items-center justify-center h-screen bg-base-100">
@@ -36,7 +38,9 @@ export default function LoginPage() {
                     <div className="text-center">
                         Don&apos;t have an account?
                     </div>
-                    <Link href={"/signup"} className="btn btn-outline btn-primary">Sign up</Link>
+                    {allowSignup === "true" ?
+                        <Link href={"/signup"} className="btn btn-outline btn-primary">Sign up</Link>
+                        : <></>}
                 </div>
             </form>
         </div>
