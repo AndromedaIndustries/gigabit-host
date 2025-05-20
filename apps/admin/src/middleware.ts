@@ -8,16 +8,16 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // exclude _next/static
-    "/dashboards/((?!_next/static).*)",
+    "/((?!_next/static).*)",
     // exclude _next/image
-    "/dashboard/((?!_next/image).*)",
+    "/((?!_next/image).*)",
     // exclude favicon.ico
-    "/dashboard/((?!favicon\.ico).*)",
+    "/((?!favicon\.ico).*)",
     // exclude /login
-    "/dashboard/((?!login).*)",
+    "/((?!login).*)",
     // exclude /signup
-    "/dashboard/((?!signup).*)",
+    "/((?!signup).*)",
     // exclude common image extensions
-    "/dashboard/((?!.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
