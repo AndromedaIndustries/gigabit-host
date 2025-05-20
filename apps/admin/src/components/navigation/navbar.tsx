@@ -38,7 +38,7 @@ export default async function Navbar() {
             </svg>
           </button>
         </div>
-        <Link href={"/"} className="btn btn-ghost logo">
+        <Link href={"/dashboard"} className="btn btn-ghost logo">
           <Name />
         </Link>
       </div>
