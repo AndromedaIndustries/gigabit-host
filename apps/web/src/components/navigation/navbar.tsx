@@ -1,10 +1,6 @@
 import Link from "next/link";
 import Name from "../name";
 
-function getAdminPanelUrl() {
-  return process.env.NEXT_PUBLIC_ADMIN_URL || "https://localhost:3001";
-}
-
 export default function Navbar() {
 
   return (
@@ -72,7 +68,7 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link href={getAdminPanelUrl()} className="btn">
+        <Link href={"/dashboard"} className="btn">
           Admin Panel
         </Link>
       </div>

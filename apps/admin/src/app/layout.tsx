@@ -8,6 +8,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Sidebar from "@/components/navigation/sidebar";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 config.autoAddCss = false;
 
 export const metadata: Metadata = {
@@ -25,7 +26,13 @@ export default async function RootLayout({
   const user = (await supabaseClent.auth.getUser()).data.user;
 
   if (!user) {
-    console.log("No user found");
+    return (<html lang="en">
+      <body className="">
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
+    </html>);
   }
 
   return (
@@ -37,7 +44,6 @@ export default async function RootLayout({
             <div className="p-2">
               {Sidebar()}
             </div>
-
           </div >
           <div className="bg-base-100 flex-grow min-h-dvh b-48 pt-16">
             <div className="p-5">
