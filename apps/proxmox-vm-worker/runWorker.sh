@@ -12,10 +12,10 @@ fi
 # disable=SC1091
 . "$VENV_DIR/bin/activate" 
 
-pip install -r requirements.txt 1> /dev/null
+./venv/bin/pip install -r requirements.txt 1> /dev/null
 
 # Run the Python program and pass any arguments given to the script
-python3 "$@"
+./venv/bin/python3 "$@"
 
 # Optional: deactivate the virtual environment after running the script
 deactivate
