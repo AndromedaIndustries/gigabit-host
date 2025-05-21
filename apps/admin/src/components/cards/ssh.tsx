@@ -9,12 +9,12 @@ import {
 type sshCardProp = {
     ssh_keys: Ssh_keys[]
     userID: string | undefined
-    limit_key_display: Function
+    limit_key_display: (key_name: string) => string;
 }
 
 export function SshCard({ ssh_keys, userID, limit_key_display }: sshCardProp) {
     return (
-        <div className="card card-border w-full">
+        <div className="card card-border w-full vertical">
             <div className="card-body">
                 <h2 className="fieldset-legend">SSH Keys</h2>
                 <ul>
