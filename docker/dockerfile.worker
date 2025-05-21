@@ -9,11 +9,11 @@ WORKDIR /app/apps/proxmox-vm-worker
 COPY apps/proxmox-vm-worker .
 
 # Create a virtual environment
-RUN python3 -m venv .venv
+RUN python3 -m venv /app/apps/proxmox-vm-worker/.venv
 
 # Install the required packages using the virtual environment’s pip
-RUN ./.venv/bin/pip install --upgrade pip \
-    && ./.venv/bin/pip install --no-cache-dir -r requirements.txt
+RUN /app/apps/proxmox-vm-worker/.venv/bin/pip install --upgrade pip \
+    && /app/apps/proxmox-vm-worker/.venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # Run the worker
 CMD ["bash", "runWorker.sh","run_worker.py" ]
