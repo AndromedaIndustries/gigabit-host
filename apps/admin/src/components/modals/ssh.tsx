@@ -1,7 +1,7 @@
 "use client";
-import { prisma, type Ssh_keys } from "database";
+import { type Ssh_keys } from "database";
 import { Router } from "next/router";
-import { useState, useEffect, use } from "react";
+import React from "react";
 
 
 type ssh_key_modal_props = {
@@ -15,10 +15,17 @@ type ListSSHKeysProps = {
     ssh_keys: Ssh_keys[];
 };
 
-type delete_key_model_props = {
+type delete_key_modal_props = {
+    className?: string;
+    ssh_key: Ssh_keys;
+    index: number;
+}
+
+type delete_key_button_props = {
     className?: string;
     btn_name?: string;
     ssh_key: Ssh_keys;
+    index: number;
 }
 
 export function ListSSHModalKeys({ ssh_keys, id }: ListSSHKeysProps) {
@@ -114,7 +121,7 @@ export function AddSSHKeyModalDialog({ userID }: ssh_key_modal_props) {
                 <div className="modal-box border border-accent">
                     <form onSubmit={handleSubmit}>
                         <fieldset className="fieldset rounded-box justify-center">
-                            <label htmlFor="newSSHKey" className="fieldset-label">
+                            <label className="fieldset-label">
                                 New Public SSH Key
                             </label>
                             <textarea
@@ -124,10 +131,11 @@ export function AddSSHKeyModalDialog({ userID }: ssh_key_modal_props) {
                                 required
                             />
                             <p className="validator-hint">Required</p>
-                            <label htmlFor="name" className="fieldset-label">
+                            <label htmlFor="name-input-field" className="fieldset-label">
                                 Name
                             </label>
                             <input
+                                id="name-input-field"
                                 name="name"
                                 type="text"
                                 className="input w-full validator"
@@ -151,10 +159,10 @@ export function AddSSHKeyModalDialog({ userID }: ssh_key_modal_props) {
     )
 }
 
-export function DeleteSSHKeyModalButton({ className, btn_name, ssh_key }: delete_key_model_props) {
+export function DeleteSSHKeyModalButton({ className, btn_name, index }: delete_key_button_props) {
 
     function openModal() {
-        const modal = document.getElementById("delete_ssh_key_modal") as HTMLDialogElement | null;
+        const modal = document.getElementById("delete_ssh_key_modal" + index) as HTMLDialogElement | null;
 
         if (!modal) {
             return;
@@ -171,10 +179,11 @@ export function DeleteSSHKeyModalButton({ className, btn_name, ssh_key }: delete
     );
 }
 
-export function DeleteSSHKeyModalDialog({ ssh_key }: delete_key_model_props) {
+export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_props) {
+    console.log("OHAI2!!!!", ssh_key)
 
     function closeModal() {
-        const modal = document.getElementById("delete_ssh_key_modal") as HTMLDialogElement | null;
+        const modal = document.getElementById("delete_ssh_key_modal" + index) as HTMLDialogElement | null;
 
         if (!modal) {
             return;
@@ -183,6 +192,10 @@ export function DeleteSSHKeyModalDialog({ ssh_key }: delete_key_model_props) {
         if (modal as HTMLDialogElement) {
             modal.close();
         }
+    }
+
+    function getDialogId() {
+        return "delete_ssh_key_modal" + index
     }
 
     const confirmDelete = (e: React.FormEvent<HTMLFormElement>) => {
@@ -212,7 +225,7 @@ export function DeleteSSHKeyModalDialog({ ssh_key }: delete_key_model_props) {
 
     return (
         <div>
-            <dialog id="delete_ssh_key_modal" className="modal">
+            <dialog id={getDialogId()} className="modal">
                 <form onSubmit={confirmDelete}>
                     <fieldset className="fieldset rounded-box justify-center">
                         <div className="modal-box border border-accent">
@@ -221,18 +234,10 @@ export function DeleteSSHKeyModalDialog({ ssh_key }: delete_key_model_props) {
                                 This action will NOT remove the public key from your VMs
                             </legend>
                             <div className="flex flex-row pt-4 justify-center">
-                                <label htmlFor="deleteSSHKey" className="justify-between">
+                                <label className="justify-between">
                                     Public SSH Key Name:
                                 </label>
-                                <input
-                                    name="public_key"
-                                    type="text"
-                                    className="textfield validator text-primary"
-                                    value={ssh_key.name}
-                                    required
-                                    disabled
-                                    readOnly
-                                />
+                                <div className="text-primary">{ssh_key.name}</div>
                             </div>
                             <input
                                 name="ssh_key_id"
