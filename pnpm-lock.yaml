@@ -65,10 +65,10 @@ importers:
         version: 7.3.0
       '@supabase/ssr':
         specifier: ^0.6.1
-        version: 0.6.1(@supabase/supabase-js@2.49.5)
+        version: 0.6.1(@supabase/supabase-js@2.49.7)
       '@supabase/supabase-js':
-        specifier: ^2.49.5
-        version: 2.49.5
+        specifier: ^2.49.7
+        version: 2.49.7
       '@temporalio/client':
         specifier: ^1.11.8
         version: 1.11.8
@@ -89,7 +89,7 @@ importers:
         version: 19.1.0(react@19.1.0)
       stripe:
         specifier: ^18.1.1
-        version: 18.1.1(@types/node@22.15.19)
+        version: 18.1.1(@types/node@22.15.21)
       ulid:
         specifier: 3.0.0
         version: 3.0.0
@@ -111,7 +111,7 @@ importers:
         version: 4.1.7
       '@types/node':
         specifier: ^22
-        version: 22.15.19
+        version: 22.15.21
       '@types/react':
         specifier: ^19
         version: 19.1.4
@@ -206,7 +206,7 @@ importers:
         version: 4.1.7
       '@types/node':
         specifier: ^22
-        version: 22.15.19
+        version: 22.15.21
       '@types/react':
         specifier: ^19
         version: 19.1.4
@@ -248,8 +248,8 @@ importers:
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':
-        specifier: ^22.15.19
-        version: 22.15.19
+        specifier: ^22.15.21
+        version: 22.15.21
       eslint:
         specifier: 9.27.0
         version: 9.27.0(jiti@2.4.2)
@@ -327,10 +327,10 @@ importers:
         version: link:../typescript-config
       '@turbo/gen':
         specifier: ^2.5.3
-        version: 2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.19)(typescript@5.8.3)
+        version: 2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.21)(typescript@5.8.3)
       '@types/node':
-        specifier: ^22.15.19
-        version: 22.15.19
+        specifier: ^22.15.21
+        version: 22.15.21
       '@types/react':
         specifier: 19.1.4
         version: 19.1.4
@@ -1091,8 +1091,8 @@ packages:
   '@supabase/storage-js@2.7.1':
     resolution: {integrity: sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==}
 
-  '@supabase/supabase-js@2.49.5':
-    resolution: {integrity: sha512-LfsQLK1WVDzkYQvS3rmaLDPpZdN75GPYxPJd7uJOS8jrV2Kchk5qzvhvmofRPb6esQhw+YYfAYDInURtPUupLQ==}
+  '@supabase/supabase-js@2.49.7':
+    resolution: {integrity: sha512-hx6khHHC9GherCxTaRF91Sp3uiRtlgo8Aw+MUC5hck/DLdsIIZfbBbLzXqiiDUdGDeERagmFVanI93QDZe+Nww==}
 
   '@swc/core-darwin-arm64@1.11.24':
     resolution: {integrity: sha512-dhtVj0PC1APOF4fl5qT2neGjRLgHAAYfiVP8poJelhzhB/318bO+QCFWAiimcDoyMgpCXOhTp757gnoJJrheWA==}
@@ -1313,8 +1313,8 @@ packages:
   '@types/minimatch@5.1.2':
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
 
-  '@types/node@22.15.19':
-    resolution: {integrity: sha512-3vMNr4TzNQyjHcRZadojpRaD9Ofr6LsonZAoQ+HMUa/9ORTPoxVIw0e0mpqWpdjj8xybyCM+oKOUH2vwFu/oEw==}
+  '@types/node@22.15.21':
+    resolution: {integrity: sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==}
 
   '@types/phoenix@1.6.6':
     resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
@@ -4284,16 +4284,16 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.49.5)':
+  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.49.7)':
     dependencies:
-      '@supabase/supabase-js': 2.49.5
+      '@supabase/supabase-js': 2.49.7
       cookie: 1.0.2
 
   '@supabase/storage-js@2.7.1':
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
-  '@supabase/supabase-js@2.49.5':
+  '@supabase/supabase-js@2.49.7':
     dependencies:
       '@supabase/auth-js': 2.69.1
       '@supabase/functions-js': 2.4.4
@@ -4465,7 +4465,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@turbo/gen@2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.19)(typescript@5.8.3)':
+  '@turbo/gen@2.5.3(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.21)(typescript@5.8.3)':
     dependencies:
       '@turbo/workspaces': 2.5.3
       commander: 10.0.1
@@ -4475,7 +4475,7 @@ snapshots:
       node-plop: 0.26.3
       picocolors: 1.0.1
       proxy-agent: 6.5.0
-      ts-node: 10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.19)(typescript@5.8.3)
+      ts-node: 10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.21)(typescript@5.8.3)
       update-check: 1.5.4
       validate-npm-package-name: 5.0.1
     transitivePeerDependencies:
@@ -4509,7 +4509,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.15.19
+      '@types/node': 22.15.21
 
   '@types/inquirer@6.5.0':
     dependencies:
@@ -4522,7 +4522,7 @@ snapshots:
 
   '@types/minimatch@5.1.2': {}
 
-  '@types/node@22.15.19':
+  '@types/node@22.15.21':
     dependencies:
       undici-types: 6.21.0
 
@@ -4538,13 +4538,13 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 22.15.19
+      '@types/node': 22.15.21
 
   '@types/tinycolor2@1.4.6': {}
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 22.15.19
+      '@types/node': 22.15.21
 
   '@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -6472,7 +6472,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.15.19
+      '@types/node': 22.15.21
       long: 5.3.2
 
   proxmox-api@1.1.1:
@@ -6874,11 +6874,11 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  stripe@18.1.1(@types/node@22.15.19):
+  stripe@18.1.1(@types/node@22.15.21):
     dependencies:
       qs: 6.14.0
     optionalDependencies:
-      '@types/node': 22.15.19
+      '@types/node': 22.15.21
 
   styled-jsx@5.1.6(react@19.1.0):
     dependencies:
@@ -6983,14 +6983,14 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.19)(typescript@5.8.3):
+  ts-node@10.9.2(@swc/core@1.11.24(@swc/helpers@0.5.15))(@types/node@22.15.21)(typescript@5.8.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.15.19
+      '@types/node': 22.15.21
       acorn: 8.14.1
       acorn-walk: 8.3.4
       arg: 4.1.3
