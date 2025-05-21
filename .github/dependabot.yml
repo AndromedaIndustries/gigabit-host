@@ -21,25 +21,9 @@ updates:
       interval: "weekly"
     assignees:
       - "@xn4p4lm"
-  # - package-ecosystem: "docker-compose"
-  #   directory: "/"
-  #   schedule:
-  #     interval: "weekly"
-  #   assignees:
-  #     - "@xn4p4lm"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    assignees:
-      - "@xn4p4lm"
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    groups:
-      go-packages:
-        patterns:
-          - "*"
     assignees:
       - "@xn4p4lm"
