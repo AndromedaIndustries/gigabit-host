@@ -25,15 +25,32 @@ from dotenv import load_dotenv
 
 async def main():
 
+    # Load environment variables from .env file
     load_dotenv()
 
+    # Get the debug flag from environment variables
+    debug = os.environ.get("DEBUG", False) == "true"
+    if debug:
+        print("Debug mode is enabled")
+
+    # Get the temporal server address from environment variables
+    temporal_server = os.environ.get("TEMPORAL_SERVER", "localhost:7233")
+    if debug:
+        print(f"Temporal Server: {temporal_server}")
+
+    # Get the task queue from environment variables
     task_queue = os.environ["PROXMOX_TASK_QUEUE"]
-    if os.environ.get("DEBUG") == "true":
+    if debug:
         print(f"Task Queue: {task_queue}")
 
+    # Get the namespace from environment variables
+    namespace = os.environ.get("NAMESPACE", "default")
+    if debug:
+        print(f"Namespace: {namespace}")
+
     client = await Client.connect(
-        "localhost:7233",
-        namespace="default",
+        temporal_server,
+        namespace=namespace,
         data_converter=pydantic_data_converter,
     )
     # Run the worker
