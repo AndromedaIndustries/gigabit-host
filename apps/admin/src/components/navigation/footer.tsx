@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   function getHomeUrl() {
-    return process.env.WEB_PUBLIC_URL || "https://localhost:3000";
+    return process.env.NEXT_PUBLIC_WEB_URL || "https://localhost:3000";
   }
 
   return (
