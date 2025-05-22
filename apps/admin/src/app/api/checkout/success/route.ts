@@ -49,6 +49,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No subscription found" });
   }
 
+  console.log("Processing session with status:", status);
+
   if (status === "open") {
     newService.status = "pending";
     newService.status_reason = "Payment pending";
