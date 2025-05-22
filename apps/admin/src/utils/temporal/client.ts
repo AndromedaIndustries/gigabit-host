@@ -2,7 +2,7 @@ import { Client, Connection } from "@temporalio/client";
 
 export default async function createTemporalClient() {
   const temporal_address =
-    process.env.NEXT_PUBLIC_TEMPORAL_ADDRESS || "localhost:7233";
+    process.env.NEXT_PUBLIC_TEMPORAL_SERVER || "localhost:7233";
 
   console.log("Temporal address:", temporal_address);
 
