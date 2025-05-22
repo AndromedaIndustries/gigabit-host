@@ -32,7 +32,7 @@ class NewProxmoxVM:
         # Get the service from the database
         vmObject = await workflow.execute_activity(
             get_service_from_database,
-            args=(user_id, service_id),
+            args=[user_id, service_id, workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -48,7 +48,7 @@ class NewProxmoxVM:
         # Get the template from the database
         template = await workflow.execute_activity(
             get_template,
-            args=[vmObject],
+            args=[vmObject, workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -64,7 +64,7 @@ class NewProxmoxVM:
         # Get the public key from the database
         public_key = await workflow.execute_activity(
             get_public_key,
-            args=[user_id, vmObject],
+            args=[user_id, vmObject, workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -80,6 +80,7 @@ class NewProxmoxVM:
         # Get the next VM ID from Proxmox
         clone_vm_id = await workflow.execute_activity(
             get_next_vm_id,
+            args=[workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -92,7 +93,7 @@ class NewProxmoxVM:
         # Clone the VM
         newVmObject = await workflow.execute_activity(
             clone_vm,
-            args=[vmObject, template, str(clone_vm_id)],
+            args=[vmObject, template, str(clone_vm_id), workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -107,7 +108,7 @@ class NewProxmoxVM:
         # Configure the VM
         configure_vm_result = await workflow.execute_activity(
             configure_vm,
-            args=[newVmObject, public_key],
+            args=[newVmObject, public_key, workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -123,7 +124,7 @@ class NewProxmoxVM:
         # Start the VM
         start_vm_result = await workflow.execute_activity(
             start_vm,
-            args=[newVmObject],
+            args=[newVmObject, workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,
@@ -139,7 +140,7 @@ class NewProxmoxVM:
         # Update the object in the database
         update_database = await workflow.execute_activity(
             update_service_in_database,
-            args=[newVmObject],
+            args=[newVmObject, workflow.logger],
             schedule_to_close_timeout=timedelta(seconds=60),
             retry_policy=RetryPolicy(
                 maximum_attempts=1,

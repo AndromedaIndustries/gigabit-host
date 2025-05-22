@@ -1,3 +1,4 @@
+from logging import LoggerAdapter
 from temporalio import activity
 import tldextract
 from datetime import datetime
@@ -21,7 +22,9 @@ from database.client import get_supabase_client
 
 
 @activity.defn
-async def get_service_from_database(user_id: str, service_id: str) -> Service | bool:
+async def get_service_from_database(
+    user_id: str, service_id: str, log: LoggerAdapter
+) -> Service | bool:
 
     try:
         dbClient: Client = get_supabase_client()
@@ -37,11 +40,13 @@ async def get_service_from_database(user_id: str, service_id: str) -> Service | 
         )
 
         if not vm.data or len(vm.data) == 0:
-            print(f"Service {service_id} for user {user_id} not found in the database")
+            log.warning(
+                f"Service {service_id} for user {user_id} not found in the database"
+            )
             return False
 
         if len(vm.data) > 1:
-            print(
+            log.error(
                 f"Multiple services found for the given user {user_id} and service {service_id}"
             )
             raise ValueError(
@@ -51,7 +56,7 @@ async def get_service_from_database(user_id: str, service_id: str) -> Service | 
         vmObject = Service(**vm.data[0])
 
         if vmObject.status == "provisioned":
-            print(f"Service {service_id} for user {user_id} is already provisioned")
+            log.error(f"Service {service_id} for user {user_id} is already provisioned")
             raise ValueError(
                 f"Service {service_id} for user {user_id} is already provisioned"
             )
@@ -59,18 +64,20 @@ async def get_service_from_database(user_id: str, service_id: str) -> Service | 
         return vmObject
 
     except Exception as e:
-        print(f"Failed to get VM from database: {e}")
+        log.error(f"Failed to get VM from database: {e}")
         return False
 
 
 @activity.defn
-async def get_template(vmObject: Service) -> ProxmoxTemplates | bool:
+async def get_template(
+    vmObject: Service, log: LoggerAdapter
+) -> ProxmoxTemplates | bool:
 
     try:
 
         dbClient: Client = get_supabase_client()
 
-        print(f"Getting template {vmObject.template_id} from the database")
+        log.warning(f"Getting template {vmObject.template_id} from the database")
 
         # get the template from the database
         template_db_object = (
@@ -81,10 +88,10 @@ async def get_template(vmObject: Service) -> ProxmoxTemplates | bool:
         )
 
         if not template_db_object.data or len(template_db_object.data) == 0:
-            print(f"Template {vmObject.template_id} not found in the database")
+            log.warning(f"Template {vmObject.template_id} not found in the database")
             return False
         if len(template_db_object.data) > 1:
-            print(
+            log.warning(
                 f"Multiple templates found for the given template {vmObject.template_id}"
             )
             raise ValueError(
@@ -97,17 +104,19 @@ async def get_template(vmObject: Service) -> ProxmoxTemplates | bool:
         return template
 
     except Exception as e:
-        print(f"Failed to get template from database: {e}")
+        log.warning(f"Failed to get template from database: {e}")
         return False
 
 
 @activity.defn
-async def get_public_key(user_id: str, vmObject: Service) -> str | bool:
+async def get_public_key(
+    user_id: str, vmObject: Service, log: LoggerAdapter
+) -> str | bool:
     # Try to get the public key from the database
     try:
         dbClient: Client = get_supabase_client()
 
-        print(
+        log.warning(
             f"Getting public key {vmObject.public_key_id} from the database for user {user_id}"
         )
         # Get the public key from the database
@@ -119,11 +128,13 @@ async def get_public_key(user_id: str, vmObject: Service) -> str | bool:
         )
 
         if not public_key.data or len(public_key.data) == 0:
-            print(f"Public key {vmObject.public_key_id} not found in the database")
+            log.warning(
+                f"Public key {vmObject.public_key_id} not found in the database"
+            )
             return False
 
         if len(public_key.data) > 1:
-            print(
+            log.warning(
                 f"Multiple public keys found for the given public key {vmObject.public_key_id}"
             )
             raise ValueError(
@@ -136,28 +147,28 @@ async def get_public_key(user_id: str, vmObject: Service) -> str | bool:
         return encoded_ssh_key
 
     except Exception as e:
-        print(f"Failed to get public key from database: {e}")
+        log.warning(f"Failed to get public key from database: {e}")
         return False
 
 
 @activity.defn
-async def get_next_vm_id() -> int | bool:
+async def get_next_vm_id(log: LoggerAdapter) -> int | bool:
     try:
 
         proxmox: ProxmoxAPI = get_proxmox_client()
         clone_vm_id = int(proxmox.cluster.nextid.get())
 
-        print(f"Next VM ID: {clone_vm_id}")
+        log.warning(f"Next VM ID: {clone_vm_id}")
 
         return clone_vm_id
     except Exception as e:
-        print(f"Failed to get next VM ID: {e}")
+        log.warning(f"Failed to get next VM ID: {e}")
         return False
 
 
 @activity.defn
 async def clone_vm(
-    vmObject: Service, template: ProxmoxTemplates, clone_vm_id: str
+    vmObject: Service, template: ProxmoxTemplates, clone_vm_id: str, log: LoggerAdapter
 ) -> Service | bool:
 
     try:
@@ -168,7 +179,7 @@ async def clone_vm(
         proxmox_vm_id = template.proxmox_vm_id
         storage_name = "local-lvm"
 
-        print(
+        log.warning(
             f"Cloning VM Template with ID {proxmox_vm_id} to {vmObject.hostname} with ID {clone_vm_id}"
         )
         clone_task = (
@@ -191,11 +202,11 @@ async def clone_vm(
 
         Tasks.blocking_status(proxmox, clone_task)
     except Exception as e:
-        print(f"Failed to clone VM: {e}")
+        log.warning(f"Failed to clone VM: {e}")
         try:
             proxmox.nodes(proxmox_node).qemu(clone_vm_id).delete()
         except Exception as delete_error:
-            print(f"Failed to delete VM {clone_vm_id}: {delete_error}")
+            log.warning(f"Failed to delete VM {clone_vm_id}: {delete_error}")
         return False
 
     return vmObject
@@ -203,8 +214,7 @@ async def clone_vm(
 
 @activity.defn
 async def configure_vm(
-    vmObject: Service,
-    encoded_ssh_key: str,
+    vmObject: Service, encoded_ssh_key: str, log: LoggerAdapter
 ) -> Service | bool:
 
     try:
@@ -221,7 +231,7 @@ async def configure_vm(
         rawSku = dbClient.table("Sku").select("*").eq("id", vmObject.sku_id).execute()
 
         if not rawSku.data or len(rawSku.data) == 0:
-            print(f"Sku {vmObject.sku_id} not found in the database")
+            log.warning(f"Sku {vmObject.sku_id} not found in the database")
             if os.environ.get("DEBUG") == "true":
                 proxmox.nodes(proxmox_node).qemu(clone_vm_id).delete()
             return False
@@ -234,7 +244,7 @@ async def configure_vm(
 
         # Configure the VM
 
-        print(f"Configuring VM {vmObject.hostname} with ID {clone_vm_id}")
+        log.warning(f"Configuring VM {vmObject.hostname} with ID {clone_vm_id}")
         # Set the userdata as desired BEFORE starting the machine:
         proxmox.nodes(proxmox_node).qemu(clone_vm_id).config.set(
             cores=str(core_count),
@@ -247,7 +257,7 @@ async def configure_vm(
             searchdomain=domain,
         )
     except Exception as e:
-        print(f"Failed to configure VM: {e}")
+        log.warning(f"Failed to configure VM: {e}")
         if os.environ.get("DEBUG") == "true":
             proxmox.nodes(proxmox_node).qemu(clone_vm_id).delete()
         return False
@@ -266,7 +276,7 @@ async def configure_vm(
 
 
 #     # Resize the VM
-#     print(f"Resizing VM {vmObject.hostname} with ID {clone_vm_id}")
+#     log.warning(f"Resizing VM {vmObject.hostname} with ID {clone_vm_id}")
 #     try:
 #         proxmox.nodes(proxmox_node).qemu(clone_vm_id).resize.create(
 #             cores=template.cores,
@@ -275,29 +285,27 @@ async def configure_vm(
 
 
 @activity.defn
-async def start_vm(
-    vmObject: Service,
-) -> Service | bool:
+async def start_vm(vmObject: Service, log: LoggerAdapter) -> Service | bool:
 
     proxmox: ProxmoxAPI = get_proxmox_client()
     proxmox_node = vmObject.proxmox_node
     clone_vm_id = vmObject.proxmox_vm_id
 
     # Start the VM
-    print(f"Starting VM {vmObject.hostname} with ID {clone_vm_id}")
+    log.warning(f"Starting VM {vmObject.hostname} with ID {clone_vm_id}")
     try:
         proxmox.nodes(proxmox_node).qemu(clone_vm_id).status.start.create()
 
     except Exception as e:
         proxmox.nodes(proxmox_node).qemu(clone_vm_id).delete()
-        print(f"Failed to start VM: {e}")
+        log.warning(f"Failed to start VM: {e}")
         return False
 
     return vmObject
 
 
 @activity.defn
-async def update_service_in_database(vmObject: Service) -> bool:
+async def update_service_in_database(vmObject: Service, log: LoggerAdapter) -> bool:
     proxmox: ProxmoxAPI = get_proxmox_client()
     dbClient: Client = get_supabase_client()
     service_id = vmObject.id
@@ -313,9 +321,9 @@ async def update_service_in_database(vmObject: Service) -> bool:
         dbClient.table("Services").update(json.loads(vmObject.model_dump_json())).eq(
             "id", service_id
         ).execute()
-        print(f"Updated service {service_id} in the database")
+        log.warning(f"Updated service {service_id} in the database")
     except Exception as e:
-        print(f"Failed to update service in database: {e}")
+        log.warning(f"Failed to update service in database: {e}")
         if os.environ.get("DEBUG") == "true":
             stopvm = proxmox.nodes(proxmox_node).qemu(clone_vm_id).status.stop.create()
             Tasks.blocking_status(proxmox, stopvm)
@@ -323,7 +331,9 @@ async def update_service_in_database(vmObject: Service) -> bool:
         return False
 
     if os.environ.get("DEBUG") == "true":
-        print(f"VM {vmObject.hostname} with ID {clone_vm_id} created successfully")
+        log.warning(
+            f"VM {vmObject.hostname} with ID {clone_vm_id} created successfully"
+        )
         stopvm = proxmox.nodes(proxmox_node).qemu(clone_vm_id).status.stop.create()
         Tasks.blocking_status(proxmox, stopvm)
         proxmox.nodes(proxmox_node).qemu(clone_vm_id).delete()
