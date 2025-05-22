@@ -64,7 +64,9 @@ export async function GET(request: Request) {
   }
 
   const updated_service = UpdateService(newService);
+  console.log("Service Updated Successfully");
   const temporal_client = await createTemporalClient();
+  console.log("Temporal Client Created Successfully");
 
   const data = {
     user_id: newService.user_id,
