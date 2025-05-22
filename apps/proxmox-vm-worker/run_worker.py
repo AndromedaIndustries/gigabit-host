@@ -34,17 +34,17 @@ async def main():
         print("Debug mode is enabled")
 
     # Get the temporal server address from environment variables
-    temporal_server = os.environ.get("TEMPORAL_SERVER", "localhost:7233")
+    temporal_server = os.environ.get("NEXT_PUBLIC_TEMPORAL_SERVER", "localhost:7233")
     if debug:
         print(f"Temporal Server: {temporal_server}")
 
     # Get the task queue from environment variables
-    task_queue = os.environ["PROXMOX_TASK_QUEUE"]
+    task_queue = os.environ["NEXT_PUBLIC_PROXMOX_TASK_QUEUE"]
     if debug:
         print(f"Task Queue: {task_queue}")
 
     # Get the namespace from environment variables
-    namespace = os.environ.get("NAMESPACE", "default")
+    namespace = os.environ.get("NEXT_PUBLIC_PROXMOX_NAMESPACE", "default")
     if debug:
         print(f"Namespace: {namespace}")
 
