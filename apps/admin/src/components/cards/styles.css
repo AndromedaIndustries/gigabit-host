@@ -1,0 +1,19 @@
+.ssh-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6px;
+}
+
+.ssh-row-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.ssh-row-name {
+    justify-content: flex-start;
+}
+
+.ssh-row-header-action {
+    padding-right: 20px;
+}

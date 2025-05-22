@@ -226,37 +226,40 @@ export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_pro
     return (
         <div>
             <dialog id={getDialogId()} className="modal">
-                <form onSubmit={confirmDelete}>
-                    <fieldset className="fieldset rounded-box justify-center">
-                        <div className="modal-box border border-accent">
-                            <legend className="fieldset-legend">
-                                Are you sure you&#39;d like to delete this public key?
-                                This action will NOT remove the public key from your VMs
-                            </legend>
-                            <div className="flex flex-row pt-4 justify-center">
-                                <label className="justify-between">
-                                    Public SSH Key Name:
-                                </label>
-                                <div className="text-primary">{ssh_key.name}</div>
+                <div className="modal-box">
+                    <form onSubmit={confirmDelete}>
+                        <fieldset className="fieldset rounded-box justify-center">
+                            <div className="modal-box border border-accent w-full">
+                                <legend className="fieldset-legend">
+                                    Are you sure you&#39;d like to delete this public key?
+                                    This action will NOT remove the public key from your VMs
+                                </legend>
+                                <div className="flex flex-row pt-4 justify-center">
+                                    <label className="justify-between">
+                                        Public SSH Key Name:
+                                    </label>
+                                    <div className="text-primary">{ssh_key.name}</div>
+                                </div>
+                                <input
+                                    name="ssh_key_id"
+                                    type="text"
+                                    className="input"
+                                    value={ssh_key.id}
+                                    required
+                                    hidden
+                                    readOnly
+                                />
+                                <p className="validator-hint">Required</p>
+                                <div className='justify-center flex flex-row gap-4'>
+                                    <button type="submit" className="modal-action btn btn-primary gap-4">Yes</button>
+                                    <button type="button" className="modal-action btn btn-secondary"
+                                            onClick={closeModal}>No
+                                    </button>
+                                </div>
                             </div>
-                            <input
-                                name="ssh_key_id"
-                                type="text"
-                                className="input"
-                                value={ssh_key.id}
-                                required
-                                hidden
-                                readOnly
-                            />
-                            <p className="validator-hint">Required</p>
-                            <div className='justify-center flex flex-row gap-4'>
-                                <button type="submit" className="modal-action btn btn-primary gap-4">Yes</button>
-                                <button type="button" className="modal-action btn btn-secondary"
-                                        onClick={closeModal}>No</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
+                        </fieldset>
+                    </form>
+                </div>
                 <form method="dialog" className="modal-backdrop">
                     <button type="button" onClick={closeModal}>Close</button>
                 </form>

@@ -67,7 +67,7 @@ export default async function Settings(this: any) {
                 )}
                 <UpdatePasswordModal />
             </div>
-            <div className="bg-base-200 border-base-300 rounded-box gap-4 w-86">
+            <div className="bg-base-200 border-base-300 rounded-box gap-4 w-86 ml-4">
                 <SshCard ssh_keys={sshKeys} userID={user?.id} limit_key_display={limit_key_display}/>
             </div>
         </div>
