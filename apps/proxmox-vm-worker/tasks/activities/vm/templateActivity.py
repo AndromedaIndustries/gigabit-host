@@ -5,7 +5,7 @@ from proxmoxer import *
 from database.client import get_supabase_client
 from supabase import Client
 import datetime
-from ulid import ULID
+import ulid
 
 
 @activity.defn
@@ -67,7 +67,7 @@ async def update_proxmox_templates() -> bool:
                     # split the version from 2404 to 24.04
                     version = version[:2] + "." + version[2:]
 
-                newULID = ULID()
+                newULID = ulid.new()
 
                 try:
                     # Insert the template into the database
