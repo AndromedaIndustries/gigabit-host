@@ -65,10 +65,10 @@ importers:
         version: 7.3.0
       '@supabase/ssr':
         specifier: ^0.6.1
-        version: 0.6.1(@supabase/supabase-js@2.49.7)
+        version: 0.6.1(@supabase/supabase-js@2.49.8)
       '@supabase/supabase-js':
-        specifier: ^2.49.7
-        version: 2.49.7
+        specifier: ^2.49.8
+        version: 2.49.8
       '@temporalio/client':
         specifier: ^1.11.8
         version: 1.11.8
@@ -119,8 +119,8 @@ importers:
         specifier: ^19
         version: 19.1.5(@types/react@19.1.5)
       daisyui:
-        specifier: 5.0.35
-        version: 5.0.35
+        specifier: 5.0.37
+        version: 5.0.37
       eslint:
         specifier: ^9
         version: 9.27.0(jiti@2.4.2)
@@ -214,8 +214,8 @@ importers:
         specifier: ^19
         version: 19.1.5(@types/react@19.1.5)
       daisyui:
-        specifier: 5.0.35
-        version: 5.0.35
+        specifier: 5.0.37
+        version: 5.0.37
       eslint:
         specifier: ^9
         version: 9.27.0(jiti@2.4.2)
@@ -1091,8 +1091,8 @@ packages:
   '@supabase/storage-js@2.7.1':
     resolution: {integrity: sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==}
 
-  '@supabase/supabase-js@2.49.7':
-    resolution: {integrity: sha512-hx6khHHC9GherCxTaRF91Sp3uiRtlgo8Aw+MUC5hck/DLdsIIZfbBbLzXqiiDUdGDeERagmFVanI93QDZe+Nww==}
+  '@supabase/supabase-js@2.49.8':
+    resolution: {integrity: sha512-zzBQLgS/jZs7btWcIAc7V5yfB+juG7h0AXxKowMJuySsO5vK+F7Vp+HCa07Z+tu9lZtr3sT9fofkc86bdylmtw==}
 
   '@swc/core-darwin-arm64@1.11.29':
     resolution: {integrity: sha512-whsCX7URzbuS5aET58c75Dloby3Gtj/ITk2vc4WW6pSDQKSPDuONsIcZ7B2ng8oz0K6ttbi4p3H/PNPQLJ4maQ==}
@@ -1774,8 +1774,8 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  daisyui@5.0.35:
-    resolution: {integrity: sha512-AWi11n/x5++mps55jcwrBf0Lmip1euWY0FYcH/05SFGmoqrU7S7/aIUWaiaeqlJ5EcmEZ/7zEY73aOxMv6hcIg==}
+  daisyui@5.0.37:
+    resolution: {integrity: sha512-PLc+MhWAqTwolygEGPDi+ac+OsFqIt9nZylTIiyVlEx8loYL7Pt7hNWb8cp5pQQ9dhjYnda1ERiuM6OsJmvPGw==}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -4284,16 +4284,16 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.49.7)':
+  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.49.8)':
     dependencies:
-      '@supabase/supabase-js': 2.49.7
+      '@supabase/supabase-js': 2.49.8
       cookie: 1.0.2
 
   '@supabase/storage-js@2.7.1':
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
-  '@supabase/supabase-js@2.49.7':
+  '@supabase/supabase-js@2.49.8':
     dependencies:
       '@supabase/auth-js': 2.69.1
       '@supabase/functions-js': 2.4.4
@@ -5008,7 +5008,7 @@ snapshots:
 
   csstype@3.1.3: {}
 
-  daisyui@5.0.35: {}
+  daisyui@5.0.37: {}
 
   damerau-levenshtein@1.0.8: {}
 
