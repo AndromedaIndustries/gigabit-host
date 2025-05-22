@@ -26,7 +26,6 @@ async def get_service_from_database(user_id: str, service_id: str) -> Service | 
     try:
         dbClient: Client = get_supabase_client()
 
-        print(f"Getting VM {service_id} from the database for user {user_id}")
         # Get the VM from the database
         vm = (
             dbClient.table("Services")

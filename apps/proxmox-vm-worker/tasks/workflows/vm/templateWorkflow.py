@@ -10,6 +10,7 @@ with workflow.unsafe.imports_passed_through():
 class UpdateProxmoxTemplates:
     @workflow.run
     async def run(self) -> bool:
+        workflow.logger.info("Updating Proxmox templates...")
         return await workflow.execute_activity(
             update_proxmox_templates, start_to_close_timeout=timedelta(seconds=5)
         )

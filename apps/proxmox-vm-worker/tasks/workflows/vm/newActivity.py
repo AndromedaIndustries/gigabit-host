@@ -25,6 +25,10 @@ class NewProxmoxVM:
         user_id = payload["user_id"]
         service_id = payload["service_id"]
 
+        workflow.logger.info(
+            f"Creating new VM for user {user_id} with service ID {service_id}"
+        )
+
         # Get the service from the database
         vmObject = await workflow.execute_activity(
             get_service_from_database,
@@ -36,7 +40,9 @@ class NewProxmoxVM:
         )
 
         if not vmObject:
-            print(f"Failed to get service {service_id} from the database")
+            workflow.logger.info(
+                f"Failed to get service {service_id} from the database"
+            )
             return False
 
         # Get the template from the database
@@ -50,7 +56,9 @@ class NewProxmoxVM:
         )
 
         if not template:
-            print(f"Failed to get template {vmObject.template_id} from the database")
+            workflow.logger.info(
+                f"Failed to get template {vmObject.template_id} from the database"
+            )
             return False
 
         # Get the public key from the database
@@ -64,7 +72,7 @@ class NewProxmoxVM:
         )
 
         if not public_key:
-            print(
+            workflow.logger.info(
                 f"Failed to get public key {vmObject.public_key_id} from the database"
             )
             return False
@@ -78,7 +86,7 @@ class NewProxmoxVM:
             ),
         )
         if not clone_vm_id:
-            print(f"Failed to get next VM ID from Proxmox")
+            workflow.logger.info(f"Failed to get next VM ID from Proxmox")
             return False
 
         # Clone the VM
@@ -91,7 +99,9 @@ class NewProxmoxVM:
             ),
         )
         if not newVmObject:
-            print(f"Failed to clone VM {vmObject.name} from template {template}")
+            workflow.logger.info(
+                f"Failed to clone VM {vmObject.name} from template {template}"
+            )
             return False
 
         # Configure the VM
@@ -105,7 +115,9 @@ class NewProxmoxVM:
         )
 
         if not configure_vm_result:
-            print(f"Failed to configure VM {newVmObject.name} from template {template}")
+            workflow.logger.info(
+                f"Failed to configure VM {newVmObject.name} from template {template}"
+            )
             return False
 
         # Start the VM
@@ -119,7 +131,9 @@ class NewProxmoxVM:
         )
 
         if not start_vm_result:
-            print(f"Failed to start VM {newVmObject.name} from template {template}")
+            workflow.logger.info(
+                f"Failed to start VM {newVmObject.name} from template {template}"
+            )
             return False
 
         # Update the object in the database
@@ -133,7 +147,9 @@ class NewProxmoxVM:
         )
 
         if not update_database:
-            print(f"Failed to update VM {newVmObject.name} in the database")
+            workflow.logger.info(
+                f"Failed to update VM {newVmObject.name} in the database"
+            )
             return False
 
         # return the result

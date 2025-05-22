@@ -19,11 +19,15 @@ from tasks.activities.vm.newActivity import (
     update_service_in_database,
 )
 
+import logging
 import os
 from dotenv import load_dotenv
 
 
 async def main():
+
+    # Set up logging
+    logging.basicConfig(level=logging.INFO)
 
     # Load environment variables from .env file
     load_dotenv()
@@ -31,22 +35,22 @@ async def main():
     # Get the debug flag from environment variables
     debug = os.environ.get("DEBUG", False) == "true"
     if debug:
-        print("Debug mode is enabled")
+        logging.info("Debug mode is enabled")
 
     # Get the temporal server address from environment variables
     temporal_server = os.environ.get("NEXT_PUBLIC_TEMPORAL_SERVER", "localhost:7233")
     if debug:
-        print(f"Temporal Server: {temporal_server}")
+        logging.info(f"Temporal Server: {temporal_server}")
 
     # Get the task queue from environment variables
     task_queue = os.environ["NEXT_PUBLIC_PROXMOX_TASK_QUEUE"]
     if debug:
-        print(f"Task Queue: {task_queue}")
+        logging.info(f"Task Queue: {task_queue}")
 
     # Get the namespace from environment variables
     namespace = os.environ.get("NEXT_PUBLIC_PROXMOX_NAMESPACE", "default")
     if debug:
-        print(f"Namespace: {namespace}")
+        logging.info(f"Namespace: {namespace}")
 
     client = await Client.connect(
         temporal_server,
