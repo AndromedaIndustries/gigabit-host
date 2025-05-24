@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [web, admin, worker]
+        service: [web, admin, worker, go-worker]
 
     steps:
       - name: Checkout source
@@ -42,5 +43,5 @@ jobs:
           tags: |
             ${{ github.ref_name == 'main' && format('ghcr.io/andromedaindustries/gigabit-host/{0}:latest', matrix.service) }}
             ghcr.io/andromedaindustries/gigabit-host/${{ matrix.service }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            cache-from: ${{ github.ref == 'refs/heads/main' && 'type=gha' }}
+            cache-to:   ${{ github.ref == 'refs/heads/main' && 'type=gha,mode=max' }}

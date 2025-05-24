@@ -1,0 +1,29 @@
+FROM golang:alpine AS builder
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the go.mod and go.sum files
+COPY go.mod go.sum ./
+
+# Copy the source code
+COPY internal ./internal
+
+# Copy the application code
+COPY apps/go-worker ./apps/go-worker
+
+# Install dependencies
+RUN go mod download
+
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-worker ./apps/go-worker/main.go
+
+# Create the runtime image
+FROM alpine:latest
+# Set the working directory in the container
+WORKDIR /app
+# Copy the built application from the builder
+COPY --from=builder /app/go-worker /app/go-worker
+
+# run the application
+CMD ["/app/go-worker"]
