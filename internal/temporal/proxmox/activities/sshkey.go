@@ -12,25 +12,25 @@ import (
 	"github.com/andromeda/gigabit-host/internal/types"
 )
 
-type GetTemplateParams struct {
-	TemplateId string
+type GetSshKeyParams struct {
+	KeyID string
 }
 
-type GetTemplateResponse struct {
-	Template types.ProxmoxTemplate
+type GetSshKeyResponse struct {
+	Key types.SshKey
 }
 
-func (a *Activities) GetProxmoxTemplate(
+func (a *Activities) GetSSHKey(
 	ctx context.Context,
-	params *GetTemplateParams,
-) (*GetTemplateResponse, error) {
+	params *GetSshKeyParams,
+) (*GetSshKeyResponse, error) {
 	logger := activity.GetLogger(ctx)
 
 	// 1) Build the Squirrel query
 	qb := squirrel.
-		Select("row_to_json(t) AS full_template").
-		From(`"ProxmoxTemplates" t`).
-		Where(squirrel.Eq{"t.id": params.TemplateId}).
+		Select("row_to_json(k) AS full_key").
+		From(`"SshKeys" k`).
+		Where(squirrel.Eq{"k.id": params.KeyID}).
 		PlaceholderFormat(squirrel.Dollar)
 
 	sql, args, err := qb.ToSql()
@@ -38,12 +38,12 @@ func (a *Activities) GetProxmoxTemplate(
 		logger.Error("failed to build SQL", "err", err)
 		return nil, err
 	}
-	logger.Info("GetProxmoxTemplate SQL", "sql", sql, "args", args)
+	logger.Info("GetSSHKey SQL", "sql", sql, "args", args)
 
-	// 2) Run the query
+	// 2) Execute
 	dbClient := PostgressInterface.GetClient()
 	if dbClient == nil {
-		logger.Error("database client is nil")
+		logger.Error("Database client is nil")
 		return nil, errors.New("database client is nil")
 	}
 
@@ -52,15 +52,15 @@ func (a *Activities) GetProxmoxTemplate(
 		logger.Error("query failed", "err", err)
 		return nil, errors.New("query failed")
 	}
-	logger.Info("Found template JSON", "json", string(rawJSON))
+	logger.Info("Found SSH key JSON", "json", string(rawJSON))
 
-	// 3) Unmarshal into your Go struct
-	tmpl := &types.ProxmoxTemplate{}
-	if err := json.Unmarshal(rawJSON, tmpl); err != nil {
+	// 3) Unmarshal
+	key := &types.SshKey{}
+	if err := json.Unmarshal(rawJSON, key); err != nil {
 		logger.Error("unmarshal failed", "err", err)
-		return nil, errors.New("template not found or invalid JSON")
+		return nil, errors.New("ssh key not found or invalid JSON")
 	}
-	logger.Info("Template found", "template", tmpl.ID)
+	logger.Info("SSH key found", "key", key.ID)
 
-	return &GetTemplateResponse{Template: *tmpl}, nil
+	return &GetSshKeyResponse{Key: *key}, nil
 }
