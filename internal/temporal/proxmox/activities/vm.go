@@ -27,7 +27,7 @@ type CloneVMActivityResponse struct {
 
 // CloneVMActivity clones a VM from a template, waits for it to finish,
 // and returns the updated Service struct or an error.
-func CloneVMActivity(
+func (a *Activities) CloneVMActivity(
 	ctx context.Context,
 	params CloneVMActivityParams,
 ) (*CloneVMActivityResponse, error) {
@@ -125,4 +125,64 @@ func CloneVMActivity(
 	return &CloneVMActivityResponse{
 		VMObject: &svc,
 	}, nil
+}
+
+// Start VM
+
+type StartVMActivityParams struct {
+	VmObject types.Service
+	VmId     int
+}
+
+func (a *Activities) StartVMActivity(
+	ctx context.Context,
+	params StartVMActivityParams,
+) error {
+	logger := activity.GetLogger(ctx)
+
+	// 1) Get the Proxmox client
+	client := ProxmoxInterface.GetProxmoxClient()
+	if client == nil {
+		logger.Error("Proxmox client is nil")
+		return fmt.Errorf("proxmox client is nil")
+	}
+
+	node, clientErr := client.Node(ctx, *params.VmObject.ProxmoxNode) // Adjust node name as needed
+	if clientErr != nil {
+		logger.Error("Failed to get Proxmox node", "error", clientErr)
+		return fmt.Errorf("failed to get Proxmox node: %w", clientErr)
+	}
+
+	vm, nodeErr := node.VirtualMachine(ctx, params.VmId)
+	if nodeErr != nil {
+		logger.Error("Failed to get Proxmox VM", "vmId", params.VmId, "error", nodeErr)
+		return fmt.Errorf("failed to get Proxmox VM %d: %w", params.VmId, nodeErr)
+	}
+
+	// 2) Start the VM
+	startTask, startErr := vm.Start(ctx)
+	if startErr != nil {
+		logger.Error("Failed to start Proxmox VM", "vmId", params.VmId, "error", startErr)
+		return fmt.Errorf("failed to start Proxmox VM %d: %w", params.VmId, startErr)
+	}
+
+	for {
+		if startTask.Status == "failed" {
+			logger.Error("Start task failed", "vmId", params.VmId, "taskID", startTask.ID)
+			return fmt.Errorf("start task failed for VM %d", params.VmId)
+		}
+
+		if startTask.Status == "stopped" || startTask.Status == "finished" {
+			logger.Info("VM started successfully", "vmId", params.VmId, "taskID", startTask.ID)
+			break
+		}
+
+		logger.Info("Waiting for VM to start", "vmId", params.VmId, "taskID", startTask.ID, "status", startTask.Status)
+	}
+
+	// 3) Return success
+	logger.Info("VM started successfully", "vmId", params.VmId)
+
+	// Optionally, you can return the updated VM object if needed
+	return nil
 }

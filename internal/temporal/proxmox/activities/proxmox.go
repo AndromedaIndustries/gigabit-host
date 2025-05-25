@@ -7,6 +7,7 @@ import (
 	"go.temporal.io/sdk/activity"
 
 	"github.com/andromeda/gigabit-host/internal/ProxmoxInterface"
+	"github.com/luthermonson/go-proxmox"
 )
 
 type GetNextVMIDResponse struct {
@@ -97,5 +98,75 @@ func (a *Activities) GetStorageWithMostFreeSpace(ctx context.Context, params *Ge
 	logger.Info("Best storage found", "storage", bestStorage, "free_space", maxFreeSpace)
 	return &GetStorageWithMostFreeSpaceResponse{
 		StorageID: bestStorage,
+	}, nil
+}
+
+// Get Proxmox Node with the least VMs
+type GetNodeWithLeastVMsResponse struct {
+	NodeName string `json:"node_name"`
+}
+
+// Temporal activity to get the Proxmox node with the least number of VMs.
+func (a *Activities) GetNodeWithLeastVMs(ctx context.Context) (*GetNodeWithLeastVMsResponse, error) {
+	logger := activity.GetLogger(ctx)
+
+	// 1) Initialize the Proxmox client
+	client := ProxmoxInterface.GetProxmoxClient()
+	if client == nil {
+		logger.Error("Proxmox client is nil")
+		return nil, fmt.Errorf("proxmox client is nil")
+	}
+
+	// 2) Get the cluster interface
+	cluster, err := client.Cluster(ctx)
+	if err != nil {
+		logger.Warn("Failed to connect to Proxmox cluster", "error", err)
+		return nil, fmt.Errorf("cluster connection error: %w", err)
+	}
+
+	// 3) Get all nodes in the cluster
+	var nodes []*proxmox.Node
+	for _, node := range cluster.Nodes {
+		node, nodeErr := client.Node(ctx, node.Name)
+		if nodeErr != nil {
+			logger.Warn("Failed to get Proxmox node", "node", node.Name, "error", nodeErr)
+			continue
+		}
+		nodes = append(nodes, node)
+		logger.Info("Found Proxmox node", "node", node.Name)
+	}
+
+	// 4) Find the node with the least number of VMs
+	var bestNode string
+	minVMCount := int(^uint(0) >> 1) // Max int value
+
+	// 5) Iterate through nodes and count VMs
+	if len(nodes) == 0 {
+		logger.Warn("No Proxmox nodes found")
+		return nil, fmt.Errorf("no Proxmox nodes found")
+	}
+
+	// 6) Iterate through each node to find the one with the least VMs
+	for _, node := range nodes {
+		vms, err := node.VirtualMachines(ctx)
+		if err != nil {
+			logger.Warn("Failed to fetch VMs for node", "node", node.Name, "error", err)
+			continue
+		}
+
+		if len(vms) < minVMCount {
+			minVMCount = len(vms)
+			bestNode = node.Name
+		}
+	}
+
+	if bestNode == "" {
+		logger.Warn("No suitable node found")
+		return nil, fmt.Errorf("no suitable node found")
+	}
+
+	logger.Info("Best node found", "node", bestNode, "vm_count", minVMCount)
+	return &GetNodeWithLeastVMsResponse{
+		NodeName: bestNode,
 	}, nil
 }
