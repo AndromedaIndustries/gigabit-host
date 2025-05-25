@@ -36,11 +36,19 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	logger := workflow.GetLogger(ctx)
 
 	if params.UserId == "" {
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"InvalidInput",
+			"UserId cannot be empty",
+			nil,
+		)
 	}
 
 	if params.ServiceId == "" {
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"InvalidInput",
+			"ServiceId cannot be empty",
+			nil,
+		)
 	}
 
 	// Use the shared state in the Workflow Context.
@@ -68,7 +76,7 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	err := workflow.ExecuteActivity(getServiceCtx, activity.GetService, getServicesParams).Get(getServiceCtx, &getServiceResponse)
 
 	if err != nil {
-		return nil, workflow.ErrSessionFailed
+		return nil, err
 	}
 
 	logger.Info("successful got service from the database")
@@ -99,7 +107,7 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 
 	if err != nil {
 		logger.Error("GetProxmoxTemplate failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, err
 	}
 
 	logger.Info("GetProxmoxTemplate successful", "TemplateID", getTemplateResponse.Template.ID)
@@ -123,7 +131,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 
 	if err != nil {
 		logger.Error("GetSku failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"GetSkuFailed",
+			"Failed to get SKU from the database",
+			err,
+		)
 	}
 
 	logger.Info("GetSku successful", "SkuID", GetSku.Sku.ID)
@@ -143,7 +155,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	err = workflow.ExecuteActivity(getNextVMIDCtx, activity.GetNextVMID).Get(getNextVMIDCtx, &getNextVMIDResponse)
 	if err != nil {
 		logger.Error("GetNextVMID failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"GetNextVMIDFailed",
+			"Failed to get next VM ID from the database",
+			err,
+		)
 	}
 
 	logger.Info("GetNextVMID successful", "NextVMID", getNextVMIDResponse.NextVMID)
@@ -163,7 +179,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	err = workflow.ExecuteActivity(getNodeCtx, activity.GetNodeWithLeastVMs).Get(getNodeCtx, &nodeWithLeastVMs)
 	if err != nil {
 		logger.Error("GetNodeWithLeastVMs failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"GetNodeWithLeastVMsFailed",
+			"Failed to get node with least VMs",
+			err,
+		)
 	}
 
 	logger.Info("GetNodeWithLeastVMs successful", "Node", nodeWithLeastVMs.NodeName)
@@ -185,7 +205,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 
 	if err != nil {
 		logger.Error("GetStorageWithMostFreeSpace failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"GetStorageWithMostFreeSpaceFailed",
+			"Failed to get storage with most free space",
+			err,
+		)
 	}
 
 	// Log the best storage found
@@ -215,7 +239,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 
 	if err != nil {
 		logger.Error("CloneVMActivity failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"CloneVMActivityFailed",
+			"Failed to clone VM from template",
+			err,
+		)
 	}
 
 	logger.Info("CloneVMActivity successful", "VMID", cloneVMResponse.VMObject.ProxmoxVMID)
@@ -240,7 +268,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	err = workflow.ExecuteActivity(configureVMActivityCtx, activity.ConfigureVMActivity, configureVMParams).Get(configureVMActivityCtx, &configureVMResponse)
 	if err != nil {
 		logger.Error("ConfigureVMActivity failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"ConfigureVMActivityFailed",
+			"Failed to configure VM",
+			err,
+		)
 	}
 
 	logger.Info("ConfigureVMActivity successful", "VMObject", configureVMResponse.VmObject)
@@ -268,7 +300,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 		err = workflow.ExecuteActivity(resizeDiskActivityCtx, activity.ResizeDiskActivity, resizeDiskParams).Get(resizeDiskActivityCtx, nil)
 		if err != nil {
 			logger.Error("ResizeDiskActivity failed", "error", err)
-			return nil, workflow.ErrSessionFailed
+			return nil, temporal.NewApplicationErrorWithCause(
+				"ResizeDiskActivityFailed",
+				"Failed to resize disk for VM",
+				err,
+			)
 		}
 		logger.Info("ResizeDiskActivity successful", "VMID", *configureVMResponse.VmObject.ProxmoxVMID)
 	}
@@ -285,7 +321,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	vmIdInt, err := strconv.Atoi(*configureVMResponse.VmObject.ProxmoxVMID)
 	if err != nil {
 		logger.Error("Failed to convert VM ID to int", "VMID", *configureVMResponse.VmObject.ProxmoxVMID, "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"InvalidVMID",
+			"Failed to convert VM ID to integer",
+			err,
+		)
 	}
 
 	startVmActivity := &activities.StartVMActivityParams{
@@ -296,7 +336,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	err = workflow.ExecuteActivity(startVMActivityCtx, activity.StartVMActivity, startVmActivity).Get(startVMActivityCtx, nil)
 	if err != nil {
 		logger.Error("StartVMActivity failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"StartVMActivityFailed",
+			"Failed to start VM",
+			err,
+		)
 	}
 
 	logger.Info("StartVMActivity successful", "VMID", *configureVMResponse.VmObject.ProxmoxVMID)
@@ -317,7 +361,11 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 	err = workflow.ExecuteActivity(updateServiceCtx, activity.UpdateService, updateServiceParams).Get(ctx, nil)
 	if err != nil {
 		logger.Error("UpdateService failed", "error", err)
-		return nil, workflow.ErrSessionFailed
+		return nil, temporal.NewApplicationErrorWithCause(
+			"UpdateServiceFailed",
+			"Failed to update service in the database",
+			err,
+		)
 	}
 
 	logger.Info("UpdateService successful", "ServiceID", updateServiceParams.Service.ID)
