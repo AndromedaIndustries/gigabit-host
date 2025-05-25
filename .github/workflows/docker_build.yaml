@@ -42,4 +42,4 @@ jobs:
           push: true
           tags: |
             ${{ github.ref_name == 'main' && format('ghcr.io/andromedaindustries/gigabit-host/{0}:latest', matrix.service) }}
-            ghcr.io/andromedaindustries/gigabit-host/${{ matrix.service }}:${{ github.sha }}
+            ${{ format('ghcr.io/andromedaindustries/gigabit-host/{0}:github.sha', matrix.service) }}
