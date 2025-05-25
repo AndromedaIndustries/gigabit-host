@@ -2,8 +2,9 @@ package PostgressInterface
 
 import (
 	"context"
-	"net/url"
+	"fmt"
 	"os"
+	"strings"
 	"sync"
 
 	"github.com/jackc/pgx/v5"
@@ -42,16 +43,18 @@ func NewPostgressInterface(logger logur.KVLoggerFacade) *PostgressInterface {
 }
 
 func (p *PostgressInterface) newPostgressClient() {
-	postgressConnectionString := os.Getenv("POSTGRES_SUPABASE_URL")
+	// 1) Grab raw env var
+	raw := os.Getenv("POSTGRES_SUPABASE_URL")
 
-	pgURL, err := url.Parse(postgressConnectionString)
-	if err != nil {
-		p.logger.Error("Malformed DB URL", err, "url", postgressConnectionString)
-		return
-	}
+	// 2) Replace scheme *and* strip ALL leading/trailing whitespace (including \r, \n, spaces)
+	connStr := strings.TrimSpace(
+		strings.Replace(raw, "postgresql://", "postgres://", 1),
+	)
 
-	// Connect to the database
-	conn, err := pgx.Connect(context.Background(), pgURL.String())
+	p.logger.Info("Connecting to database", "connStrDebug", fmt.Sprintf("%q", connStr))
+
+	// 3) Connect to the database
+	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
 		p.logger.Error("Unable to connect to database", err)
 		return
