@@ -31,8 +31,40 @@ func (a *Activities) GetService(
 
 	// 1) Build the Squirrel query
 	qb := squirrel.
-		Select("row_to_json(s) AS full_service").
-		From(`"Services" s`).
+		Select("row_to_json(t) AS full_service").
+		FromSelect(
+			squirrel.Select(
+				"id",
+				"user_id",
+				"service_type",
+				"hostname",
+				"template_id",
+				"os_name",
+				"os_version",
+				"public_key_id",
+				"username",
+				// cast metadata text → JSON so it's emitted as an object
+				"metadata::jsonb AS metadata",
+				"sku_id",
+				"current_sku_id",
+				"initial_sku_id",
+				"subscription_active",
+				"subscription_id",
+				"initial_checkout_id",
+				"status",
+				"status_reason",
+				"payment_ids",
+				"payment_status",
+				"created_at",
+				"updated_at",
+				"deleted_at",
+				"account_id",
+				"proxmox_node",
+				"proxmox_vm_id",
+			).
+				From(`"Services"`),
+			"t",
+		).
 		Where(squirrel.Eq{
 			"subscription_active": true,
 			"id":                  params.ServiceId,
