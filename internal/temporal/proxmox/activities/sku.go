@@ -28,7 +28,7 @@ func (a *Activities) GetSku(
 	// 1) Build the Squirrel query
 	qb := squirrel.
 		Select("row_to_json(s) AS full_sku").
-		From(`"Skus" s`).
+		From(`"Sku" s`).
 		Where(squirrel.Eq{"s.id": params.SkuId}).
 		PlaceholderFormat(squirrel.Dollar)
 

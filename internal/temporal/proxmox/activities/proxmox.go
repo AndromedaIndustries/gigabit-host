@@ -3,6 +3,7 @@ package activities
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"go.temporal.io/sdk/activity"
 
@@ -117,23 +118,32 @@ func (a *Activities) GetNodeWithLeastVMs(ctx context.Context) (*GetNodeWithLeast
 		return nil, fmt.Errorf("proxmox client is nil")
 	}
 
-	// 2) Get the cluster interface
-	cluster, err := client.Cluster(ctx)
+	// 2) Get the nodes in the Proxmox cluster
+	proxmoxNodes, err := client.Nodes(ctx)
 	if err != nil {
 		logger.Warn("Failed to connect to Proxmox cluster", "error", err)
 		return nil, fmt.Errorf("cluster connection error: %w", err)
 	}
 
+	// log the cluster node status
+	for _, node := range proxmoxNodes {
+		logger.Info("Cluster node", "name", node.Node, "status", node.Status)
+	}
+
 	// 3) Get all nodes in the cluster
 	var nodes []*proxmox.Node
-	for _, node := range cluster.Nodes {
-		node, nodeErr := client.Node(ctx, node.Name)
-		if nodeErr != nil {
-			logger.Warn("Failed to get Proxmox node", "node", node.Name, "error", nodeErr)
+	for _, clusterNode := range proxmoxNodes {
+		logger.Info("Processing cluster node", "name", clusterNode.Node)
+		pNode, err := client.Node(ctx, clusterNode.Node)
+		if err != nil {
+			logger.Warn("failed to fetch node", "name", clusterNode.Node, "err", err)
 			continue
 		}
-		nodes = append(nodes, node)
-		logger.Info("Found Proxmox node", "node", node.Name)
+		if pNode == nil {
+			logger.Warn("client.Node returned nil pointer", "name", clusterNode.Node)
+			continue
+		}
+		nodes = append(nodes, pNode)
 	}
 
 	// 4) Find the node with the least number of VMs
@@ -147,22 +157,31 @@ func (a *Activities) GetNodeWithLeastVMs(ctx context.Context) (*GetNodeWithLeast
 	}
 
 	// 6) Iterate through each node to find the one with the least VMs
-	for _, node := range nodes {
-		vms, err := node.VirtualMachines(ctx)
+	for _, n := range nodes {
+		if n == nil {
+			logger.Warn("skipping nil node in VM count loop")
+			continue
+		}
+		vms, err := n.VirtualMachines(ctx)
 		if err != nil {
-			logger.Warn("Failed to fetch VMs for node", "node", node.Name, "error", err)
+			logger.Warn("Failed to fetch VMs for node", "node", n.Name, "error", err)
 			continue
 		}
 
+		// Count the number of VMs on this node
+		logger.Info("Node VM count", "node", n.Name, "vm_count", len(vms))
+
 		if len(vms) < minVMCount {
 			minVMCount = len(vms)
-			bestNode = node.Name
+			bestNode = n.Name
 		}
 	}
 
-	if bestNode == "" {
-		logger.Warn("No suitable node found")
-		return nil, fmt.Errorf("no suitable node found")
+	defaultNode := os.Getenv("PROXMOX_DEFAULT_NODE")
+	if defaultNode != "" && bestNode == "" {
+		logger.Warn("No suitable node found automatically")
+		logger.Info("Using default node from environment variable", "default_node", defaultNode)
+		bestNode = defaultNode
 	}
 
 	logger.Info("Best node found", "node", bestNode, "vm_count", minVMCount)

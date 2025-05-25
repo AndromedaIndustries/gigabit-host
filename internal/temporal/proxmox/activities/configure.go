@@ -3,6 +3,7 @@ package activities
 import (
 	"context"
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/luthermonson/go-proxmox"
@@ -53,7 +54,7 @@ func (a *Activities) ConfigureVMActivity(
 	memory := strconv.Itoa(params.Sku.Attributes.Memory * 1024) // MiB → KiB
 
 	// 5) Apply the VM config
-	logger.Warn("Configuring VM",
+	logger.Info("Configuring VM",
 		"hostname", vm.Hostname,
 		"vmID", *vm.ProxmoxVMID,
 		"cores", cores,
@@ -126,4 +127,65 @@ func (a *Activities) ConfigureVMActivity(
 	logger.Info("VM configured successfully", "vmID", vmID)
 
 	return &ConfigureVMActivityResponse{VmObject: &vm}, nil
+}
+
+// Resize disk for larger VMs
+type ResizeDiskActivityParams struct {
+	VmObject types.Service
+	Sku      types.Sku
+}
+
+func (a *Activities) ResizeDiskActivity(
+	ctx context.Context,
+	params *ResizeDiskActivityParams,
+) error {
+	logger := activity.GetLogger(ctx)
+
+	// 1) Proxmox client
+	client := ProxmoxInterface.GetProxmoxClient()
+	if client == nil {
+		logger.Error("Proxmox client is nil")
+		return fmt.Errorf("proxmox client is nil")
+	}
+
+	vm := params.VmObject
+	node := *vm.ProxmoxNode
+
+	// 2) Get the Proxmox node and VM
+	proxmoxNode, err := client.Node(ctx, node)
+	if err != nil {
+		logger.Error("failed to get Proxmox node", "node", node, "error", err)
+		return err
+	}
+
+	vmID, err := strconv.Atoi(*vm.ProxmoxVMID)
+	if err != nil {
+		logger.Error("invalid VM ID", "vmID", *vm.ProxmoxVMID, "error", err)
+		return err
+	}
+
+	proxmoxVM, err := proxmoxNode.VirtualMachine(ctx, vmID)
+	if err != nil {
+		logger.Error("failed to get Proxmox VM", "vmID", vmID, "error", err)
+		return err
+	}
+
+	diskSize := strconv.Itoa(params.Sku.Attributes.StorageSize) + "G"
+
+	// 3) Resize the disk
+
+	targetDisk := os.Getenv("PROXMOX_TARGET_DISK")
+	if targetDisk == "" {
+		targetDisk = "virtio0" // Default disk if not set
+	}
+
+	err = proxmoxVM.ResizeDisk(ctx, targetDisk, diskSize)
+	if err != nil {
+		logger.Error("failed to resize disk", "vmID", vmID, "error", err)
+		return fmt.Errorf("failed to resize disk for VM %d: %w", vmID, err)
+	}
+
+	logger.Info("Disk resized successfully", "vmID", vmID, "newSizeMiB", diskSize)
+
+	return nil
 }

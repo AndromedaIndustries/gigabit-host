@@ -1,7 +1,5 @@
 package types
 
-import "time"
-
 // Proxmox mirrors the optional Proxmox block.
 type Proxmox struct {
 	VMID *int    `json:"vmid,omitempty"`
@@ -18,14 +16,14 @@ type Metadata struct {
 
 // ProxmoxTemplate is the top-level object.
 type ProxmoxTemplate struct {
-	ID          string     `json:"id"`
-	Name        string     `json:"name"`
-	Version     string     `json:"version"`
-	ProxmoxNode string     `json:"proxmox_node"`
-	ProxmoxVMID string     `json:"proxmox_vm_id"`
-	Description *string    `json:"description,omitempty"`
-	CreatedAt   time.Time  `json:"created_at"`
-	UpdatedAt   time.Time  `json:"updated_at"`
-	DeletedAt   *time.Time `json:"deleted_at,omitempty"`
-	Metadata    Metadata   `json:"metadata"`
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	Version     string   `json:"version"`
+	ProxmoxNode string   `json:"proxmox_node"`
+	ProxmoxVMID string   `json:"proxmox_vm_id"`
+	Description *string  `json:"description,omitempty"`
+	CreatedAt   string   `json:"created_at" db:"created_at"`
+	UpdatedAt   string   `json:"updated_at" db:"updated_at"`
+	DeletedAt   *string  `json:"deleted_at,omitempty" db:"deleted_at"`
+	Metadata    Metadata `json:"metadata"`
 }

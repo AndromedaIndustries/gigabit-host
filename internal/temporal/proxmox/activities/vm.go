@@ -61,7 +61,7 @@ func (a *Activities) CloneVMActivity(
 	}
 
 	// 2) Kick off the clone
-	logger.Warn("Cloning VM template",
+	logger.Info("Cloning VM template",
 		"sourceVMID", sourceID,
 		"targetVMID", targetID,
 		"sourceNode", sourceNode,
@@ -89,7 +89,7 @@ func (a *Activities) CloneVMActivity(
 	}
 
 	// Start the clone task
-	newId, task, cloneErr := proxmoxVM.Clone(ctx, &proxmoxCloneOptions)
+	newId, cloneTask, cloneErr := proxmoxVM.Clone(ctx, &proxmoxCloneOptions)
 	if cloneErr != nil {
 		logger.Error("Failed to start clone task", "error", cloneErr)
 		return nil, cloneErr
@@ -102,17 +102,20 @@ func (a *Activities) CloneVMActivity(
 	svc.ProxmoxNode = &targetNode
 
 	// 4) Wait for the task to complete
-	for {
-		if task.Status == "failed" {
-			logger.Error("Clone task failed")
-			return nil, fmt.Errorf("clone task failed")
-		}
+	status, completed, startErr := cloneTask.WaitForCompleteStatus(ctx, 300, 10)
+	if startErr != nil {
+		logger.Error("Failed to wait for Proxmox VM clone task", "vmId", idStr, "error", startErr)
+		return nil, fmt.Errorf("failed to wait for Proxmox VM %d clone task: %w", &idStr, startErr)
+	}
 
-		if task.Status == "stopped" || task.Status == "finished" {
-			logger.Info("Clone task completed successfully", "taskID", task.ID, "status", task.Status)
-			break
-		}
-		logger.Info("Waiting for clone task to complete", "taskID", task.ID, "status", task.Status)
+	if !completed {
+		logger.Error("Proxmox VM clone task did not complete in time", "vmId", idStr, "status", status)
+		return nil, fmt.Errorf("proxmox VM %d clone task did not complete in time, status: %v", &idStr, status)
+	}
+
+	if !status {
+		logger.Error("Proxmox VM clone task failed", "vmId", idStr, "status", status)
+		return nil, fmt.Errorf("proxmox VM %d clone task failed", &idStr)
 	}
 
 	// 6) Success!
@@ -166,18 +169,21 @@ func (a *Activities) StartVMActivity(
 		return fmt.Errorf("failed to start Proxmox VM %d: %w", params.VmId, startErr)
 	}
 
-	for {
-		if startTask.Status == "failed" {
-			logger.Error("Start task failed", "vmId", params.VmId, "taskID", startTask.ID)
-			return fmt.Errorf("start task failed for VM %d", params.VmId)
-		}
+	// 3) Wait for the task to complete
+	status, completed, startErr := startTask.WaitForCompleteStatus(ctx, 30, 5) // Wait for up to 50 seconds, checking every 5 seconds
+	if startErr != nil {
+		logger.Error("Failed to wait for Proxmox VM start task", "vmId", params.VmId, "error", startErr)
+		return fmt.Errorf("failed to wait for Proxmox VM %d start task: %w", params.VmId, startErr)
+	}
 
-		if startTask.Status == "stopped" || startTask.Status == "finished" {
-			logger.Info("VM started successfully", "vmId", params.VmId, "taskID", startTask.ID)
-			break
-		}
+	if !completed {
+		logger.Error("Proxmox VM start task did not complete in time", "vmId", params.VmId, "status", status)
+		return fmt.Errorf("proxmox VM %d start task did not complete in time, status: %v", params.VmId, status)
+	}
 
-		logger.Info("Waiting for VM to start", "vmId", params.VmId, "taskID", startTask.ID, "status", startTask.Status)
+	if !status {
+		logger.Error("Proxmox VM start task failed", "vmId", params.VmId, "status", status)
+		return fmt.Errorf("proxmox VM %d start task failed", params.VmId)
 	}
 
 	// 3) Return success

@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [web, admin, worker, go-worker]
+        service: [web, admin, worker]
 
     steps:
       - name: Checkout source

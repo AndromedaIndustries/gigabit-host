@@ -1,19 +1,29 @@
-FROM ubuntu:noble AS runner
-# install python, venv and C-build deps for psycopg2
-RUN apt update && apt install -y \
-    python3-pip python3-venv python3-dev \
-    libpq-dev build-essential
+FROM golang:alpine AS builder
 
-# Copy the worker from apps/proxmox-vm-worker
-WORKDIR /app/apps/proxmox-vm-worker
-COPY apps/proxmox-vm-worker .
+# Set the working directory in the container
+WORKDIR /app
 
-# Create a virtual environment
-RUN python3 -m venv /app/apps/proxmox-vm-worker/.venv
+# Copy the go.mod and go.sum files
+COPY go.mod go.sum ./
 
-# Install the required packages using the virtual environment’s pip
-RUN /app/apps/proxmox-vm-worker/.venv/bin/pip install --upgrade pip \
-    && /app/apps/proxmox-vm-worker/.venv/bin/pip install --no-cache-dir -r requirements.txt
+# Copy the source code
+COPY internal ./internal
 
-# Run the worker
-CMD ["bash", "runWorker.sh","run_worker.py" ]
+# Copy the application code
+COPY apps/go-worker ./apps/go-worker
+
+# Install dependencies
+RUN go mod download
+
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-worker ./apps/go-worker/main.go
+
+# Create the runtime image
+FROM alpine:latest
+# Set the working directory in the container
+WORKDIR /app
+# Copy the built application from the builder
+COPY --from=builder /app/go-worker /app/go-worker
+
+# run the application
+CMD ["/app/go-worker"]

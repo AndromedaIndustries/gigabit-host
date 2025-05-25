@@ -35,7 +35,7 @@ type Service struct {
 	CreatedAt          string          `json:"created_at" db:"created_at"`
 	UpdatedAt          string          `json:"updated_at" db:"updated_at"`
 	DeletedAt          *string         `json:"deleted_at,omitempty" db:"deleted_at"`
-	AccountID          *string         `json:"accountId,omitempty" db:"account_id"`
+	AccountID          *string         `json:"account_id,omitempty" db:"account_id"`
 	ProxmoxNode        *string         `json:"proxmox_node,omitempty" db:"proxmox_node"`
 	ProxmoxVMID        *string         `json:"proxmox_vm_id,omitempty" db:"proxmox_vm_id"`
 }
