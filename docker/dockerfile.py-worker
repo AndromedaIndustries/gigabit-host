@@ -1,0 +1,19 @@
+FROM ubuntu:noble AS runner
+# install python, venv and C-build deps for psycopg2
+RUN apt update && apt install -y \
+    python3-pip python3-venv python3-dev \
+    libpq-dev build-essential
+
+# Copy the worker from apps/proxmox-vm-worker
+WORKDIR /app/apps/proxmox-vm-worker
+COPY apps/proxmox-vm-worker .
+
+# Create a virtual environment
+RUN python3 -m venv /app/apps/proxmox-vm-worker/.venv
+
+# Install the required packages using the virtual environment’s pip
+RUN /app/apps/proxmox-vm-worker/.venv/bin/pip install --upgrade pip \
+    && /app/apps/proxmox-vm-worker/.venv/bin/pip install --no-cache-dir -r requirements.txt
+
+# Run the worker
+CMD ["bash", "runWorker.sh","run_worker.py" ]

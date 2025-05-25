@@ -50,3 +50,9 @@ generated/
 
 # Rust
 target/
+
+# Ignore deployment For Now
+deploy-*
+
+# Ignore testing
+tmp

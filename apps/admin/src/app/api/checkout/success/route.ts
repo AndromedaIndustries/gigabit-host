@@ -75,7 +75,7 @@ export async function GET(request: Request) {
   };
 
   const temporal_workflow = await temporal_client.workflow.start(
-    "NewProxmoxVM",
+    "New VM Workflow",
     {
       args: [data],
       taskQueue: "proxmox",
