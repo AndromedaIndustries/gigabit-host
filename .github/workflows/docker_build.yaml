@@ -41,5 +41,5 @@ jobs:
           file: docker/dockerfile.${{ matrix.service }}
           push: true
           tags: |
-            ${{ github.ref_name == 'main' && format('ghcr.io/andromedaindustries/gigabit-host/{0}:latest', matrix.service) }}
             ${{ format('ghcr.io/andromedaindustries/gigabit-host/{0}:github.sha', matrix.service) }}
+            ${{ github.ref_name == 'main' && format('ghcr.io/andromedaindustries/gigabit-host/{0}:latest', matrix.service) || '' }}
