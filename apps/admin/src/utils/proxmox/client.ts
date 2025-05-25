@@ -14,6 +14,13 @@ export async function proxmoxClient() {
     throw new Error("PROXMOX_ADDRESS is not defined");
   }
   // eslint-disable-next-line turbo/no-undeclared-env-vars
+  const proxmox_realm = process.env.PROXMOX_REALM;
+
+  if (!proxmox_realm) {
+    throw new Error("PROXMOX_REALM is not defined");
+  }
+
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   const proxmox_token_name = process.env.PROXMOX_TOKEN_NAME;
 
   if (!proxmox_token_name) {
@@ -26,7 +33,7 @@ export async function proxmoxClient() {
     throw new Error("PROXMOX_USER is not defined");
   }
 
-  const tokenID = `${proxmox_user}!${proxmox_token_name}`;
+  const tokenID = `${proxmox_user}@${proxmox_realm}!${proxmox_token_name}`;
 
   // connect to proxmox
   const proxmox = proxmoxApi({
