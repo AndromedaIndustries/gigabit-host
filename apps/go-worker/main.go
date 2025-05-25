@@ -48,10 +48,12 @@ func main() {
 		os.Exit(1)
 	}
 
+	temporalHost := os.Getenv("NEXT_PUBLIC_TEMPORAL_SERVER")
+
 	// Create a Temporal Client
 	// A Temporal Client is a heavyweight object that should be created just once per process.
 	temporalClient, err := client.Dial(client.Options{
-		HostPort: "127.0.0.1:7233",
+		HostPort: temporalHost,
 		Logger:   logger,
 	})
 	if err != nil {
