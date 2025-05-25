@@ -118,7 +118,7 @@ export async function POST(request: Request) {
         os_version: template.version,
         metadata: {
           initial_sku: vm.sku,
-          initial_price: vm.price,
+          initial_price: vm.price.toString(),
         },
         public_key_id: public_key_id,
         username: ssh_user,

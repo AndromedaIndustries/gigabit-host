@@ -71,7 +71,6 @@ export async function GET(request: Request) {
   const data = {
     user_id: newService.user_id,
     service_id: newService.id,
-    token: supabaseSessionData.data.session.access_token,
   };
 
   const temporal_workflow = await temporal_client.workflow.start(
