@@ -2,7 +2,6 @@ package PostgressInterface
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"strings"
 	"sync"
@@ -50,8 +49,6 @@ func (p *PostgressInterface) newPostgressClient() {
 	connStr := strings.TrimSpace(
 		strings.Replace(raw, "postgresql://", "postgres://", 1),
 	)
-
-	p.logger.Info("Connecting to database", "connStrDebug", fmt.Sprintf("%q", connStr))
 
 	// 3) Connect to the database
 	conn, err := pgx.Connect(context.Background(), connStr)
