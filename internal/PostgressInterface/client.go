@@ -3,6 +3,7 @@ package PostgressInterface
 import (
 	"context"
 	"os"
+	"strings"
 	"sync"
 
 	"github.com/jackc/pgx/v5"
@@ -41,8 +42,10 @@ func NewPostgressInterface(logger logur.KVLoggerFacade) *PostgressInterface {
 }
 
 func (p *PostgressInterface) newPostgressClient() {
-
 	postgressConnectionString := os.Getenv("POSTGRES_SUPABASE_URL")
+
+	// Supabase URLs use the "postgresql://" scheme, but pgx expects "postgres://"
+	postgressConnectionString = strings.Replace(postgressConnectionString, "postgresql://", "postgres://", 1)
 
 	// Connect to the database
 	conn, err := pgx.Connect(context.Background(), postgressConnectionString)
