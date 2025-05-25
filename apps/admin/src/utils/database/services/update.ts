@@ -1,7 +1,12 @@
 import { prisma, type Services } from "database";
 
 export async function UpdateService(newService: Services) {
-  const { metadata, ...newServiceData } = newService;
+  let metadata = newService.metadata;
+  if (!metadata) {
+    metadata = {};
+  }
+
+  const { ...newServiceData } = newService;
 
   const updated_service = await prisma.services.update({
     where: {
@@ -9,7 +14,7 @@ export async function UpdateService(newService: Services) {
     },
     data: {
       ...newServiceData,
-      metadata: JSON.stringify(metadata),
+      metadata: metadata,
     },
   });
 

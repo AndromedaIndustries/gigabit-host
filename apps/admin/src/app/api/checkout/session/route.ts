@@ -116,10 +116,10 @@ export async function POST(request: Request) {
         template_id: os_id,
         os_name: template.name,
         os_version: template.version,
-        metadata: JSON.stringify({
+        metadata: {
           initial_sku: vm.sku,
           initial_price: vm.price,
-        }),
+        },
         public_key_id: public_key_id,
         username: ssh_user,
         sku_id: vm_id,

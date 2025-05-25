@@ -96,7 +96,7 @@ model Services {
   created_at          DateTime  @default(now()) @db.Timestamp(6)
   updated_at          DateTime  @updatedAt @db.Timestamp(6)
   deleted_at          DateTime? @db.Timestamp(6)
-  account_id           String?   @db.VarChar(255)
+  account_id          String?   @db.VarChar(255)
   proxmox_node        String?   @db.VarChar(255)
   proxmox_vm_id       String?   @db.VarChar(255)
 }
