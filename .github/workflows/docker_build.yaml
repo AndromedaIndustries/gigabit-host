@@ -43,5 +43,3 @@ jobs:
           tags: |
             ${{ github.ref_name == 'main' && format('ghcr.io/andromedaindustries/gigabit-host/{0}:latest', matrix.service) }}
             ghcr.io/andromedaindustries/gigabit-host/${{ matrix.service }}:${{ github.sha }}
-            ${{ github.ref == 'refs/heads/main' && 'cache-from: type=gha' }}
-            ${{ github.ref == 'refs/heads/main' && 'cache-to: type=gha,mode=max' }}
