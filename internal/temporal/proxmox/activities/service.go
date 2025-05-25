@@ -44,7 +44,7 @@ func (a *Activities) GetService(
 				"public_key_id",
 				"username",
 				// cast metadata text → JSON so it's emitted as an object
-				"metadata::jsonb AS metadata",
+				"metadata::json AS metadata",
 				"sku_id",
 				"current_sku_id",
 				"initial_sku_id",
