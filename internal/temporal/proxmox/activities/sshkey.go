@@ -41,7 +41,7 @@ func (a *Activities) GetSSHKey(
 	logger.Info("GetSSHKey SQL", "sql", sql, "args", args)
 
 	// 2) Execute
-	dbClient := PostgressInterface.GetClient()
+	dbClient := PostgressInterface.GetClient(logger)
 	if dbClient == nil {
 		logger.Error("Database client is nil")
 		return nil, errors.New("database client is nil")

@@ -41,7 +41,7 @@ func (a *Activities) GetProxmoxTemplate(
 	logger.Info("GetProxmoxTemplate SQL", "sql", sql, "args", args)
 
 	// 2) Run the query
-	dbClient := PostgressInterface.GetClient()
+	dbClient := PostgressInterface.GetClient(logger)
 	if dbClient == nil {
 		logger.Error("database client is nil")
 		return nil, errors.New("database client is nil")

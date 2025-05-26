@@ -36,12 +36,11 @@ func main() {
 	// Initial heloworld log
 	logger.Info("Hello World")
 
-	// Create a new ProxmoxInterface
-	proxmoxClient := ProxmoxInterface.NewProxmoxInterface(logger)
-	logger.Info(fmt.Sprintf("Connected to proxmox running %s", proxmoxClient.GetVersion()))
+	// Attempt to connect to Proxmox
+	logger.Info(fmt.Sprintf("Connected to proxmox running %s", ProxmoxInterface.GetVersion(logger)))
 
-	// Create a new PostgressInterface
-	postgressClient := PostgressInterface.NewPostgressInterface(logger)
+	// Attempt to connect to Postgress
+	postgressClient := PostgressInterface.GetClient(logger)
 
 	// Check if the PostgressInterface is connected
 	if postgressClient == nil {

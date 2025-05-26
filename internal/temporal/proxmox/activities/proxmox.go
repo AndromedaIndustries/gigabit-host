@@ -20,7 +20,7 @@ func (a *Activities) GetNextVMID(ctx context.Context) (*GetNextVMIDResponse, err
 	logger := activity.GetLogger(ctx)
 
 	// 1) Initialize the Proxmox client. Adjust the base URL and credentials as needed.
-	client := ProxmoxInterface.GetProxmoxClient()
+	client := ProxmoxInterface.GetProxmoxClient(logger)
 
 	// 2) Get the cluster interface
 	cluster, err := client.Cluster(ctx)
@@ -60,7 +60,7 @@ func (a *Activities) GetStorageWithMostFreeSpace(ctx context.Context, params *Ge
 	logger := activity.GetLogger(ctx)
 
 	// 1) Initialize the Proxmox client
-	client := ProxmoxInterface.GetProxmoxClient()
+	client := ProxmoxInterface.GetProxmoxClient(logger)
 	if client == nil {
 		logger.Error("Proxmox client is nil")
 		return nil, fmt.Errorf("proxmox client is nil")
@@ -112,7 +112,7 @@ func (a *Activities) GetNodeWithLeastVMs(ctx context.Context) (*GetNodeWithLeast
 	logger := activity.GetLogger(ctx)
 
 	// 1) Initialize the Proxmox client
-	client := ProxmoxInterface.GetProxmoxClient()
+	client := ProxmoxInterface.GetProxmoxClient(logger)
 	if client == nil {
 		logger.Error("Proxmox client is nil")
 		return nil, fmt.Errorf("proxmox client is nil")
