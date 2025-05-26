@@ -22,18 +22,6 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
-    "dev:containers": {
-      "dependsOn": ["^dev:containers"],
-      "persistent": false
-    },
-    "dev:containers:reload": {
-      "dependsOn": ["^dev:containers:down", "^dev:containers"],
-      "persistent": false
-    },
-    "dev:containers:down": {
-      "dependsOn": ["^dev:containers:down"],
-      "persistent": false
-    },
     "db:migrate:dev": {
       "cache": false,
       "persistent": true
@@ -47,8 +35,10 @@
     "db:seed": {
       "cache": false
     },
+    "temporal": {},
     "dev": {
       "cache": false,
+      "dependsOn": ["temporal"],
       "env": ["--concurency=12", "STRIPE_SECRET_KEY"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },

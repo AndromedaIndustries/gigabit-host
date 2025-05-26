@@ -1,0 +1,6 @@
+{
+  "name": "go-worker",
+  "scripts": {
+    "dev": "sleep 5 && /usr/local/go/bin/go run main.go"
+  }
+}
