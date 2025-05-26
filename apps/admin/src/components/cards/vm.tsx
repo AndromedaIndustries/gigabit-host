@@ -16,7 +16,7 @@ export function VmCard({ vm }: vmCardProp) {
 
     return (
         <div className="card card-border bg-base-300 w-64 h-64" key={vm.id}>
-            <div id={vm.sku_id} className="card-body items-center text-center">
+            <div data-sku-id={vm.sku_id} className="card-body items-center text-center">
                 <h2 className="card-title">{domain}</h2>
                 <div className="card-actions justify-end">
                     <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-primary">manage</Link>
