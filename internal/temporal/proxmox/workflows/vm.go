@@ -61,7 +61,9 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 		ScheduleToStartTimeout: time.Minute,     // time until activity is picked up
 		StartToCloseTimeout:    5 * time.Minute, // max time for activity execution
 		RetryPolicy: &temporal.RetryPolicy{
-			MaximumAttempts: 1,
+			MaximumAttempts:    5,               // retry up to 5 times
+			InitialInterval:    time.Second * 5, // initial retry interval
+			BackoffCoefficient: 2.0,             // exponential backoff
 		},
 	})
 
