@@ -12,7 +12,7 @@
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",
     "dev": "turbo run dev",
-    "temporal:up": "turbo run temporal:up",
+    "temporal": "turbo run temporal",
     "format-and-lint": "pnpm biome check",
     "format-and-lint:fix": "pnpm biome check --write",
     "generate": "turbo run generate",
@@ -32,10 +32,7 @@
   "engines": {
     "node": ">=18"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "pnpm": {
     "onlyBuiltDependencies": [
       "@prisma/client",

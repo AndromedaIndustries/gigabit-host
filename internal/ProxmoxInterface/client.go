@@ -4,66 +4,38 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"sync"
 
 	"github.com/luthermonson/go-proxmox"
-	"logur.dev/logur"
+	"go.temporal.io/sdk/log"
 )
 
-var lock = &sync.Mutex{}
-
-type ProxmoxInterface struct {
-	logger logur.KVLoggerFacade
-	client *proxmox.Client
-}
-
-var singleInstance *ProxmoxInterface
-
-func NewProxmoxInterface(logger logur.KVLoggerFacade) *ProxmoxInterface {
-	if singleInstance == nil {
-		lock.Lock()
-		defer lock.Unlock()
-
-		if singleInstance == nil {
-			logger.Info("Creating new ProxmoxInterface instance")
-			singleInstance = &ProxmoxInterface{
-				logger: logger,
-				client: nil,
-			}
-			singleInstance.newProxmoxClient()
-		} else {
-			logger.Info("Using existing ProxmoxInterface instance")
-		}
-	} else {
-		logger.Info("Using existing ProxmoxInterface instance")
-	}
-
-	return singleInstance
-}
-
-func getProxmoxClientUsingToken(logger logur.KVLoggerFacade, hostname string) (*proxmox.Client, error) {
+func getProxmoxClientUsingToken(logger log.Logger, hostname string) (*proxmox.Client, error) {
 	// Username from env
 	proxmoxUsername := os.Getenv("PROXMOX_USER")
 	if proxmoxUsername == "" {
 		logger.Error("PROXMOX_USERNAME not set")
+		os.Exit(1)
 	}
 
 	// realm from env
 	proxmoxRealm := os.Getenv("PROXMOX_REALM")
 	if proxmoxRealm == "" {
 		logger.Error("PROXMOX_REALM not set")
+		os.Exit(1)
 	}
 
 	// tokenName from env
 	proxmoxTokenName := os.Getenv("PROXMOX_TOKEN_NAME")
 	if proxmoxTokenName == "" {
 		logger.Error("PROXMOX_TOKEN_NAME not set")
+		os.Exit(1)
 	}
 
 	// tokenValue from env
 	proxmoxTokenSecret := os.Getenv("PROXMOX_TOKEN_SECRET")
 	if proxmoxTokenSecret == "" {
 		logger.Error("PROXMOX_TOKEN_SECRET not set")
+		os.Exit(1)
 	}
 
 	ProxmoxTokenID := fmt.Sprintf("%s@%s!%s", proxmoxUsername, proxmoxRealm, proxmoxTokenName)
@@ -76,12 +48,25 @@ func getProxmoxClientUsingToken(logger logur.KVLoggerFacade, hostname string) (*
 	return client, nil
 }
 
-func (pc *ProxmoxInterface) newProxmoxClient() {
+func GetVersion(logger log.Logger) string {
+
+	client := GetProxmoxClient(logger)
+
+	version, err := client.Version(context.Background())
+	if err != nil {
+		logger.Error("Unable to get Proxmox version: ", err)
+	}
+
+	// Return the version as a string
+	return fmt.Sprintf("Proxmox version: %s", version)
+}
+
+func GetProxmoxClient(logger log.Logger) *proxmox.Client {
 
 	// Get auth type from env
 	proxmoxAuthType := os.Getenv("PROXMOX_AUTH_TYPE")
 	if proxmoxAuthType == "" {
-		pc.logger.Error("PROXMOX_AUTH_TYPE not set")
+		logger.Error("PROXMOX_AUTH_TYPE not set")
 	}
 
 	// Hostname from env
@@ -89,38 +74,26 @@ func (pc *ProxmoxInterface) newProxmoxClient() {
 	if proxmoxAddress == "" {
 	}
 
+	var client *proxmox.Client
 	var clientError error
 
 	if proxmoxAuthType == "token" {
-		pc.client, clientError = getProxmoxClientUsingToken(pc.logger, proxmoxAddress)
+		client, clientError = getProxmoxClientUsingToken(logger, proxmoxAddress)
+		if clientError != nil {
+			logger.Error("Error creating Proxmox client:", clientError)
+			return nil
+		}
 	}
 
 	if proxmoxAuthType == "password" {
-		pc.logger.Error("Password auth not implemented")
+		logger.Error("Password auth not implemented")
 		os.Exit(1)
 	}
 
 	if clientError != nil {
-		pc.logger.Error("Unable to create Proxmox client")
-		os.Exit(1)
-	}
-}
-
-func (pc *ProxmoxInterface) GetVersion() string {
-	version, err := pc.client.Version(context.Background())
-	if err != nil {
-		pc.logger.Error(fmt.Sprint("Unable to get Proxmox version: ", err))
-		return ""
-	}
-
-	// Return the version as a string
-	return fmt.Sprintf("Proxmox version: %s", version)
-}
-
-func GetProxmoxClient() *proxmox.Client {
-	if singleInstance.client == nil {
+		logger.Error("Unable to create Proxmox client")
 		os.Exit(1)
 	}
 
-	return singleInstance.client
+	return client
 }

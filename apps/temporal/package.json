@@ -1,6 +1,6 @@
 {
   "name": "temporal",
   "scripts": {
-    "dev": "temporal server start-dev"
+    "temporal": "temporal server start-dev"
   }
 }

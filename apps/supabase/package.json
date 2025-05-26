@@ -1,0 +1,7 @@
+{
+  "name": "supabase",
+  "scripts": {
+    "init": "pnpx supabase init",
+    "dev": "pnpx supabase start"
+  }
+}

@@ -18,10 +18,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-	}
+	err := godotenv.Load(".env")
 
 	// raw logrus logger
 	rawLog := logrus.New()
@@ -29,18 +26,21 @@ func main() {
 	// Create a logger
 	logger := logur.LoggerToKV(logrusadapter.New(rawLog))
 
+	if err != nil {
+		logger.Info("Error loading .env file")
+	}
+
 	// Create a channel to signal the Worker to stop
 	signalInterrupt := make(chan os.Signal, 1)
 
 	// Initial heloworld log
 	logger.Info("Hello World")
 
-	// Create a new ProxmoxInterface
-	proxmoxClient := ProxmoxInterface.NewProxmoxInterface(logger)
-	logger.Info(fmt.Sprintf("Connected to proxmox running %s", proxmoxClient.GetVersion()))
+	// Attempt to connect to Proxmox
+	logger.Info(fmt.Sprintf("Connected to proxmox running %s", ProxmoxInterface.GetVersion(logger)))
 
-	// Create a new PostgressInterface
-	postgressClient := PostgressInterface.NewPostgressInterface(logger)
+	// Attempt to connect to Postgress
+	postgressClient := PostgressInterface.GetClient(logger)
 
 	// Check if the PostgressInterface is connected
 	if postgressClient == nil {

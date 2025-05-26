@@ -34,7 +34,7 @@ func (a *Activities) ConfigureVMActivity(
 	logger := activity.GetLogger(ctx)
 
 	// 1) Proxmox client
-	client := ProxmoxInterface.GetProxmoxClient()
+	client := ProxmoxInterface.GetProxmoxClient(logger)
 	if client == nil {
 		logger.Error("Proxmox client is nil")
 		return nil, fmt.Errorf("proxmox client is nil")
@@ -142,7 +142,7 @@ func (a *Activities) ResizeDiskActivity(
 	logger := activity.GetLogger(ctx)
 
 	// 1) Proxmox client
-	client := ProxmoxInterface.GetProxmoxClient()
+	client := ProxmoxInterface.GetProxmoxClient(logger)
 	if client == nil {
 		logger.Error("Proxmox client is nil")
 		return fmt.Errorf("proxmox client is nil")

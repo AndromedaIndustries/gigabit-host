@@ -140,7 +140,7 @@ importers:
         specifier: ^5
         version: 5.8.3
 
-  apps/proxmox-vm-worker: {}
+  apps/go-worker: {}
 
   apps/temporal: {}
 

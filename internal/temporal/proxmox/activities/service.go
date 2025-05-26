@@ -83,7 +83,7 @@ func (a *Activities) GetService(
 	logger.Info("GetService", "UserId", params.UserId, "ServiceId", params.ServiceId)
 
 	// 2) Execute
-	dbClient := PostgressInterface.GetClient()
+	dbClient := PostgressInterface.GetClient(logger)
 
 	if dbClient == nil {
 		logger.Error("Database client is nil")
@@ -189,7 +189,7 @@ func (a *Activities) UpdateService(
 	}
 
 	logger.Info("UpdateService SQL", "sql", sqlStr, "args", args)
-	if _, err := PostgressInterface.GetClient().Exec(ctx, sqlStr, args...); err != nil {
+	if _, err := PostgressInterface.GetClient(logger).Exec(ctx, sqlStr, args...); err != nil {
 		logger.Error("failed to exec update", "err", err)
 		return nil, errors.New("failed to update service")
 	}
