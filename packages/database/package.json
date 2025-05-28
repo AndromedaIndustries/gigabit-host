@@ -23,7 +23,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.23",
     "eslint": "9.27.0",
     "prisma": "^6",
     "tsup": "^8.5.0",
