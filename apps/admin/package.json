@@ -32,7 +32,7 @@
     "proxmox-api": "^1.1.1",
     "react": "^19",
     "react-dom": "^19",
-    "stripe": "^18.1.1",
+    "stripe": "^18.2.0",
     "ulid": "3.0.0"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "daisyui": "5.0.38",
+    "daisyui": "5.0.42",
     "eslint": "^9",
     "eslint-config-next": "^15",
     "postcss": "^8",
