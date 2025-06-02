@@ -2,7 +2,6 @@ package nautobot
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/nautobot/go-nautobot/v2"
 	"resty.dev/v3"
@@ -15,25 +14,14 @@ type NewIP struct {
 	Parent  string `json:"parent"`
 }
 
-func AddIpToIpam(nextIP string) *nautobot.IPAddress {
+func AddIpv4ToIpam(nextIP string) (*nautobot.IPAddress, error) {
 
-	token := os.Getenv("NAUTOBOT_TOKEN")
-	if token == "" {
-		fmt.Println("NAUTOBOT_TOKEN environment variable is not set")
-		os.Exit(1)
+	nautobotHost, token, err := getConnectionString()
+	if err != nil {
+		fmt.Println("Error getting Nautobot connection string:", err)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get Nautobot connection string: %w", err)
 	}
 
-	nautobotHost := os.Getenv("NAUTOBOT_HOST")
-	if nautobotHost == "" {
-		fmt.Println("NAUTOBOT_HOST environment variable is not set")
-		os.Exit(1)
-	}
-
-	ipPoolId := os.Getenv("NAUTOBOT_IP_POOL_ID")
-	if ipPoolId == "" {
-		fmt.Println("NAUTOBOT_IP_POOL_ID environment variable is not set")
-		os.Exit(1)
-	}
 	client := resty.New()
 	defer client.Close()
 
@@ -42,11 +30,29 @@ func AddIpToIpam(nextIP string) *nautobot.IPAddress {
 		SetHeader("Authorization", fmt.Sprintf("Token %s", token)).
 		SetHeader("Content-Type", "application/json")
 
+	status, statusErr := GetNautobotStatusId()
+	if statusErr != nil {
+		fmt.Println("Error getting Nautobot status ID:", statusErr)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get Nautobot status ID: %w", statusErr)
+	}
+
+	role, roleErr := GetNautobotRoleId()
+	if roleErr != nil {
+		fmt.Println("Error getting Nautobot role ID:", roleErr)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get Nautobot role ID: %w", roleErr)
+	}
+
+	parentId, parentErr := GetIpv4PoolId()
+	if parentErr != nil {
+		fmt.Println("Error getting IPv6 pool ID:", parentErr)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get IPv6 pool ID: %w", parentErr)
+	}
+
 	newIPv4 := NewIP{
 		Address: nextIP,
-		Status:  "7015e139-d33f-488d-9ac4-f399e7368f4c",
-		Role:    "3ea0d0ba-fa8c-4b54-8bb6-2f7591b41673",
-		Parent:  "df684270-6793-4372-85ef-ba4d1360f896",
+		Status:  status,
+		Role:    role,
+		Parent:  parentId,
 	}
 
 	res, err := req.
@@ -58,10 +64,68 @@ func AddIpToIpam(nextIP string) *nautobot.IPAddress {
 
 	if res.IsError() {
 		fmt.Printf("Error: %s\n", res.String())
-		os.Exit(1)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to add IP address %s: %s", nextIP, res.String())
 	}
 
 	ipAddress := res.Result().(*nautobot.IPAddress)
 
-	return ipAddress
+	return ipAddress, nil
+}
+
+func AddIpv6ToIpam(nextIP string) (*nautobot.IPAddress, error) {
+
+	nautobotHost, token, err := getConnectionString()
+	if err != nil {
+		fmt.Println("Error getting Nautobot connection string:", err)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get Nautobot connection string: %w", err)
+	}
+
+	client := resty.New()
+	defer client.Close()
+
+	req := client.R().
+		EnableTrace().
+		SetHeader("Authorization", fmt.Sprintf("Token %s", token)).
+		SetHeader("Content-Type", "application/json")
+
+	status, statusErr := GetNautobotStatusId()
+	if statusErr != nil {
+		fmt.Println("Error getting Nautobot status ID:", statusErr)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get Nautobot status ID: %w", statusErr)
+	}
+
+	role, roleErr := GetNautobotRoleId()
+	if roleErr != nil {
+		fmt.Println("Error getting Nautobot role ID:", roleErr)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get Nautobot role ID: %w", roleErr)
+	}
+
+	parentId, parentErr := GetIpv6PoolId()
+	if parentErr != nil {
+		fmt.Println("Error getting IPv6 pool ID:", parentErr)
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to get IPv6 pool ID: %w", parentErr)
+	}
+
+	newIPv6 := NewIP{
+		Address: nextIP,
+		Status:  status,
+		Role:    role,
+		Parent:  parentId,
+	}
+
+	res, err := req.
+		SetBody(newIPv6).
+		SetResult(&nautobot.IPAddress{}).
+		Post(nautobotHost + "/api/ipam/ip-addresses/")
+
+	check(err, "Failed to add IP to Nautobot")
+
+	if res.IsError() {
+		fmt.Printf("Error: %s\n", res.String())
+		return &nautobot.IPAddress{}, fmt.Errorf("failed to add IP address %s: %s", nextIP, res.String())
+	}
+
+	ipAddress := res.Result().(*nautobot.IPAddress)
+
+	return ipAddress, nil
 }

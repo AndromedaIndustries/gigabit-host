@@ -81,6 +81,7 @@ func (a *Activities) ConfigureVMActivity(
 		return nil, err
 	}
 
+	logger.Info("Getting next available IPs from Nautobot")
 	ipv4, ipv4Gateway, ipv6, ipv6Gateway, ipErr := nautobot.GetNextAvalableIps(logger)
 	if ipErr != nil {
 		logger.Error("failed to get next available IPs", "error", ipErr)
@@ -90,6 +91,10 @@ func (a *Activities) ConfigureVMActivity(
 	memoryInt := params.Sku.Attributes.Memory * 1024
 	// Assuming your client has a SetConfig method that mirrors the Python .config.set(...)
 	_, err = proxmoxVM.Config(ctx,
+		proxmox.VirtualMachineOption{
+			Name:  "net0",
+			Value: fmt.Sprintf("virtio,bridge=%s,firewall=1", os.Getenv("PROXMOX_CUSTOMER_BRIDGE_NAME")),
+		},
 		proxmox.VirtualMachineOption{
 			Name:  "cores",
 			Value: params.Sku.Attributes.CpuCores,
