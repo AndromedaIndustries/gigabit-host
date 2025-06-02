@@ -3,60 +3,17 @@ package nautobot
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/nautobot/go-nautobot/v2"
 	"go.temporal.io/sdk/log"
 )
 
-func GetIpv4PoolId() string {
-	ipPoolId := os.Getenv("NAUTOBOT_IPV4_POOL_ID")
-	if ipPoolId == "" {
-		fmt.Println("NAUTOBOT_IPV4_POOL_ID environment variable is not set")
-		os.Exit(1)
-	}
-	return ipPoolId
-}
+func GetNextIpFromIpam(ipPoolId string) (nautobot.AvailableIP, error) {
 
-func GetIpv4Gateway() string {
-	ipv4Gateway := os.Getenv("NAUTOBOT_IPV4_GATEWAY")
-	if ipv4Gateway == "" {
-		fmt.Println("NAUTOBOT_IPV4_GATEWAY environment variable is not set")
-		os.Exit(1)
-	}
-	return ipv4Gateway
-}
-
-func GetIpv6PoolId() string {
-	ipPoolId := os.Getenv("NAUTOBOT_IPV6_POOL_ID")
-	if ipPoolId == "" {
-		fmt.Println("NAUTOBOT_IPV6_POOL_ID environment variable is not set")
-		os.Exit(1)
-	}
-	return ipPoolId
-}
-
-func GetIpv6Gateway() string {
-	ipv6Gateway := os.Getenv("NAUTOBOT_IPV6_GATEWAY")
-	if ipv6Gateway == "" {
-		fmt.Println("NAUTOBOT_IPV6_GATEWAY environment variable is not set")
-		os.Exit(1)
-	}
-	return ipv6Gateway
-}
-
-func GetNextIpFromIpam(ipPoolId string) nautobot.AvailableIP {
-
-	token := os.Getenv("NAUTOBOT_TOKEN")
-	if token == "" {
-		fmt.Println("NAUTOBOT_TOKEN environment variable is not set")
-		os.Exit(1)
-	}
-
-	nautobotHost := os.Getenv("NAUTOBOT_HOST")
-	if nautobotHost == "" {
-		fmt.Println("NAUTOBOT_HOST environment variable is not set")
-		os.Exit(1)
+	nautobotHost, token, err := getConnectionString()
+	if err != nil {
+		fmt.Println("Error getting Nautobot connection string:", err)
+		return nautobot.AvailableIP{}, fmt.Errorf("failed to get Nautobot connection string: %w", err)
 	}
 
 	config := nautobot.NewConfiguration()
@@ -76,34 +33,62 @@ func GetNextIpFromIpam(ipPoolId string) nautobot.AvailableIP {
 	)
 
 	resp, _, err := c.IpamAPI.IpamPrefixesAvailableIpsList(auth, ipPoolId).Execute()
-	check(err, "Failed to get next IP from Nautobot")
+	if err != nil {
+		fmt.Println("Error fetching available IPs from Nautobot:", err)
+		return nautobot.AvailableIP{}, fmt.Errorf("failed to fetch available IPs from Nautobot: %w", err)
+	}
 
 	nextIP := resp[0]
 
-	return nextIP
+	return nextIP, nil
 }
 
 func GetNextAvalableIps(logger log.Logger) (*nautobot.IPAddress, string, *nautobot.IPAddress, string, error) {
-	ipv4PoolId := GetIpv4PoolId()
+	ipv4PoolId, err := GetIpv4PoolId()
+	if err != nil {
+		logger.Error("Failed to get IPv4 pool ID", "error", err)
+		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("failed to get IPv4 pool ID: %w", err)
+	}
 	logger.Info("IPv4 Pool ID", "poolId", ipv4PoolId)
-	ipv6PoolId := GetIpv6PoolId()
+	ipv6PoolId, err := GetIpv6PoolId()
+	if err != nil {
+		logger.Error("IPv6 pool ID is not set")
+		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("IPv6 pool ID is not set")
+	}
 	logger.Info("IPv6 Pool ID", "poolId", ipv6PoolId)
 
-	nextIPv4 := GetNextIpFromIpam(ipv4PoolId)
-	if nextIPv4.Address == "" {
-		logger.Error("No available IPv4 addresses in pool", "poolId", ipv4PoolId)
-		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("no available IPv4 addresses in pool %s", ipv4PoolId)
+	nextIPv4, err := GetNextIpFromIpam(ipv4PoolId)
+	if err != nil {
+		logger.Error("Failed to get next IPv4 address from IPAM", "poolId", ipv4PoolId, "error", err)
+		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("failed to get next IPv4 address from IPAM: %w", err)
 	}
-	ipv4Gateway := GetIpv4Gateway()
-	ipObject := AddIpToIpam(nextIPv4.Address)
+	ipv4Gateway, err := GetIpv4Gateway()
+	if err != nil {
+		logger.Error("Failed to get IPv4 gateway", "error", err)
+		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("failed to get IPv4 gateway: %w", err)
+	}
+	ipObject, err := AddIpv4ToIpam(nextIPv4.Address)
+	if err != nil {
+		logger.Error("Failed to add IPv4 address to IPAM", "address", nextIPv4.Address, "error", err)
+		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("failed to add IPv4 address %s to IPAM: %w", nextIPv4.Address, err)
+	}
 
-	nextIPv6 := GetNextIpFromIpam(ipv6PoolId)
-	if nextIPv6.Address == "" {
-		logger.Error("No available IPv6 addresses in pool", "poolId", ipv6PoolId)
-		return &nautobot.IPAddress{}, "", &nautobot.IPAddress{}, "", fmt.Errorf("no available IPv6 addresses in pool %s", ipv6PoolId)
+	nextIPv6, err := GetNextIpFromIpam(ipv6PoolId)
+	if err != nil {
+		logger.Error("Failed to get next IPv6 address from IPAM", "poolId", ipv6PoolId, "error", err)
+		return ipObject, ipv4Gateway, &nautobot.IPAddress{}, "", fmt.Errorf("failed to get next IPv6 address from IPAM: %w", err)
 	}
-	ipv6Gateway := GetIpv6Gateway()
-	ipv6Object := AddIpToIpam(nextIPv6.Address)
+
+	ipv6Gateway, err := GetIpv6Gateway()
+	if err != nil {
+		logger.Error("Failed to get IPv6 gateway", "error", err)
+		return ipObject, ipv4Gateway, &nautobot.IPAddress{}, "", fmt.Errorf("failed to get IPv6 gateway: %w", err)
+	}
+	ipv6Object, err := AddIpv6ToIpam(nextIPv6.Address)
+	if err != nil {
+		logger.Error("Failed to add IPv6 address to IPAM", "address", nextIPv6.Address, "error", err)
+		return ipObject, ipv4Gateway, &nautobot.IPAddress{}, "", fmt.Errorf("failed to add IPv6 address %s to IPAM: %w", nextIPv6.Address, err)
+	}
 
 	return ipObject, ipv4Gateway, ipv6Object, ipv6Gateway, nil
 }

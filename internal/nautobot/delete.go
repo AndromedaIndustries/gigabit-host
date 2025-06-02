@@ -2,23 +2,16 @@ package nautobot
 
 import (
 	"fmt"
-	"os"
 
 	"resty.dev/v3"
 )
 
 func DeleteIpFromIpam(ipId string) error {
 
-	token := os.Getenv("NAUTOBOT_TOKEN")
-	if token == "" {
-		fmt.Println("NAUTOBOT_TOKEN environment variable is not set")
-		os.Exit(1)
-	}
-
-	nautobotHost := os.Getenv("NAUTOBOT_HOST")
-	if nautobotHost == "" {
-		fmt.Println("NAUTOBOT_HOST environment variable is not set")
-		os.Exit(1)
+	nautobotHost, token, err := getConnectionString()
+	if err != nil {
+		fmt.Println("Error getting Nautobot connection string:", err)
+		return fmt.Errorf("failed to get Nautobot connection string: %w", err)
 	}
 
 	client := resty.New()

@@ -382,3 +382,12 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 		WorkflowRunId: workflow.GetInfo(ctx).WorkflowExecution.RunID,
 	}, nil
 }
+
+type VmDeleteWorkflowParams struct {
+	ServiceId string `json:"service_id"`
+}
+
+// func DeleteVMWorkflow(ctx workflow.Context, params VmWorkflowParams) error {
+// 	logger := workflow.GetLogger(ctx)
+
+// }
