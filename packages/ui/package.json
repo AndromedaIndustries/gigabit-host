@@ -13,11 +13,11 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@turbo/gen": "^2.5.3",
-    "@types/node": "^22.15.27",
+    "@turbo/gen": "^2.5.4",
+    "@types/node": "^22.15.29",
     "@types/react": "19.1.6",
     "@types/react-dom": "19.1.5",
-    "eslint": "^9.27.0",
+    "eslint": "^9.28.0",
     "typescript": "5.8.3"
   },
   "dependencies": {
