@@ -1,6 +1,7 @@
 import type { Services, Sku } from "database";
 import Link from "next/link";
 import { prisma } from "database";
+import { ServiceMetadata } from "@/types/services";
 
 type vmCardProp = {
     vm: Services
@@ -28,9 +29,13 @@ export async function VmCard({ vm }: vmCardProp) {
 
     // get the sku from the database using the sku_id from the vm object
     const sku = await getSku(vm.current_sku_id);
+    const metadata: ServiceMetadata =
+        typeof vm.metadata === 'object' && vm.metadata !== null && !Array.isArray(vm.metadata)
+            ? (vm.metadata as ServiceMetadata)
+            : {}
 
-    const ipv4Address = vm.metadata?.ipv4_address || "IP Pending";
-    const ipv6Address = vm.metadata?.ipv6_address || "IP Pending";
+    const ipv4Address = metadata?.ipv4_address || "IP Pending";
+    const ipv6Address = metadata?.ipv6_address || "IP Pending";
 
     return (
         <div className="card card-border bg-base-300 w-64 h-64" key={vm.id}>
