@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/publicsuffix"
 
 	"github.com/andromeda/gigabit-host/internal/ProxmoxInterface"
+	"github.com/andromeda/gigabit-host/internal/nautobot"
 	"github.com/andromeda/gigabit-host/internal/types"
 )
 
@@ -80,6 +81,12 @@ func (a *Activities) ConfigureVMActivity(
 		return nil, err
 	}
 
+	ipv4, ipv4Gateway, ipv6, ipv6Gateway, ipErr := nautobot.GetNextAvalableIps(logger)
+	if ipErr != nil {
+		logger.Error("failed to get next available IPs", "error", ipErr)
+		return nil, ipErr
+	}
+
 	memoryInt := params.Sku.Attributes.Memory * 1024
 	// Assuming your client has a SetConfig method that mirrors the Python .config.set(...)
 	_, err = proxmoxVM.Config(ctx,
@@ -105,11 +112,11 @@ func (a *Activities) ConfigureVMActivity(
 		},
 		proxmox.VirtualMachineOption{
 			Name:  "ipconfig0",
-			Value: "ip=dhcp,ip6=auto",
+			Value: "ip=" + ipv4.Address + ",gw=" + ipv4Gateway + ",ip6=" + ipv6.Address + ",gw6=" + ipv6Gateway,
 		},
 		proxmox.VirtualMachineOption{
 			Name:  "nameserver",
-			Value: "1.1.1.1",
+			Value: "9.9.9.9 1.1.1.1",
 		},
 		proxmox.VirtualMachineOption{
 			Name:  "searchdomain",
@@ -124,6 +131,10 @@ func (a *Activities) ConfigureVMActivity(
 
 	// 6) Success: update status and timestamp
 	vm.Status = "configured"
+	vm.Metadata.Ipv4Address = &ipv4.Address
+	vm.Metadata.Ipv4AddressId = &ipv4.Id
+	vm.Metadata.Ipv6Address = &ipv6.Address
+	vm.Metadata.Ipv6AddressId = &ipv6.Id
 	logger.Info("VM configured successfully", "vmID", vmID)
 
 	return &ConfigureVMActivityResponse{VmObject: &vm}, nil

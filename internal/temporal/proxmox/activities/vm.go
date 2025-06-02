@@ -8,6 +8,7 @@ import (
 	"go.temporal.io/sdk/activity"
 
 	"github.com/andromeda/gigabit-host/internal/ProxmoxInterface"
+	"github.com/andromeda/gigabit-host/internal/nautobot"
 	"github.com/andromeda/gigabit-host/internal/types"
 	"github.com/luthermonson/go-proxmox"
 )
@@ -190,5 +191,163 @@ func (a *Activities) StartVMActivity(
 	logger.Info("VM started successfully", "vmId", params.VmId)
 
 	// Optionally, you can return the updated VM object if needed
+	return nil
+}
+
+// ***** Stop VM *****
+
+type StopVMActivityParams struct {
+	VmObject types.Service
+}
+
+func (a *Activities) StopVMActivity(
+	ctx context.Context,
+	params StopVMActivityParams,
+) error {
+	logger := activity.GetLogger(ctx)
+	// 1) Get the Proxmox client
+	client := ProxmoxInterface.GetProxmoxClient(logger)
+
+	if client == nil {
+		logger.Error("Proxmox client is nil")
+		return fmt.Errorf("proxmox client is nil")
+	}
+
+	node, clientErr := client.Node(ctx, *params.VmObject.ProxmoxNode) // Adjust node name as needed
+
+	if clientErr != nil {
+		logger.Error("Failed to get Proxmox node", "error", clientErr)
+		return fmt.Errorf("failed to get Proxmox node: %w", clientErr)
+	}
+
+	proxmoxVmId, intErr := strconv.Atoi(*params.VmObject.ProxmoxVMID)
+	if intErr != nil {
+		logger.Error("Failed to parse Proxmox VM ID", "vmId", proxmoxVmId, "error", intErr)
+		return fmt.Errorf("failed to parse Proxmox VM ID %d: %w", proxmoxVmId, intErr)
+	}
+
+	vm, nodeErr := node.VirtualMachine(ctx, proxmoxVmId)
+	if nodeErr != nil {
+		logger.Error("Failed to get Proxmox VM", "vmId", proxmoxVmId, "error", nodeErr)
+		return fmt.Errorf("failed to get Proxmox VM %d: %w", proxmoxVmId, nodeErr)
+	}
+
+	// 2) Stop the VM
+	stopTask, stopErr := vm.Stop(ctx)
+	if stopErr != nil {
+		logger.Error("Failed to stop Proxmox VM", "vmId", proxmoxVmId, "error", stopErr)
+		return fmt.Errorf("failed to stop Proxmox VM %d: %w", proxmoxVmId, stopErr)
+	}
+
+	// 3) Wait for the task to complete
+	status, completed, waitErr := stopTask.WaitForCompleteStatus(ctx, 30, 5) // Wait for up to 30 seconds, checking every 5 seconds
+
+	if waitErr != nil {
+		logger.Error("Failed to wait for Proxmox VM stop task", "vmId", proxmoxVmId, "error", waitErr)
+		return fmt.Errorf("failed to wait for Proxmox VM %d stop task: %w", proxmoxVmId, waitErr)
+	}
+
+	if !completed {
+		logger.Error("Proxmox VM stop task did not complete in time", "vmId", proxmoxVmId, "status", status)
+		return fmt.Errorf("proxmox VM %d stop task did not complete in time, status: %v", proxmoxVmId, status)
+	}
+
+	if !status {
+		logger.Error("Proxmox VM stop task failed", "vmId", proxmoxVmId, "status", status)
+		return fmt.Errorf("proxmox VM %d stop task failed", proxmoxVmId)
+	}
+
+	// 4) Return success
+	logger.Info("VM stopped successfully", "vmId", proxmoxVmId)
+	// Optionally, you can return the updated VM object if needed
+	return nil
+}
+
+// ***** Delete VM *****
+
+type DeleteVMActivityParams struct {
+	VmObject types.Service
+}
+
+func (a *Activities) DeleteVMActivity(
+	ctx context.Context,
+	params DeleteVMActivityParams,
+) error {
+	logger := activity.GetLogger(ctx)
+
+	// 1) Get the Proxmox client
+	client := ProxmoxInterface.GetProxmoxClient(logger)
+	if client == nil {
+		logger.Error("Proxmox client is nil")
+		return fmt.Errorf("proxmox client is nil")
+	}
+
+	node, clientErr := client.Node(ctx, *params.VmObject.ProxmoxNode) // Adjust node name as needed
+	if clientErr != nil {
+		logger.Error("Failed to get Proxmox node", "error", clientErr)
+		return fmt.Errorf("failed to get Proxmox node: %w", clientErr)
+	}
+
+	proxmoxVmId, intErr := strconv.Atoi(*params.VmObject.ProxmoxVMID)
+	if intErr != nil {
+		logger.Error("Failed to parse Proxmox VM ID", "vmId", proxmoxVmId, "error", intErr)
+		return fmt.Errorf("failed to parse Proxmox VM ID %d: %w", proxmoxVmId, intErr)
+	}
+
+	vm, nodeErr := node.VirtualMachine(ctx, proxmoxVmId)
+	if nodeErr != nil {
+		logger.Error("Failed to get Proxmox VM", "vmId", proxmoxVmId, "error", nodeErr)
+		return fmt.Errorf("failed to get Proxmox VM %d: %w", proxmoxVmId, nodeErr)
+	}
+
+	// 2) Delete the VM
+	deleteTask, deleteErr := vm.Delete(ctx)
+	if deleteErr != nil {
+		logger.Error("Failed to delete Proxmox VM", "vmId", proxmoxVmId, "error", deleteErr)
+		return fmt.Errorf("failed to delete Proxmox VM %d: %w", proxmoxVmId, deleteErr)
+	}
+
+	// 3) Wait for the task to complete
+	status, completed, waitErr := deleteTask.WaitForCompleteStatus(ctx, 30, 5) // Wait for up to 30 seconds, checking every 5 seconds
+
+	if waitErr != nil {
+		logger.Error("Failed to wait for Proxmox VM delete task", "vmId", proxmoxVmId, "error", waitErr)
+		return fmt.Errorf("failed to wait for Proxmox VM %d delete task: %w", proxmoxVmId, waitErr)
+	}
+
+	if !completed {
+		logger.Error("Proxmox VM delete task did not complete in time", "vmId", proxmoxVmId, "status", status)
+		return fmt.Errorf("proxmox VM %d delete task did not complete in time, status: %v", proxmoxVmId, status)
+	}
+
+	if !status {
+		logger.Error("Proxmox VM delete task failed", "vmId", proxmoxVmId, "status", status)
+		return fmt.Errorf("proxmox VM %d delete task failed", proxmoxVmId)
+	}
+
+	ipv4Id := params.VmObject.Metadata.Ipv4AddressId
+	if *ipv4Id != "" {
+		// 3) Delete the IPv4 address from Nautobot
+		err := nautobot.DeleteIpFromIpam(*ipv4Id)
+		if err != nil {
+			logger.Error("Failed to delete IPv4 address from Nautobot", "ipv4Id", ipv4Id, "error", err)
+			return fmt.Errorf("failed to delete IPv4 address %s from Nautobot: %w", *ipv4Id, err)
+		}
+		logger.Info("IPv4 address deleted from Nautobot", "ipv4Id", ipv4Id)
+	}
+
+	ipv6Id := params.VmObject.Metadata.Ipv6AddressId
+	if *ipv6Id != "" {
+		// 3) Delete the IPv6 address from Nautobot
+		err := nautobot.DeleteIpFromIpam(*ipv6Id)
+		if err != nil {
+			logger.Error("Failed to delete IPv6 address from Nautobot", "ipv6Id", ipv6Id, "error", err)
+			return fmt.Errorf("failed to delete IPv6 address %s from Nautobot: %w", *ipv6Id, err)
+		}
+		logger.Info("IPv6 address deleted from Nautobot", "ipv6Id", ipv6Id)
+	}
+
+	// 4) Return success
+	logger.Info("VM deleted successfully", "vmId", proxmoxVmId)
 	return nil
 }

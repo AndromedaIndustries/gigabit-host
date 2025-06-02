@@ -7,8 +7,12 @@ import (
 )
 
 type ServiceMetadata struct {
-	InitialSku  string `json:"initial_sku"`
-	InitalPrice string `json:"initial_price"`
+	InitialSku    string  `json:"initial_sku"`
+	InitalPrice   string  `json:"initial_price"`
+	Ipv4Address   *string `json:"ipv4_address,omitempty"`
+	Ipv4AddressId *string `json:"ipv4_address_id,omitempty"`
+	Ipv6Address   *string `json:"ipv6_address,omitempty"`
+	Ipv6AddressId *string `json:"ipv6_address_id,omitempty"`
 }
 
 type Service struct {

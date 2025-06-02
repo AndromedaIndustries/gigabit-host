@@ -54,5 +54,8 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
 	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
+	github.com/nautobot/go-nautobot/v2 v2.3.2-beta // indirect
 	golang.org/x/crypto v0.38.0 // indirect
+	gopkg.in/validator.v2 v2.0.1 // indirect
+	resty.dev/v3 v3.0.0-beta.3 // indirect
 )
