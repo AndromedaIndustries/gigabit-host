@@ -49,6 +49,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No subscription found" });
   }
 
+  prisma.billing_Log.create({
+    data: {
+      user_id: supabaseSessionData.data.session.user.id,
+      payment_id: session.id,
+      service_id: newService.id,
+      status: status === "complete" ? "success" : "pending",
+      subscription_id: subscription ? subscription.toString() : null,
+    },
+  });
+
   console.log("Processing session with status:", status);
 
   if (status === "open") {
@@ -72,6 +82,14 @@ export async function GET(request: Request) {
     user_id: newService.user_id,
     service_id: newService.id,
   };
+
+  prisma.audit_Log.create({
+    data: {
+      user_id: newService.user_id,
+      action: "new_service",
+      details: `New service created with ID ${newService.id} and status ${newService.status}`,
+    },
+  });
 
   const temporal_workflow = await temporal_client.workflow.start(
     "New VM Workflow",

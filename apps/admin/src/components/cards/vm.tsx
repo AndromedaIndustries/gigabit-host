@@ -1,7 +1,8 @@
 import type { Services, Sku } from "database";
+import type { ServiceMetadata } from "@/types/services";
 import Link from "next/link";
 import { prisma } from "database";
-import { ServiceMetadata } from "@/types/services";
+
 
 type vmCardProp = {
     vm: Services
@@ -77,4 +78,29 @@ export async function VmCard({ vm }: vmCardProp) {
             </div>
         </div >
     )
+}
+
+export async function VmRow({ vm }: { vm: Services }) {
+    const sku = await getSku(vm.current_sku_id);
+    const metadata: ServiceMetadata =
+        typeof vm.metadata === 'object' && vm.metadata !== null && !Array.isArray(vm.metadata)
+            ? (vm.metadata as ServiceMetadata)
+            : {}
+
+    return (
+        <tr>
+            <td className="text-left">{vm.hostname}</td>
+            <td className="text-left">{sku?.sku}</td>
+            <td className="text-left">{sku?.price} $/mo</td>
+            <td className="text-left">{metadata?.ipv4_address || "IP Pending"}</td>
+            <td className="text-left">{metadata?.ipv6_address || "IP Pending"}</td>
+            <td className="text-left">
+                {vm.subscription_active ? (
+                    <div className="badge badge-success badge-sm">Active</div>
+                ) : (
+                    <div className="badge badge-error badge-sm">Inactive</div>
+                )}
+            </td>
+        </tr>
+    );
 }
