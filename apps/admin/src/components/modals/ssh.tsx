@@ -1,7 +1,6 @@
 "use client";
-import { type Ssh_keys } from "database";
+import type { Ssh_keys } from "database";
 import { Router } from "next/router";
-import React from "react";
 
 
 type ssh_key_modal_props = {
@@ -76,7 +75,7 @@ export function AddSSHKeyModalButton({ className, btn_name }: ssh_key_modal_prop
     );
 }
 
-export function AddSSHKeyModalDialog({ userID }: ssh_key_modal_props) {
+export function AddSSHKeyModalDialog() {
 
     function closeModal() {
         const modal = document.getElementById("ssh_key_modal") as HTMLDialogElement | null;
@@ -121,9 +120,9 @@ export function AddSSHKeyModalDialog({ userID }: ssh_key_modal_props) {
                 <div className="modal-box border border-accent">
                     <form onSubmit={handleSubmit}>
                         <fieldset className="fieldset rounded-box justify-center">
-                            <label className="fieldset-label">
+                            <div className="fieldset-label">
                                 New Public SSH Key
-                            </label>
+                            </div>
                             <textarea
                                 name="public_key"
                                 className="textarea w-full validator"
@@ -162,7 +161,7 @@ export function AddSSHKeyModalDialog({ userID }: ssh_key_modal_props) {
 export function DeleteSSHKeyModalButton({ className, btn_name, index }: delete_key_button_props) {
 
     function openModal() {
-        const modal = document.getElementById("delete_ssh_key_modal" + index) as HTMLDialogElement | null;
+        const modal = document.getElementById(`delete_ssh_key_modal${index}`) as HTMLDialogElement | null;
 
         if (!modal) {
             return;
@@ -183,7 +182,7 @@ export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_pro
     console.log("OHAI2!!!!", ssh_key)
 
     function closeModal() {
-        const modal = document.getElementById("delete_ssh_key_modal" + index) as HTMLDialogElement | null;
+        const modal = document.getElementById(`delete_ssh_key_modal${index}`) as HTMLDialogElement | null;
 
         if (!modal) {
             return;
@@ -195,7 +194,7 @@ export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_pro
     }
 
     function getDialogId() {
-        return "delete_ssh_key_modal" + index
+        return `delete_ssh_key_modal${index}`
     }
 
     const confirmDelete = (e: React.FormEvent<HTMLFormElement>) => {
@@ -213,11 +212,11 @@ export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_pro
                 "Content-Type": "application/json",
             },
         }).then((response) => {
-                if (response.status === 201) {
-                    closeModal();
-                    Router.prototype.reload();
-                };
-            }
+            if (response.status === 201) {
+                closeModal();
+                Router.prototype.reload();
+            };
+        }
         ).catch((error) => {
             console.log("Error deleting SSH key:", error);
         });
@@ -234,10 +233,8 @@ export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_pro
                                     Are you sure you&#39;d like to delete this public key?
                                     This action will NOT remove the public key from your VMs
                                 </legend>
-                                <div className="flex flex-row pt-4 justify-center">
-                                    <label className="justify-between">
-                                        Public SSH Key Name:
-                                    </label>
+                                <div className="flex flex-col w-full pt-4 items-center">
+                                    <div>Public SSH Key Name:</div>
                                     <div className="text-primary">{ssh_key.name}</div>
                                 </div>
                                 <input
@@ -253,7 +250,7 @@ export function DeleteSSHKeyModalDialog({ ssh_key, index }: delete_key_modal_pro
                                 <div className='justify-center flex flex-row gap-4'>
                                     <button type="submit" className="modal-action btn btn-primary gap-4">Yes</button>
                                     <button type="button" className="modal-action btn btn-secondary"
-                                            onClick={closeModal}>No
+                                        onClick={closeModal}>No
                                     </button>
                                 </div>
                             </div>

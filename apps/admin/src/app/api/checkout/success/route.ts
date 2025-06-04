@@ -87,7 +87,7 @@ export async function GET(request: Request) {
     data: {
       user_id: newService.user_id,
       action: "new_service",
-      details: `New service created with ID ${newService.id} and status ${newService.status}`,
+      description: `New service created with ID ${newService.id} and status ${newService.status}`,
     },
   });
 

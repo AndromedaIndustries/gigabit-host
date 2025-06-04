@@ -1,6 +1,6 @@
-import { VmCard } from "@/components/cards/vm";
+import { VmRow, VmCard } from "@/components/cards/vm";
 import { createClient } from "@/utils/supabase/server";
-import { prisma } from "database";
+import { prisma, type Services } from "database";
 import Link from "next/link"
 
 export default async function VMs() {
@@ -50,12 +50,40 @@ export default async function VMs() {
                     </div>
                 </div>
 
-                {vms.length === 0 ? null :
-                    vms.map((vm) => (
-                        // Render each VM card
-                        <VmCard vm={vm} key={vm.id} />
-                    ))}
+
             </div>
+        </div>
+    );
+}
+
+export async function VmTable({ vms }: { vms: Services[] }) {
+    return (
+        <table className="table w-full">
+            <thead>
+                <tr>
+                    <th>Hostname</th>
+                    <th>SKU</th>
+                    <th>Price</th>
+                    <th>IPv4 Address</th>
+                    <th>IPv6 Address</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {vms.map((vm) => (
+                    <VmRow key={vm.id} vm={vm} />
+                ))}
+            </tbody>
+        </table>
+    );
+}
+
+export async function VmCards({ vms }: { vms: Services[] }) {
+    return (
+        <div className="flex flex-row flex-wrap space-x-5 space-y-5">
+            {vms.map((vm) => (
+                <VmCard vm={vm} key={vm.id} />
+            ))}
         </div>
     );
 }

@@ -56,3 +56,5 @@ deploy-*
 
 # Ignore testing
 tmp
+*-testing
+*-test
