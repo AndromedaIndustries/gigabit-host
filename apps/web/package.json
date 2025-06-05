@@ -24,7 +24,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "database": "workspace:*",
-    "@swc/core": "^1.11.29",
+    "@swc/core": "^1.11.31",
     "dotenv": "^16.5.0",
     "next": "^15",
     "react": "^19",
