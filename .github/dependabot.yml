@@ -15,6 +15,12 @@ updates:
           - "*"
     assignees:
       - "@xn4p4lm"
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: daily
+    assignees:
+      - "@xn4p4lm"
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
@@ -25,5 +31,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    assignees:
+      - "@xn4p4lm"
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: weekly
     assignees:
       - "@xn4p4lm"

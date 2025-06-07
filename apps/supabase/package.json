@@ -3,5 +3,8 @@
   "scripts": {
     "init": "pnpx supabase init",
     "dev": "pnpx supabase start"
+  },
+  "devDependencies": {
+    "supabase": "^2.23.4"
   }
 }
