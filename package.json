@@ -28,17 +28,21 @@
     "turbo": "^2.5.4",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.11.1",
   "engines": {
     "node": ">=18"
   },
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "pnpm": {
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",
       "esbuild",
-      "prisma"
+      "prisma",
+      "supabase"
     ]
   },
   "dependencies": {
