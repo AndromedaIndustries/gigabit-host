@@ -1,0 +1,29 @@
+name: New/Requested Feature 
+description: Issue for new or requested features.
+title: "[Feature]: "
+labels: []
+projects: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Give as much details as you can, this could be paragraphs or could be a few sentences. 
+        The more info you give now the less questions in the future!
+  - type: textarea
+    id: Description
+    attributes:
+      label: Description
+      description: What will this do?
+      placeholder: I want a thing that does this thing
+    validations:
+      required: false
+  - type: textarea
+    id: Ideas
+    attributes:
+      label: Idea
+      description: |
+        If you have an idea of how this might work, let us know! 
+        If we don't get to it, others may be able to with some guidance
+      placeholder: I think it would be nice to be able to click my email and change between light and dark mode? (Light mode is the best)
+    validations:
+      required: true
