@@ -43,8 +43,8 @@ importers:
         specifier: ^5.1.0
         version: 5.2.5
       '@fontsource/ubuntu':
-        specifier: ^5.2.5
-        version: 5.2.5
+        specifier: ^5.2.6
+        version: 5.2.6
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.7.2
         version: 6.7.2
@@ -91,8 +91,8 @@ importers:
         specifier: ^18.2.1
         version: 18.2.1(@types/node@22.15.30)
       ulid:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.1
+        version: 3.0.1
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -156,8 +156,8 @@ importers:
         specifier: ^5.1.0
         version: 5.2.5
       '@fontsource/ubuntu':
-        specifier: ^5.2.5
-        version: 5.2.5
+        specifier: ^5.2.6
+        version: 5.2.6
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.7.2
         version: 6.7.2
@@ -192,8 +192,8 @@ importers:
         specifier: ^19
         version: 19.1.0(react@19.1.0)
       ulid:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.1
+        version: 3.0.1
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -621,8 +621,8 @@ packages:
   '@fontsource/monaspace-krypton@5.2.5':
     resolution: {integrity: sha512-dOWSb0DtSMfjbptckxTme2FKNfRkFtmTuNRQ86sBki/CanR4ajSrE+GuJoCm9Kl3352CvafoRt2fDo8FU+Gz4A==}
 
-  '@fontsource/ubuntu@5.2.5':
-    resolution: {integrity: sha512-VKVFVqmJ9MGnOJW2dsQ982qHN8Zr+tNeEwEHnzt5VdGi9ZWL37wYFD32YsqukWlI/+I7v5ZkgHTEAvsZxU6aDA==}
+  '@fontsource/ubuntu@5.2.6':
+    resolution: {integrity: sha512-ktUjEGS/QmvNmhO8Vb6kEv+BgTRspRUon07SkC7Rh/T4ziu8AfwJe2xuJzGxWv8fJqx0ZNYeCCJdABta7991sA==}
 
   '@fortawesome/fontawesome-common-types@6.7.2':
     resolution: {integrity: sha512-Zs+YeHUC5fkt7Mg1l6XTniei3k4bwG/yo3iFUtZWd/pMx9g3fdvkSK9E0FOC+++phXOka78uJcYb8JaFkW52Xg==}
@@ -3684,8 +3684,8 @@ packages:
     engines: {node: '>=0.8.0'}
     hasBin: true
 
-  ulid@3.0.0:
-    resolution: {integrity: sha512-yvZYdXInnJve6LdlPIuYmURdS2NP41ZoF4QW7SXwbUKYt53+0eDAySO+rGSvM2O/ciuB/G+8N7GQrZ1mCJpuqw==}
+  ulid@3.0.1:
+    resolution: {integrity: sha512-dPJyqPzx8preQhqq24bBG1YNkvigm87K8kVEHCD+ruZg24t6IFEFv00xMWfxcC4djmFtiTLdFuADn4+DOz6R7Q==}
     hasBin: true
 
   unbox-primitive@1.1.0:
@@ -4023,7 +4023,7 @@ snapshots:
 
   '@fontsource/monaspace-krypton@5.2.5': {}
 
-  '@fontsource/ubuntu@5.2.5': {}
+  '@fontsource/ubuntu@5.2.6': {}
 
   '@fortawesome/fontawesome-common-types@6.7.2': {}
 
@@ -7428,7 +7428,7 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  ulid@3.0.0: {}
+  ulid@3.0.1: {}
 
   unbox-primitive@1.1.0:
     dependencies:
