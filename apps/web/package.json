@@ -24,7 +24,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "database": "workspace:*",
-    "@swc/core": "^1.11.31",
+    "@swc/core": "^1.12.0",
     "dotenv": "^16.5.0",
     "next": "^15",
     "react": "^19",
@@ -33,11 +33,11 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.53.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "daisyui": "5.0.43",
@@ -45,7 +45,7 @@
     "eslint-config-next": "^15",
     "postcss": "^8",
     "tailwindcss": "^4",
-    "tsx": "^4.19.4",
+    "tsx": "^4.20.2",
     "typescript": "^5"
   }
 }
