@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 import { getStripe } from "@/utils/stripe/stripe";
 import { NextResponse } from "next/server";
+import { AuthError } from "@supabase/supabase-js";
 
 // This action runs on the server
 export async function POST(request: Request) {
@@ -114,6 +115,11 @@ export async function POST(request: Request) {
       customer: stripe_customer_id,
       mode: "subscription",
       submit_type: "subscribe",
+      customer_update: {
+        name: "auto",
+        address: "auto",
+        shipping: "auto"
+      },
       success_url: `${origin}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/api/checkout/cancel?session_id={CHECKOUT_SESSION_ID}&canceled=true`,
       automatic_tax: { enabled: true },
