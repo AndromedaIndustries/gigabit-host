@@ -117,9 +117,13 @@ model Billing_Log {
   sku_id          String?  @db.VarChar(255)
   payment_id      String?  @db.VarChar(255)
   subscription_id String?  @db.VarChar(255)
-  amount          Float?    @db.Real
-  status          String?   @db.VarChar(255)
+  amount          Float?   @db.Real
+  status          String?  @db.VarChar(255)
   created_at      DateTime @default(now()) @db.Timestamp(6)
   updated_at      DateTime @updatedAt @db.Timestamp(6)
-} 
+}
 
+model Third_Party_User_Mapping {
+  id                 String @id @db.Uuid
+  stripe_customer_id String @db.VarChar(255)
+}

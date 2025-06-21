@@ -75,6 +75,34 @@ export async function POST(request: Request) {
 
   const stripe = getStripe();
 
+  let third_party_mapping = await prisma.third_Party_User_Mapping.findUnique({
+    where: {
+      id: userID
+    }
+  }) 
+
+  if (!third_party_mapping) {
+
+    const user_email = user.data.user.email
+
+    if (!user_email){
+      throw new Error("User Email not Set")
+    }
+
+    const customer = await stripe.customers.create({
+      email: user_email
+    })
+
+    third_party_mapping = await prisma.third_Party_User_Mapping.create({
+      data: {
+        id: userID,
+        stripe_customer_id: customer.id
+      }
+    })
+  }
+
+  const stripe_customer_id = third_party_mapping.stripe_customer_id
+
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -83,7 +111,7 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-      customer_email: email,
+      customer: stripe_customer_id,
       mode: "subscription",
       submit_type: "subscribe",
       success_url: `${origin}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
