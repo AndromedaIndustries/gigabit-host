@@ -76,7 +76,7 @@ export async function POST(request: Request) {
 
   const stripe = getStripe();
 
-  let third_party_mapping = await prisma.third_Party_User_Mapping.findUnique({
+  var third_party_mapping = await prisma.third_Party_User_Mapping.findUnique({
     where: {
       id: userID
     }
