@@ -5,7 +5,7 @@ import {
     DeleteSSHKeyModalButton,
     DeleteSSHKeyModalDialog
 } from "@/components/modals/ssh";
-import "./styles.css";
+import "../../style/ssh.css"
 
 type sshCardProp = {
     ssh_keys: Ssh_keys[]

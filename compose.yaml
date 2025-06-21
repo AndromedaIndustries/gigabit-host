@@ -1,4 +1,6 @@
 name: gigabit-host
 
 include:
-  - apps/dev-containers/docker-compose.yml
+  - docker/dockerfile.admin
+  - docker/dockerfile.web
+  - docker/dockerfile.worker
