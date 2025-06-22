@@ -13,7 +13,7 @@ export default async function Navbar() {
 
 
   return (
-    <div className="navbar bg-base-300 shadow-sm fixed">
+    <div className="navbar bg-base-300 shadow-sm fixed z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <button

@@ -17,7 +17,7 @@ export default async function VMs() {
     });
 
     return (
-        <div className="w-full h-fit pb-24">
+        <div className="w-full">
             <VmView vms={vms} />
         </div>
     );

@@ -8,7 +8,7 @@ import { AddNewVmModel } from "@/components/modals/vmModalServer";
 
 
 async function Selector({ table }: { table?: boolean }) {
-    
+
     return (
         <div className="flex justify-end-safe mb-4 space-x-4">
             {(table) ? (
@@ -34,7 +34,7 @@ export async function VmView({ vms }: { vms: Services[] }) {
         return (
             <div>
                 <Selector />
-                <div className="flex flex-row flex-wrap space-x-5 space-y-5">
+                <div className="flex flex-row flex-wrap space-x-5 space-y-5 columns-3">
                     <NewVmCard vms={vms} />
                     {vms.map((vm) => (
                         <VmCard key={vm.id} vm={vm} />
@@ -51,9 +51,7 @@ export async function VmView({ vms }: { vms: Services[] }) {
                 <div className="flex flex-row flex-wrap space-x-5 space-y-5">
                     <VmTable vms={vms} />
                 </div>
-
-
-            </div>
+            </div >
         )
     }
 
