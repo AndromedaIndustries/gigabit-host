@@ -3,23 +3,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 export default function Footer() {
-  function getHomeUrl() {
-    return process.env.NEXT_PUBLIC_WEB_URL || "https://localhost:3000";
-  }
+  const homeUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://localhost:3000";
+  const company = process.env.NEXT_PUBLIC_SITE_COMPANY
 
   return (
     <footer className="fixed bottom-0 left-0 w-full footer sm:footer-horizontal footer-center bg-base-200 p-4">
       <aside>
         <div className="justify-between flex flex-row gap-4">
-          <Link href={`${getHomeUrl()}`}>Gigabit.Host</Link>
-          <Link href={`${getHomeUrl()}/tos`}>Terms of Service</Link>
-          <Link href={`${getHomeUrl()}/aup`}>Acceptable Use Policy</Link>
-          <Link href={`${getHomeUrl()}/privacy`}>Privacy Policy</Link>
+          <Link href={`${homeUrl}`}>Gigabit.Host</Link>
+          <Link href={`${homeUrl}/tos`}>Terms of Service</Link>
+          <Link href={`${homeUrl}/aup`}>Acceptable Use Policy</Link>
+          <Link href={`${homeUrl}/privacy`}>Privacy Policy</Link>
         </div>
         <div className="">
           Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
-          {new Date().getFullYear()} - All rights reserved by Andromeda
-          Industries
+          {new Date().getFullYear()} - All rights reserved by {company}
         </div>
       </aside>
     </footer>
