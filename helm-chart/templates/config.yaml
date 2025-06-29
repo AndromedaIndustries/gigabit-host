@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mychart.fullname" . }}-config
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+data:
+  CI: {{ .Values.config.ci | quote }}
+  DEBUG: {{ .Values.config.debug | quote }}
+  ENABLE_SIGNUP: {{ .Values.config.enableSignup | quote }}
+  ENVIRONMENT: {{ .Values.config.environment | quote }}
+  NAUTOBOT_HOST: {{ .Values.config.nautobotHost | quote }}
+  NAUTOBOT_IPV4_GATEWAY: {{ .Values.config.nautobotIpv4Gateway | quote }}
+  NAUTOBOT_IPV4_POOL_ID: {{ .Values.config.nautobotIpv4PoolId | quote }}
+  NAUTOBOT_IPV6_GATEWAY: {{ .Values.config.nautobotIpv6Gateway | quote }}
+  NAUTOBOT_IPV6_POOL_ID: {{ .Values.config.nautobotIpv6PoolId | quote }}
+  NEXT_PUBLIC_ADMIN_URL: {{ .Values.config.nextPublicAdminUrl | quote }}
+  NEXT_PUBLIC_PROXMOX_NAMESPACE: {{ .Values.config.nextPublicProxmoxNamespace | quote
+    }}
+  NEXT_PUBLIC_PROXMOX_TASK_QUEUE: {{ .Values.config.nextPublicProxmoxTaskQueue |
+    quote }}
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: {{ .Values.config.nextPublicStripePublishableKey
+    | quote }}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: {{ .Values.config.nextPublicSupabaseAnonKey | quote
+    }}
+  NEXT_PUBLIC_SUPABASE_URL: {{ .Values.config.nextPublicSupabaseUrl | quote }}
+  NEXT_PUBLIC_TEMPORAL_SERVER: {{ .Values.config.nextPublicTemporalServer | quote
+    }}
+  NEXT_PUBLIC_WEB_URL: {{ .Values.config.nextPublicWebUrl | quote }}
+  PROXMOX_ADDRESS: {{ .Values.config.proxmoxAddress | quote }}
+  PROXMOX_AUTH_TYPE: {{ .Values.config.proxmoxAuthType | quote }}
+  PROXMOX_REALM: {{ .Values.config.proxmoxRealm | quote }}
+  PROXMOX_TOKEN_NAME: {{ .Values.config.proxmoxTokenName | quote }}
+  PROXMOX_USER: {{ .Values.config.proxmoxUser | quote }}
+  SUPABASE_URL: {{ .Values.config.supabaseUrl | quote }}

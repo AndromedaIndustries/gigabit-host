@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "mychart.fullname" . }}-ghcr-auth
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+    release: release-name
+  {{- include "mychart.labels" . | nindent 4 }}
+data:
+  .dockerconfigjson: {{ required "ghcrAuth.dockerconfigjson is required" .Values.ghcrAuth.dockerconfigjson
+    | b64enc | quote }}
+type: kubernetes.io/dockerconfigjson

@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "mychart.fullname" . }}-access-control
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  ipAllowList:
+    ipStrategy:
+      depth: 10
+    sourceRange:
+    - 172.92.143.183

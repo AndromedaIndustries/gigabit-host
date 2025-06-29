@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mychart.fullname" . }}-admin
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.admin.type }}
+  selector:
+    app: gigabit-host
+    component: admin
+    {{- include "mychart.selectorLabels" . | nindent 4 }}
+  ports:
+  {{- .Values.admin.ports | toYaml | nindent 2 }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "mychart.fullname" . }}-admin
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+  - websecure-int
+  routes:
+  - kind: Rule
+    match: Host(`portal.gigabit.host`)
+    services:
+    - name: admin
+      port: 3000
+  tls:
+    certResolver: andromeda-letsencrypt
