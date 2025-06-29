@@ -1,21 +1,47 @@
-import type { Services, Sku } from "database";
+import { prisma, type Services } from "database";
+import type { ServiceMetadata } from "@/types/services";
 import Link from "next/link";
-import { prisma } from "database";
-import { ServiceMetadata } from "@/types/services";
+import { GetSku } from "./vmHelpers";
+
 
 type vmCardProp = {
     vm: Services
 }
 
-async function getSku(skuId: string): Promise<Sku | null> {
+export async function NewVmCard({ vms }: { vms: Services[] }) {
+    let totalCosts = 0;
+    let totalVms = 0;
 
-    const skuName = await prisma.sku.findUnique({
-        where: {
-            id: skuId
-        },
-    });
+    // Calculate total costs for all VMs
+    for (const vm of vms) {
+        totalVms++;
+        const sku = await prisma.sku.findUnique({
+            where: {
+                id: vm.current_sku_id
+            },
+        });
+        if (sku) {
+            totalCosts += sku.price;
+        }
+    }
 
-    return skuName;
+    return (
+        <div className="card card-border bg-base-300 w-64 h-64">
+            <div className="card-body items-center text-center">
+                <div className="card-title text-2xl">Total Costs</div>
+                <div className="text-lg">
+                    {totalCosts.toFixed(2)} <span className="text-sm">$/mo</span>
+                </div>
+                <div className="card-title text-2xl">Total VMs</div>
+                <div className="text-lg">
+                    {totalVms}
+                </div>
+                <Link href={"/dashboard/vm/new"} className="btn btn-outline btn-primary mt-auto">
+                    Add new VM
+                </Link>
+            </div>
+        </div>
+    )
 }
 
 export async function VmCard({ vm }: vmCardProp) {
@@ -28,7 +54,7 @@ export async function VmCard({ vm }: vmCardProp) {
     const domain = url.hostname;
 
     // get the sku from the database using the sku_id from the vm object
-    const sku = await getSku(vm.current_sku_id);
+    const sku = await GetSku(vm.current_sku_id);
     const metadata: ServiceMetadata =
         typeof vm.metadata === 'object' && vm.metadata !== null && !Array.isArray(vm.metadata)
             ? (vm.metadata as ServiceMetadata)

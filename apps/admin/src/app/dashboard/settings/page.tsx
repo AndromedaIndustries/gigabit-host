@@ -3,10 +3,10 @@ import { saveSettings, deleteAccount } from "./settings";
 import AccountType from "@/components/input/accountType";
 import SetName from "@/components/input/setName";
 import { OpenPasswordModal, UpdatePasswordModal } from "@/components/modals/password";
-import {SshCard} from "@/components/cards/ssh";
-import {prisma} from "database";
+import { SshCard } from "@/components/cards/ssh";
+import { prisma } from "database";
 
-export default async function Settings(this: any) {
+export default async function Settings() {
     const supabase = await createClient();
 
     const user = await (await supabase.auth.getUser()).data.user;
@@ -23,13 +23,13 @@ export default async function Settings(this: any) {
         }
     })
 
-    function limit_key_display (key_name: string): string {
-        if (key_name.length > 30) {
-            return key_name.substring(0, 29) + "..."
-        }
-        return key_name.padEnd(30, " ")
+    if (!user) {
+        return (
+            <div className="w-full h-full flex items-center justify-center">
+                <h1 className="text-2xl">You are not logged in</h1>
+            </div>
+        );
     }
-
 
     return (
         <div className="flex flex-row">
@@ -68,7 +68,7 @@ export default async function Settings(this: any) {
                 <UpdatePasswordModal />
             </div>
             <div className="bg-base-200 border-base-300 rounded-box gap-4 w-86 ml-4">
-                <SshCard ssh_keys={sshKeys} userID={user?.id} limit_key_display={limit_key_display}/>
+                <SshCard ssh_keys={sshKeys} userID={user.id} />
             </div>
         </div>
     );

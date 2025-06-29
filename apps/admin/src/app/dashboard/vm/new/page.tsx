@@ -82,7 +82,7 @@ export default async function Purchase() {
                 </fieldset>
             </form>
             <div>
-                <AddSSHKeyModalDialog userID={userID} />
+                <AddSSHKeyModalDialog />
             </div>
         </div>
     )

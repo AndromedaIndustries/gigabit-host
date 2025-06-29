@@ -54,9 +54,9 @@ export default function Navbar() {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
+          {/* <li>
             <Link href="/services">Services</Link>
-          </li>
+          </li> */}
           <li>
             <Link href="/about">About</Link>
           </li>
@@ -73,7 +73,7 @@ export default function Navbar() {
       </div>
       <div className="navbar-end">
         <Link href={getAdminPanelUrl()} className="btn">
-          Admin Panel
+          Customer Dashboard
         </Link>
       </div>
     </div>

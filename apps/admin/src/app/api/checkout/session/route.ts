@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 import { getStripe } from "@/utils/stripe/stripe";
 import { NextResponse } from "next/server";
+import { AuthError } from "@supabase/supabase-js";
 
 // This action runs on the server
 export async function POST(request: Request) {
@@ -75,6 +76,34 @@ export async function POST(request: Request) {
 
   const stripe = getStripe();
 
+  var third_party_mapping = await prisma.third_Party_User_Mapping.findUnique({
+    where: {
+      id: userID
+    }
+  }) 
+
+  if (!third_party_mapping) {
+
+    const user_email = user.data.user.email
+
+    if (!user_email){
+      throw new Error("User Email not Set")
+    }
+
+    const customer = await stripe.customers.create({
+      email: user_email
+    })
+
+    third_party_mapping = await prisma.third_Party_User_Mapping.create({
+      data: {
+        id: userID,
+        stripe_customer_id: customer.id
+      }
+    })
+  }
+
+  const stripe_customer_id = third_party_mapping.stripe_customer_id
+
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -83,9 +112,14 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-      customer_email: email,
+      customer: stripe_customer_id,
       mode: "subscription",
       submit_type: "subscribe",
+      customer_update: {
+        name: "auto",
+        address: "auto",
+        shipping: "auto"
+      },
       success_url: `${origin}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/api/checkout/cancel?session_id={CHECKOUT_SESSION_ID}&canceled=true`,
       automatic_tax: { enabled: true },
