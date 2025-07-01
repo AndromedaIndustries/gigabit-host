@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   description: "Community focused hosting.",
 };
 
+// const env = process.env.NODE_ENV
+//   {(env == "production") ? (<div>test</div>) : null}
+
 export default function RootLayout({
   children,
 }: Readonly<{

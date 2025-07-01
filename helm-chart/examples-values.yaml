@@ -1,0 +1,115 @@
+# Application name
+name: gigabit-host
+version: 0.1.0
+
+# Namespace Override
+namespace: 
+
+# Cluster domain override
+kubernetesClusterDomain: cluster.local
+
+# Docker Retreval secret
+ghcrAuth:
+  dockerconfigjson: '{"auths":{"https://ghcr.io":{"username":"<GH_USER>","password":"<GH_PASSWD>","auth":"<AUTH>"}}}'
+
+# Config Map
+config:
+  debug:
+  enableSignup:
+  environment:
+  nautobotHost:
+  nautobotIpv4Gateway:
+  nautobotIpv4PoolId:
+  nautobotIpv6Gateway:
+  nautobotIpv6PoolId:
+  proxmoxAddress: 
+  proxmoxAuthType: 
+  proxmoxRealm: 
+  proxmoxTokenName: 
+  proxmoxUser:
+  supabaseUrl: 
+  nextPublicAdminUrl:
+  nextPublicProxmoxNamespace:
+  nextPublicProxmoxTaskQueue:
+  nextPublicStripePublishableKey: 
+  nextPublicSupabaseAnonKey: 
+  nextPublicSupabaseUrl: 
+  nextPublicTemporalServer: 
+  nextPublicWebUrl: 
+
+# Secrets
+prodSecrets:
+  nautobotToken: ""
+  postgresSupabaseUrl: ""
+  proxmoxTokenSecret: ""
+  stripeSecretKey: ""
+  supabaseAnonKey: ""
+  supabaseJwtSecret: ""
+  supabaseServiceRoleKey: ""
+
+# Web frontend
+web:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  replicas: 1
+  type: ClusterIP
+  web:
+    image:
+      repository: ghcr.io/andromedaindustries/gigabit-host/web
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+# Admin Portal
+admin:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  replicas: 1
+  type: ClusterIP
+  admin:
+    image:
+      repository: ghcr.io/andromedaindustries/gigabit-host/admin
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+# Temporal Worker
+worker:
+  replicas: 1
+  worker:
+    image:
+      repository: ghcr.io/andromedaindustries/gigabit-host/worker
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+
+# Nautobot configuration
+# Refer to https://github.com/nautobot/helm-charts/blob/develop/charts/nautobot/values.yaml for all values
+nautobot:
+  enabled: false
+
+# temporal configuration
+# Refer to https://github.com/temporalio/helm-charts/blob/main/charts/temporal/values.yaml for all values
+temporal:
+  enabled: false

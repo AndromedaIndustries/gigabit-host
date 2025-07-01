@@ -1,0 +1,213 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mychart.fullname" . }}-admin
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+    app: gigabit-host
+    component: admin
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.admin.replicas }}
+  selector:
+    matchLabels:
+      app: gigabit-host
+      component: admin
+    {{- include "mychart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: gigabit-host
+        component: admin
+      {{- include "mychart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: SUPABASE_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: supabase-jwt-secret
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              key: supabase-anon-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: SUPABASE_SERVICE_ROLE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: supabase-service-role-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: POSTGRES_SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: postgres-supabase-url
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: stripe-secret-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: PROXMOX_TOKEN_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: proxmox-token-secret
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "mychart.fullname" . }}-config
+        image: {{ .Values.admin.admin.image.repository }}:{{ .Values.admin.admin.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.admin.admin.imagePullPolicy }}
+        name: admin
+        ports:
+        - containerPort: 3000
+        resources: {{- toYaml .Values.admin.admin.resources | nindent 10 }}
+      imagePullSecrets:
+      - name: {{ include "mychart.fullname" . }}-ghcr-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mychart.fullname" . }}-web
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+    app: gigabit-host
+    component: web
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.web.replicas }}
+  selector:
+    matchLabels:
+      app: gigabit-host
+      component: web
+    {{- include "mychart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: gigabit-host
+        component: web
+      {{- include "mychart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: SUPABASE_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: supabase-jwt-secret
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              key: supabase-anon-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: SUPABASE_SERVICE_ROLE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: supabase-service-role-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: POSTGRES_SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: postgres-supabase-url
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: stripe-secret-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "mychart.fullname" . }}-config
+        image: {{ .Values.web.web.image.repository }}:{{ .Values.web.web.image.tag | default
+          .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.web.web.imagePullPolicy }}
+        name: web
+        ports:
+        - containerPort: 3000
+        resources: {{- toYaml .Values.web.web.resources | nindent 10 }}
+      imagePullSecrets:
+      - name: {{ include "mychart.fullname" . }}-ghcr-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mychart.fullname" . }}-worker
+  {{- if .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+  {{- end }}
+  labels:
+    app: gigabit-host
+    component: worker
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: gigabit-host
+      component: worker
+    {{- include "mychart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: gigabit-host
+        component: worker
+      {{- include "mychart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: SUPABASE_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: supabase-jwt-secret
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              key: supabase-anon-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: SUPABASE_SERVICE_ROLE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: supabase-service-role-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: POSTGRES_SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: postgres-supabase-url
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: stripe-secret-key
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: PROXMOX_TOKEN_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: proxmox-token-secret
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: NAUTOBOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: nautobot_token
+              name: {{ include "mychart.fullname" . }}-prod-secrets
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "mychart.fullname" . }}-config
+        image: {{ .Values.worker.worker.image.repository }}:{{ .Values.worker.worker.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.worker.worker.imagePullPolicy }}
+        name: worker
+        resources: {{- toYaml .Values.worker.worker.resources | nindent 10 }}
+      imagePullSecrets:
+      - name: {{ include "mychart.fullname" . }}-ghcr-auth

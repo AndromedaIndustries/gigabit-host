@@ -1,11 +1,17 @@
 import Name from "@/components/name";
+import Link from "next/link";
+import { env } from "process";
 
 export default function About() {
+
+  const company = process.env.NEXT_PUBLIC_SITE_COMPANY
+  const companyUrl = process.env.NEXT_PUBLIC_SITE_COMPANY_URL || "localhost"
+
   return (
     <>
       <div className="text-primary text-center text-4xl">About Us</div>
       <div className="text-warning text-center p-5">
-        Our site is currently a work in progress and evolving over time.
+        Our service is a work in progress and evolving over time.
       </div>
       <div className="flex flex-col p-10 gap-10">
         <div className="flex flex-row gap-10">
@@ -16,17 +22,19 @@ export default function About() {
             <div>
               Our mission is to support communities by providing hosting
               services that are as disconnected as possible from existing major
-              platforms to ensure that you&apos;re able to host without fear of
-              being taken down<span className="align-super">*</span>
+              platforms.
             </div>
+
+            <div className="pt-5">
+              Profits from purchased services are used to provide resources, services, and spaces for communities to thrive and grow.
+            </div>
+
+            <div className="pt-5">
+              More information about our mission visit:  <Link className="link link-primary" href={companyUrl}>{company}</Link>
+            </div>
+
           </div>
         </div>
-      </div>
-
-      <div className="text-center text-xs text-tertiary">
-        * - We do not support hosting of illegal content, please see our{" "}
-        <a href="/acceptable_use_policy">Acceptable Use Policy</a> for more
-        information
       </div>
     </>
   );

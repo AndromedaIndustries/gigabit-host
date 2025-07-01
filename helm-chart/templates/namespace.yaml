@@ -1,8 +1,8 @@
-{{- if .Values.global.namespace -}}
+{{- if .Values.namespace -}}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.global.namespace }}
+  name: {{ .Values.namespace }}
   labels:
       chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
       created-by: "Helm"

@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 export default function Footer() {
+  const company = process.env.NEXT_PUBLIC_SITE_COMPANY
+
   return (
     <footer className="fixed bottom-0 left-0 w-full footer sm:footer-horizontal footer-center bg-base-200 p-4">
       <aside>
@@ -13,7 +15,7 @@ export default function Footer() {
         </div>
         <div className="">
           Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
-          {new Date().getFullYear()} - All rights reserved by Andromeda Industries
+          {new Date().getFullYear()} - All rights reserved by {company}
         </div>
       </aside>
     </footer>
