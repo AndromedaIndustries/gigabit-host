@@ -1,3 +1,4 @@
+{{- if .Values.ghcrAuth.enabled }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -9,6 +10,6 @@ metadata:
     release: release-name
   {{- include "mychart.labels" . | nindent 4 }}
 data:
-  .dockerconfigjson: {{ required "ghcrAuth.dockerconfigjson is required" .Values.ghcrAuth.dockerconfigjson
-    | b64enc | quote }}
+  .dockerconfigjson: {{ .Values.ghcrAuth.dockerconfigjson | b64enc | quote }}
 type: kubernetes.io/dockerconfigjson
+{{- end -}}

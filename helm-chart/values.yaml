@@ -1,0 +1,140 @@
+# Application name
+name: gigabit-host
+version: 0.1.0
+
+# Namespace Override
+namespace: 
+
+# Cluster domain override
+kubernetesClusterDomain: cluster.local
+
+# Docker Retreval secret (Optional for private repos)
+ghcrAuth:
+  enabled: false
+#   dockerconfigjson: '{"auths":{"https://ghcr.io":{"username":"<GH_USER>","password":"<GH_PASSWD>","auth":"<AUTH>"}}}'
+
+environment: production
+
+debug: false
+
+# Site settings
+site:
+  name: ""
+  company: ""
+  supportEmail: ""
+  contactEmail: ""
+  url:
+    web: ""
+    admin: ""
+  signup:
+    enabled: false
+
+# Payment Options
+payments:
+  enabled: true
+  stripe:
+    enabled: true
+    publishableKey: ""
+    secretKey: ""
+
+# Proxmox Connection
+proxmox:
+  address: ""
+  user: ""
+  auth:
+    type: ""
+    token:
+      name: ""
+      secret: ""
+  realm: ""
+
+# Supabase Variables
+supabase:
+  install: false
+  postgresUrl: ""
+  url: ""
+  anonKey: ""
+  jwtSecret: ""
+  serviceRoleKey: ""
+
+# Temporal configuration
+# Refer to https://github.com/temporalio/helm-charts/blob/main/charts/temporal/values.yaml for all values
+temporal:
+  install: false
+  server: ""
+  proxmox:
+    taskQueue: ""
+    namespace: ""
+
+# Nautobot IPAM Management
+# Refer to https://github.com/nautobot/helm-charts/blob/develop/charts/nautobot/values.yaml for all values
+nautobot:
+  install: false
+  host: ""
+  token: ""
+  statusId: ""
+  ipv4:
+    gateway: ""
+    poolId: ""
+  ipv6:
+    gateway: ""
+    poolId: ""
+
+# Web frontend
+web:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  replicas: 1
+  type: ClusterIP
+  web:
+    image:
+      repository: ghcr.io/andromedaindustries/gigabit-host/web
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+# Admin Portal
+admin:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  replicas: 1
+  type: ClusterIP
+  admin:
+    image:
+      repository: ghcr.io/andromedaindustries/gigabit-host/admin
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+# Temporal Worker
+worker:
+  replicas: 1
+  worker:
+    image:
+      repository: ghcr.io/andromedaindustries/gigabit-host/worker
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  
+
+

@@ -8,31 +8,31 @@ metadata:
   labels:
   {{- include "mychart.labels" . | nindent 4 }}
 data:
-  CI: {{ .Values.config.ci | quote }}
-  DEBUG: {{ .Values.config.debug | quote }}
-  ENABLE_SIGNUP: {{ .Values.config.enableSignup | quote }}
-  ENVIRONMENT: {{ .Values.config.environment | quote }}
-  NAUTOBOT_HOST: {{ .Values.config.nautobotHost | quote }}
-  NAUTOBOT_IPV4_GATEWAY: {{ .Values.config.nautobotIpv4Gateway | quote }}
-  NAUTOBOT_IPV4_POOL_ID: {{ .Values.config.nautobotIpv4PoolId | quote }}
-  NAUTOBOT_IPV6_GATEWAY: {{ .Values.config.nautobotIpv6Gateway | quote }}
-  NAUTOBOT_IPV6_POOL_ID: {{ .Values.config.nautobotIpv6PoolId | quote }}
-  NEXT_PUBLIC_ADMIN_URL: {{ .Values.config.nextPublicAdminUrl | quote }}
-  NEXT_PUBLIC_PROXMOX_NAMESPACE: {{ .Values.config.nextPublicProxmoxNamespace | quote
-    }}
-  NEXT_PUBLIC_PROXMOX_TASK_QUEUE: {{ .Values.config.nextPublicProxmoxTaskQueue |
-    quote }}
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: {{ .Values.config.nextPublicStripePublishableKey
-    | quote }}
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: {{ .Values.config.nextPublicSupabaseAnonKey | quote
-    }}
-  NEXT_PUBLIC_SUPABASE_URL: {{ .Values.config.nextPublicSupabaseUrl | quote }}
-  NEXT_PUBLIC_TEMPORAL_SERVER: {{ .Values.config.nextPublicTemporalServer | quote
-    }}
-  NEXT_PUBLIC_WEB_URL: {{ .Values.config.nextPublicWebUrl | quote }}
-  PROXMOX_ADDRESS: {{ .Values.config.proxmoxAddress | quote }}
-  PROXMOX_AUTH_TYPE: {{ .Values.config.proxmoxAuthType | quote }}
-  PROXMOX_REALM: {{ .Values.config.proxmoxRealm | quote }}
-  PROXMOX_TOKEN_NAME: {{ .Values.config.proxmoxTokenName | quote }}
-  PROXMOX_USER: {{ .Values.config.proxmoxUser | quote }}
-  SUPABASE_URL: {{ .Values.config.supabaseUrl | quote }}
+  CI: "FALSE"
+  DEBUG: {{ .Values.debug | quote }}
+  ENVIRONMENT: {{ .Values.enviroment | quote }}
+  ENABLE_SIGNUP: {{ .Values.site.signup.enabled  | quote }}
+  ENABLE_PAYMENTS: {{ .Values.payments.enabled | quote }}
+  WEB_PUBLIC_URL: {{ .Values.site.url.web | quote }}
+  ADMIN_PUBLIC_URL: {{ .Values.site.url.admin | quote }}
+  NAUTOBOT_HOST: {{ .Values.nautobot.host | quote }}
+  NAUTOBOT_IPV4_GATEWAY: {{ .Values.nautobot.ipv4.gateway | quote }}
+  NAUTOBOT_IPV4_POOL_ID: {{ .Values.nautobot.ipv4.poolId | quote }}
+  NAUTOBOT_IPV6_GATEWAY: {{ .Values.nautobot.ipv6.gateway | quote }}
+  NAUTOBOT_IPV6_POOL_ID: {{ .Values.nautobot.ipv6.poolId | quote }}
+  NAUTOBOT_IPAM_STATUS_ID: {{ .Values.nautobot.statusId | quote }}
+  SUPABASE_URL: {{ .Values.supabase.url | quote }}
+  NEXT_PUBLIC_PROXMOX_NAMESPACE: {{ .Values.temporal.proxmox.namespace | quote }}
+  NEXT_PUBLIC_PROXMOX_TASK_QUEUE: {{ .Values.temporal.proxmox.taskQueue | quote }}
+  {{-if .Values.payments.stripe.enabled }}
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: {{ .Values.payments.stripe.publishableKey | quote }}
+  {{ end }}
+  NEXT_PUBLIC_SUPABASE_URL: {{ .Values.supabase.url | quote }}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: {{ .Values.supabase.anonKey | quote }}
+  NEXT_PUBLIC_WEB_URL: {{ .Values.site.url.web | quote }}
+  NEXT_PUBLIC_ADMIN_URL: {{ .Values.site.url.admin | quote }}
+  PROXMOX_ADDRESS: {{ .Values.proxmox.address | quote }}
+  PROXMOX_AUTH_TYPE: {{ .Values.proxmox.auth.type | quote }}
+  PROXMOX_REALM: {{ .Values.proxmox.realm | quote }}
+  PROXMOX_TOKEN_NAME: {{ .Values.proxmox.auth.token.name | quote }}
+  PROXMOX_USER: {{ .Values.proxmox.user | quote }}

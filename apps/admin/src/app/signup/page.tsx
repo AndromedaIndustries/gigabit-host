@@ -1,5 +1,5 @@
 import AccountType from '@/components/input/accountType'
-import { signup } from './actions'
+import { signup } from './signup'
 import SetName from '@/components/input/setName'
 import { redirect } from 'next/navigation';
 

@@ -161,6 +161,7 @@ func (a *Activities) UpdateService(
 		Set("sku_id", utilities.Sanitize(params.Service.SKUID)).
 		Set("current_sku_id", utilities.Sanitize(params.Service.CurrentSKUID)).
 		Set("initial_sku_id", utilities.Sanitize(params.Service.InitialSKUID)).
+		Set("service_active", true).
 		Set("subscription_active", params.Service.SubscriptionActive).
 		Set("status", utilities.Sanitize(params.Service.Status)).
 		Set("status_reason", params.Service.StatusReason).
