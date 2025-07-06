@@ -1,7 +1,18 @@
-export default async function Privacy() {
-  return (
-    <>
-      <div className="text-4xl text-center my-5">Privacy Policy</div>
-    </>
+"use client";
+import { useEffect } from "react";
+
+export default function Privacy() {
+  const id = process.env.NEXT_PUBLIC_PRIVACY_ID
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://app.termly.io/embed-policy.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []); return (
+    <div
+      data-id={id}
+      data-type="iframe"
+    ></div>
   );
 }

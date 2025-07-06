@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
 
-export default function Aup() {
-  const id = process.env.NEXT_PUBLIC_AUP_ID
+export default function Terms() {
+  const id = process.env.NEXT_PUBLIC_TOS_ID
 
   useEffect(() => {
     const script = document.createElement("script");
