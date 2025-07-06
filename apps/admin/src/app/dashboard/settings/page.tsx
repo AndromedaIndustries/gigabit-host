@@ -32,7 +32,7 @@ export default async function Settings() {
     }
 
     return (
-        <div className="flex flex-row">
+        <div className="flex flex-row pt-20 px-10 pb-24">
             <div className="w-fit bg-base-200 border-base-300 rounded-box">
                 <form action={saveSettings}>
                     <fieldset className="fieldset w-xs bg-base-200 border-base-300 p-4 ">

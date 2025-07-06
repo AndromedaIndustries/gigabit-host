@@ -32,7 +32,7 @@ export async function BillingItem({ subscription }: { subscription: Stripe.Subsc
     const vm = await GetVmFromSubscriptionId(subscription.id)
 
     if (vm == null) {
-        return (<div></div>)
+        return (null)
     }
 
     const sku = await GetSku(vm.current_sku_id)

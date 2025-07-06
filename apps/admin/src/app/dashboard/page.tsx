@@ -35,7 +35,7 @@ export default async function Dashboard() {
     }
 
     return (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-5 pt-20 px-10 pb-24">
             <div className="card bg-base-300 shadow-sm p-4">
                 <div className="card-body">
                     <div className="card-title pb-5">

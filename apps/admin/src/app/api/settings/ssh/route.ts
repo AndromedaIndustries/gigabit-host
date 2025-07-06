@@ -66,7 +66,7 @@ export async function GET() {
   const userObject = await supabase.auth.getUser();
 
   if (!userObject) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect("/dashboard/login");
   }
 
   const ssh_keys = await prisma.ssh_keys.findMany({
@@ -83,13 +83,13 @@ export async function DELETE(request: Request) {
   const userObject = await supabase.auth.getUser();
 
   if (!userObject) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect("/dashboard/login");
   }
   try {
     const body = await request.json();
-    const {ssh_key_id} = body;
+    const { ssh_key_id } = body;
 
-    if(!ssh_key_id){
+    if (!ssh_key_id) {
       return NextResponse.json(
         { error: "SSH key id is required" },
         { status: 400 }
@@ -97,15 +97,15 @@ export async function DELETE(request: Request) {
     }
 
     const ssh_key = await prisma.ssh_keys.findFirst({
-        where: {
-          id: ssh_key_id,
-        }
+      where: {
+        id: ssh_key_id,
+      }
     })
 
-    if((!ssh_key) || (ssh_key?.user_id != userObject.data.user?.id)) {
+    if ((!ssh_key) || (ssh_key?.user_id != userObject.data.user?.id)) {
       return NextResponse.json(
-          { error: "SSH key doesn't exist or not owned by requesting user" },
-          { status: 400 }
+        { error: "SSH key doesn't exist or not owned by requesting user" },
+        { status: 400 }
       );
     }
 
@@ -116,23 +116,23 @@ export async function DELETE(request: Request) {
       }
     })
 
-    if(!ssh_key_delete_reply){
+    if (!ssh_key_delete_reply) {
       return NextResponse.json(
-          { error: "Failed to delete ssh key" },
-          { status: 500 }
+        { error: "Failed to delete ssh key" },
+        { status: 500 }
       );
     }
 
     return NextResponse.json(
-        { message: "SSH key deleted successfully" },
-        { status: 201 }
+      { message: "SSH key deleted successfully" },
+      { status: 201 }
     );
 
   } catch (error) {
     console.error("Error deleting SSH key:", error);
     return NextResponse.json(
-        { error: "Internal Server Error" },
-        { status: 500 }
+      { error: "Internal Server Error" },
+      { status: 500 }
     );
   }
 }

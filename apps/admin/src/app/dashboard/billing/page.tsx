@@ -29,7 +29,7 @@ export default async function Billing() {
     })
 
     return (
-        <div>
+        <div className="pt-20 px-10 pb-24">
             <div className="text-3xl">Billing Overview</div>
             <table className="table table-xs table-pin-rows table-pin-cols mt-5">
                 <BillingHeaders />

@@ -32,7 +32,7 @@ export default async function Purchase() {
     )
 
     return (
-        <div className="pb-32">
+        <div className="pt-20 px-10 pb-24">
             <form action="/api/checkout/session" method="POST">
                 <fieldset className="fieldset bg-base-200 border border-base-300 p-4 rounded-box justify-center w-fit md:w-2/4">
                     <legend className="fieldset-legend">Configure your VM</legend>
