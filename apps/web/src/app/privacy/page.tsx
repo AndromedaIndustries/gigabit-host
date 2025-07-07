@@ -2,8 +2,6 @@
 import { useEffect } from "react";
 
 export default function Privacy() {
-  const id = process.env.NEXT_PUBLIC_PRIVACY_ID
-
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://app.termly.io/embed-policy.min.js";
@@ -12,7 +10,7 @@ export default function Privacy() {
   }, []); return (
     <iframe
       name="termly-embed"
-      data-id={id}
+      data-id="2b61c38c-7e9f-41c2-90bd-faa6d9abc418"
       data-type="iframe"
     ></iframe>
   );

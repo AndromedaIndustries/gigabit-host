@@ -2,8 +2,6 @@
 import { useEffect } from "react";
 
 export default function Terms() {
-  const id = process.env.NEXT_PUBLIC_TOS_ID
-
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://app.termly.io/embed-policy.min.js";
@@ -12,7 +10,7 @@ export default function Terms() {
   }, []); return (
     <iframe
       name="termly-embed"
-      data-id={id}
+      data-id="484f7fbc-68e8-4ac0-bc5d-a88a3d59fc1c"
       data-type="iframe"
     ></iframe>
   );
