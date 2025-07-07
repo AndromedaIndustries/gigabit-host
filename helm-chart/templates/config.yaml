@@ -34,8 +34,8 @@ data:
   NEXT_PUBLIC_ADMIN_URL: {{ .Values.site.url.admin | quote }}
   NEXT_PUBLIC_TEMPORAL_SERVER: {{ .Values.temporal.server | quote }}
   NEXT_PUBLIC_ALLOW_SIGNUP: {{ .Values.site.signup.enabled  | quote }}
-  NEXT_PUBLIC_TOS_ID: {{ .Values.site.termsId | quote }}
-  NEXT_PUBLIC_AUP_ID: {{ .Values.site.aupId | quote }}
+  NEXT_PUBLIC_TOS_ID: {{ .Values.site.terms.termsId | quote }}
+  NEXT_PUBLIC_AUP_ID: {{ .Values.site.terms.aupId | quote }}
   NEXT_PUBLIC_PRIVACY_ID: {{ .Values.site.terms.privacyId | quote }}
   NEXT_PUBLIC_SITE_NAME: {{ .Values.site.name | quote }}
   NEXT_PUBLIC_SITE_COMPANY: {{ .Values.site.company | quote }}
