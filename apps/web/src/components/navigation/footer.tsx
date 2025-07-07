@@ -9,7 +9,7 @@ export default function Footer() {
     <footer className="fixed bottom-0 left-0 w-full footer sm:footer-horizontal footer-center bg-base-200 p-4">
       <aside>
         <div className="justify-between flex flex-row gap-4">
-          <Link href={"/tos"}>Terms of Service</Link>
+          <Link href={"/terms"}>Terms of Service</Link>
           <Link href={"/aup"}>Acceptable Use Policy</Link>
           <Link href={"/privacy"}>Privacy Policy</Link>
         </div>
