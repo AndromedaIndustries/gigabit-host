@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { ViewSelector } from "./vmClient";
 import { OpenNewVmModal } from "@/components/modals/vmModalClient";
 import { AddNewVmModel } from "@/components/modals/vmModalServer";
+import Link from "next/link";
 
 
 async function Selector({ table }: { table?: boolean }) {
@@ -13,7 +14,8 @@ async function Selector({ table }: { table?: boolean }) {
         <div className="flex justify-end-safe mb-4 space-x-4">
             {(table) ? (
                 <div>
-                    <OpenNewVmModal />
+                    {/* <OpenNewVmModal /> */}
+                    <Link className="btn btn-primary" href={"vm/new"}>New VM</Link>
                     <AddNewVmModel />
                 </div>
             ) : null}

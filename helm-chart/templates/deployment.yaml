@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "mychart.fullname" . }}-admin
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     app: gigabit-host
@@ -29,32 +29,32 @@ spec:
           valueFrom:
             secretKeyRef:
               key: supabase-jwt-secret
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: SUPABASE_ANON_KEY
           valueFrom:
             secretKeyRef:
               key: supabase-anon-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: SUPABASE_SERVICE_ROLE_KEY
           valueFrom:
             secretKeyRef:
               key: supabase-service-role-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: POSTGRES_SUPABASE_URL
           valueFrom:
             secretKeyRef:
               key: postgres-supabase-url
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: STRIPE_SECRET_KEY
           valueFrom:
             secretKeyRef:
               key: stripe-secret-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: PROXMOX_TOKEN_SECRET
           valueFrom:
             secretKeyRef:
               key: proxmox-token-secret
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         envFrom:
@@ -74,8 +74,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "mychart.fullname" . }}-web
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     app: gigabit-host
@@ -101,27 +101,27 @@ spec:
           valueFrom:
             secretKeyRef:
               key: supabase-jwt-secret
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: SUPABASE_ANON_KEY
           valueFrom:
             secretKeyRef:
               key: supabase-anon-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: SUPABASE_SERVICE_ROLE_KEY
           valueFrom:
             secretKeyRef:
               key: supabase-service-role-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: POSTGRES_SUPABASE_URL
           valueFrom:
             secretKeyRef:
               key: postgres-supabase-url
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: STRIPE_SECRET_KEY
           valueFrom:
             secretKeyRef:
               key: stripe-secret-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         envFrom:
@@ -141,8 +141,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "mychart.fullname" . }}-worker
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     app: gigabit-host
@@ -168,37 +168,37 @@ spec:
           valueFrom:
             secretKeyRef:
               key: supabase-jwt-secret
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: SUPABASE_ANON_KEY
           valueFrom:
             secretKeyRef:
               key: supabase-anon-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: SUPABASE_SERVICE_ROLE_KEY
           valueFrom:
             secretKeyRef:
               key: supabase-service-role-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: POSTGRES_SUPABASE_URL
           valueFrom:
             secretKeyRef:
               key: postgres-supabase-url
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: STRIPE_SECRET_KEY
           valueFrom:
             secretKeyRef:
               key: stripe-secret-key
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: PROXMOX_TOKEN_SECRET
           valueFrom:
             secretKeyRef:
               key: proxmox-token-secret
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: NAUTOBOT_TOKEN
           valueFrom:
             secretKeyRef:
               key: nautobot_token
-              name: {{ include "mychart.fullname" . }}-prod-secrets
+              name: {{ include "mychart.fullname" . }}-secrets
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         envFrom:

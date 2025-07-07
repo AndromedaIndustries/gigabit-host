@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { login, signup } from './actions'
+import { login } from './actions'
 
 
 export default function LoginPage() {
@@ -34,14 +34,15 @@ export default function LoginPage() {
                 </label>
                 <p className="validator-hint hidden">Must be more than 12 characters</p>
                 <button type="submit" formAction={login} className="btn btn-primary w-full">Log in</button>
-                <div className='align-middle flex flex-col justify-between'>
-                    <div className="text-center">
-                        Don&apos;t have an account?
-                    </div>
-                    {allowSignup === "true" ?
+                {allowSignup === "true" ?
+                    <div className='align-middle flex flex-col justify-between'>
+                        <div className="text-center">
+                            Don&apos;t have an account?
+                        </div>
                         <Link href={"/signup"} className="btn btn-outline btn-primary">Sign up</Link>
-                        : <></>}
-                </div>
+
+                    </div>
+                    : <></>}
             </form>
         </div>
     )

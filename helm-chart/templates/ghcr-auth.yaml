@@ -1,14 +1,15 @@
+{{- if .Values.imageCredentials.enabled }}
 apiVersion: v1
 kind: Secret
+type: kubernetes.io/dockerconfigjson
 metadata:
   name: {{ include "mychart.fullname" . }}-ghcr-auth
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
     release: release-name
   {{- include "mychart.labels" . | nindent 4 }}
 data:
-  .dockerconfigjson: {{ required "ghcrAuth.dockerconfigjson is required" .Values.ghcrAuth.dockerconfigjson
-    | b64enc | quote }}
-type: kubernetes.io/dockerconfigjson
+  .dockerconfigjson: {{ template "imagePullSecret" . }}
+{{- end -}}

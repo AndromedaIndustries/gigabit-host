@@ -86,6 +86,7 @@ model Services {
   sku_id              String    @db.VarChar(255)
   current_sku_id      String    @db.VarChar(255)
   initial_sku_id      String    @db.VarChar(255)
+  service_active      Boolean   @default(false)
   subscription_active Boolean   @default(false)
   subscription_id     String?   @db.VarChar(255)
   initial_checkout_id String?   @db.VarChar(255)

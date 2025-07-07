@@ -4,32 +4,6 @@ const prisma = new PrismaClient();
 
 const skus: Prisma.SkuCreateInput[] = [
   {
-    name: "Shared 4th Gen AMD Micro",
-    sku: "s4ae-micro",
-    stripe_personal_sku: "price_1RBNGBClZbs5CDDAPAKdBM81", // Test SKU
-    stripe_business_sku: "price_1R7LiaClZbs5CDDAVk7OI9s1", // Test SKU
-    sku_type: "virtual_machine",
-    category: "shared",
-    description: "A perfect VM for small persoanl projects.",
-    price: 10,
-    attributes: {
-      cpu_mfg: "AMD",
-      cpu_type: "EPYC",
-      cpu_model: "9354P",
-      cpu_assignment: "shared",
-      cpu_generation: 4,
-      cpu_cores: 1,
-      memory: 1,
-      storage_size: 50,
-      storage_type: "NVMe",
-      catagory: "s4ae",
-      size: "micro",
-    },
-    popular: false,
-    available: false,
-    quantity: 25,
-  },
-  {
     name: "Shared 4th Gen AMD Small",
     sku: "s4ae-small",
     stripe_personal_sku: "price_1RBNGBClZbs5CDDAPAKdBM81", // Test SKU
@@ -52,7 +26,7 @@ const skus: Prisma.SkuCreateInput[] = [
       size: "small",
     },
     popular: false,
-    available: false,
+    available: true,
     quantity: 50,
   },
   {
@@ -78,7 +52,7 @@ const skus: Prisma.SkuCreateInput[] = [
       size: "medium",
     },
     popular: false,
-    available: false,
+    available: true,
     quantity: 30,
   },
   {
@@ -104,7 +78,7 @@ const skus: Prisma.SkuCreateInput[] = [
       size: "large",
     },
     popular: false,
-    available: false,
+    available: true,
     quantity: 20,
   },
   {
@@ -130,7 +104,7 @@ const skus: Prisma.SkuCreateInput[] = [
       size: "xlarge",
     },
     popular: false,
-    available: false,
+    available: true,
     quantity: 20,
   },
 ];

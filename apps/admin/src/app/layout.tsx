@@ -9,7 +9,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
 export const metadata: Metadata = {
-  title: "Admin | Gigabit.Host",
+  title: "Portal | Gigabit.Host",
   description: "Community focused hosting.",
 };
 

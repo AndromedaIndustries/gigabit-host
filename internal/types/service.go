@@ -29,6 +29,7 @@ type Service struct {
 	SKUID              string          `json:"sku_id" db:"sku_id"`
 	CurrentSKUID       string          `json:"current_sku_id" db:"current_sku_id"`
 	InitialSKUID       string          `json:"initial_sku_id" db:"initial_sku_id"`
+	ServiceActive      bool            `json:"service_active" db:"service_active"`
 	SubscriptionActive bool            `json:"subscription_active" db:"subscription_active"`
 	SubscriptionID     *string         `json:"subscription_id,omitempty" db:"subscription_id"`
 	InitialCheckoutID  *string         `json:"initial_checkout_id,omitempty" db:"initial_checkout_id"`

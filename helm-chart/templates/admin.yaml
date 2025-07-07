@@ -1,9 +1,9 @@
-apiVersion: v1
+ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "mychart.fullname" . }}-admin
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
   {{- include "mychart.labels" . | nindent 4 }}
@@ -20,19 +20,19 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "mychart.fullname" . }}-admin
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
   {{- include "mychart.labels" . | nindent 4 }}
 spec:
-  entryPoints:
-  - websecure-int
+  entryPoints: 
+  {{ .Values.environmentVariables | toYaml | indent 4 }}
   routes:
   - kind: Rule
-    match: Host(`portal.gigabit.host`)
+    match: {{ printf "Host(`%s`)" .Values.ingressRoute.admin.hostname }}
     services:
-    - name: admin
+    - name: {{ include "mychart.fullname" . }}-admin
       port: 3000
   tls:
-    certResolver: andromeda-letsencrypt
+    certResolver: {{ .Values.ingressRoute.certResolver | quote }}

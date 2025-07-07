@@ -45,10 +45,13 @@ export default async function Navbar() {
       <div className="navbar-center hidden lg:flex">
       </div>
       <div className="navbar-end">
-        {(userResponse.data.user != null) && first_name != null ? (
+        {(userResponse.data.user != null) ? (
           <div className="flex-row flex items-center">
-            <div>Welcome, {first_name}</div>
-            <button
+            {(first_name != null) ? (
+              <div>Welcome, {first_name}</div>
+            ) : (
+              <div>Welcome, {userResponse.data.user.email}</div>
+            )}           <button
               type="button"
               className="btn btn-ghost"
               onClick={Logout}

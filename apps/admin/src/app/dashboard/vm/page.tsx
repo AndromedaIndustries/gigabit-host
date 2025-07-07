@@ -12,12 +12,12 @@ export default async function VMs() {
     const vms = await prisma.services.findMany({
         where: {
             user_id: user_id,
-            subscription_active: true
+            service_active: true
         },
     });
 
     return (
-        <div className="w-full">
+        <div className="w-full pt-20 px-10 pb-24">
             <VmView vms={vms} />
         </div>
     );

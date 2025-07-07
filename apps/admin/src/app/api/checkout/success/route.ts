@@ -63,12 +63,14 @@ export async function GET(request: Request) {
 
   if (status === "open") {
     newService.status = "pending";
+    newService.service_active = false;
     newService.status_reason = "Payment pending";
   }
 
   if (status === "complete") {
     newService.subscription_active = true;
     newService.status = "active";
+    newService.service_active = false;
     newService.status_reason = `Payment processed successfully - Subscription ${subscription.toString()} created`;
     newService.subscription_id = subscription.toString();
   }

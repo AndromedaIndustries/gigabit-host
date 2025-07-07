@@ -62,5 +62,5 @@ export async function deleteAccount() {
 
   supabaseAdmin.auth.signOut();
 
-  redirect("/login");
+  redirect("/dashboard/login");
 }
