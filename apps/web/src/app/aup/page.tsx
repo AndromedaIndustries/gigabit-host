@@ -11,6 +11,7 @@ export default function Aup() {
     document.body.appendChild(script);
   }, []); return (
     <div
+      name="termly-embed"
       data-id={id}
       data-type="iframe"
     ></div>

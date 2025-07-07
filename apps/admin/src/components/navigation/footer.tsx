@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 export default function Footer() {
-  const homeUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://localhost:3000";
+  const homeUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://gigabit.host";
   const company = process.env.NEXT_PUBLIC_SITE_COMPANY
 
   return (
@@ -11,7 +11,7 @@ export default function Footer() {
       <aside>
         <div className="justify-between flex flex-row gap-4">
           <Link href={`${homeUrl}`}>Gigabit.Host</Link>
-          <Link href={`${homeUrl}/tos`}>Terms of Service</Link>
+          <Link href={`${homeUrl}/terms`}>Terms of Service</Link>
           <Link href={`${homeUrl}/aup`}>Acceptable Use Policy</Link>
           <Link href={`${homeUrl}/privacy`}>Privacy Policy</Link>
         </div>
