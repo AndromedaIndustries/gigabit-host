@@ -10,9 +10,10 @@ export default function Privacy() {
     script.async = true;
     document.body.appendChild(script);
   }, []); return (
-    <div
+    <iframe
+      name="termly-embed"
       data-id={id}
       data-type="iframe"
-    ></div>
+    ></iframe>
   );
 }

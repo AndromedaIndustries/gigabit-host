@@ -2,7 +2,7 @@ import Link from "next/link";
 import Name from "../name";
 
 function getAdminPanelUrl() {
-  return process.env.NEXT_PUBLIC_ADMIN_URL || "https://localhost:3001";
+  return process.env.NEXT_PUBLIC_ADMIN_URL || "https://portal.gigabit.host";
 }
 
 export default function Navbar() {
