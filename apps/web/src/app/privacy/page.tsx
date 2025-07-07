@@ -7,11 +7,14 @@ export default function Privacy() {
     script.src = "https://app.termly.io/embed-policy.min.js";
     script.async = true;
     document.body.appendChild(script);
-  }, []); return (
-    <iframe
+  }, []);
+
+  return (
+    <div
+      // @ts-ignore
       name="termly-embed"
       data-id="2b61c38c-7e9f-41c2-90bd-faa6d9abc418"
       data-type="iframe"
-    ></iframe>
+    />
   );
 }
