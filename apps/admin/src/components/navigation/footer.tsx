@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   const homeUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://gigabit.host";
-  const company = process.env.NEXT_PUBLIC_SITE_COMPANY
+  const company = process.env.NEXT_PUBLIC_SITE_COMPANY || "Andromeda Industries"
 
   return (
     <footer className="fixed bottom-0 left-0 w-full footer sm:footer-horizontal footer-center bg-base-200 p-4">
