@@ -26,7 +26,7 @@ metadata:
   labels:
   {{- include "mychart.labels" . | nindent 4 }}
 spec:
-  entryPoint: 
+  entryPoints: 
   {{ .Values.environmentVariables | toYaml | indent 4 }}
   routes:
   - kind: Rule
