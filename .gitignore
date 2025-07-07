@@ -60,3 +60,5 @@ tmp
 # Helm
 prod.values.yaml
 dev.values.yaml
+charts/
+Chart.lock

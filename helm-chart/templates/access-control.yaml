@@ -2,8 +2,8 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: {{ include "mychart.fullname" . }}-access-control
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
   {{- include "mychart.labels" . | nindent 4 }}

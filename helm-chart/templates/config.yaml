@@ -2,8 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "mychart.fullname" . }}-config
-  {{- if .Values.global.namespace }}
-  namespace: {{ .Values.global.namespace }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace }}
   {{- end }}
   labels:
   {{- include "mychart.labels" . | nindent 4 }}
@@ -19,20 +19,32 @@ data:
   NAUTOBOT_IPV4_GATEWAY: {{ .Values.nautobot.ipv4.gateway | quote }}
   NAUTOBOT_IPV4_POOL_ID: {{ .Values.nautobot.ipv4.poolId | quote }}
   NAUTOBOT_IPV6_GATEWAY: {{ .Values.nautobot.ipv6.gateway | quote }}
-  NAUTOBOT_IPV6_POOL_ID: {{ .Values.nautobot.ipv6.poolId | quote }}
+  NAUTOBOT_IPV6_POOL_ID: {{ .Values.nautobot.poolId | quote }}
   NAUTOBOT_IPAM_STATUS_ID: {{ .Values.nautobot.statusId | quote }}
+  NAUTOBOT_IPAM_ROLE_ID: {{ .Values.nautobot.roleId | quote }}
   SUPABASE_URL: {{ .Values.supabase.url | quote }}
   NEXT_PUBLIC_PROXMOX_NAMESPACE: {{ .Values.temporal.proxmox.namespace | quote }}
   NEXT_PUBLIC_PROXMOX_TASK_QUEUE: {{ .Values.temporal.proxmox.taskQueue | quote }}
-  {{-if .Values.payments.stripe.enabled }}
+  {{- if .Values.payments.stripe.enabled }}
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: {{ .Values.payments.stripe.publishableKey | quote }}
   {{ end }}
   NEXT_PUBLIC_SUPABASE_URL: {{ .Values.supabase.url | quote }}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: {{ .Values.supabase.anonKey | quote }}
   NEXT_PUBLIC_WEB_URL: {{ .Values.site.url.web | quote }}
   NEXT_PUBLIC_ADMIN_URL: {{ .Values.site.url.admin | quote }}
+  NEXT_PUBLIC_TEMPORAL_SERVER: {{ .Values.temporal.server | quote }}
+  NEXT_PUBLIC_ALLOW_SIGNUP: {{ .Values.site.signup.enabled  | quote }}
+  NEXT_PUBLIC_TOS_ID: {{ .Values.site.termsId | quote }}
+  NEXT_PUBLIC_AUP_ID: {{ .Values.site.aupId | quote }}
+  NEXT_PUBLIC_PRIVACY_ID: {{ .Values.site.terms.privacyId | quote }}
+  NEXT_PUBLIC_SITE_NAME: {{ .Values.site.name | quote }}
+  NEXT_PUBLIC_SITE_COMPANY: {{ .Values.site.company | quote }}
+  NEXT_PUBLIC_SUPPORT_EMAIL: {{ .Values.site.supportEmail | quote }}
+  NEXT_PUBLIC_CONTACT_EMAIL: {{ .Values.site.contactEmail | quote }}
   PROXMOX_ADDRESS: {{ .Values.proxmox.address | quote }}
   PROXMOX_AUTH_TYPE: {{ .Values.proxmox.auth.type | quote }}
   PROXMOX_REALM: {{ .Values.proxmox.realm | quote }}
   PROXMOX_TOKEN_NAME: {{ .Values.proxmox.auth.token.name | quote }}
   PROXMOX_USER: {{ .Values.proxmox.user | quote }}
+  PROXMOX_DEFAULT_NODE: {{ .Values.proxmox.defaultNode | quote }}
+  PROXMOX_CUSTOMER_BRIDGE_NAME: {{ .Values.proxmox.customerBridgeName | quote }}

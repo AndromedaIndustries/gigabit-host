@@ -6,5 +6,5 @@ metadata:
   labels:
       chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
       created-by: "Helm"
-      application: "{{ .Values.global.application.name }}-{{ .Values.global.application.version }}"
+      application: "{{ .Values.name }}-{{ .Values.version }}"
 {{- end }}
