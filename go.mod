@@ -11,7 +11,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/luthermonson/go-proxmox v0.2.2
 	github.com/magefile/mage v1.15.0 // indirect
-	go.temporal.io/sdk v1.34.0
+	go.temporal.io/sdk v1.35.0
 	logur.dev/logur v0.17.0
 )
 
