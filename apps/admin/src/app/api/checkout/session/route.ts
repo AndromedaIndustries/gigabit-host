@@ -80,13 +80,13 @@ export async function POST(request: Request) {
     where: {
       id: userID
     }
-  }) 
+  })
 
   if (!third_party_mapping) {
 
     const user_email = user.data.user.email
 
-    if (!user_email){
+    if (!user_email) {
       throw new Error("User Email not Set")
     }
 
@@ -115,6 +115,7 @@ export async function POST(request: Request) {
       customer: stripe_customer_id,
       mode: "subscription",
       submit_type: "subscribe",
+      allow_promotion_codes: true,
       customer_update: {
         name: "auto",
         address: "auto",
