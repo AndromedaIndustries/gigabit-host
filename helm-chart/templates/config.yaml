@@ -19,7 +19,7 @@ data:
   NAUTOBOT_IPV4_GATEWAY: {{ .Values.nautobot.ipv4.gateway | quote }}
   NAUTOBOT_IPV4_POOL_ID: {{ .Values.nautobot.ipv4.poolId | quote }}
   NAUTOBOT_IPV6_GATEWAY: {{ .Values.nautobot.ipv6.gateway | quote }}
-  NAUTOBOT_IPV6_POOL_ID: {{ .Values.nautobot.poolId | quote }}
+  NAUTOBOT_IPV6_POOL_ID: {{ .Values.nautobot.ipv6.poolId | quote }}
   NAUTOBOT_IPAM_STATUS_ID: {{ .Values.nautobot.statusId | quote }}
   NAUTOBOT_IPAM_ROLE_ID: {{ .Values.nautobot.roleId | quote }}
   SUPABASE_URL: {{ .Values.supabase.url | quote }}
