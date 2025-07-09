@@ -1,4 +1,5 @@
 import type { Sku } from "database";
+import Link from "next/link";
 
 interface attributes {
   cpu_mfg: string;
@@ -104,7 +105,7 @@ export default function VmCard(product: Sku) {
         )}
         <div className="mt-6">
           {product.available === true ? (
-            <div className="btn btn-primary btn-block">Available now</div>
+            <Link href={"/dashboard/vm/new"} className="btn btn-primary btn-block">Available now</Link>
           ) : (
             <div className="btn btn-info btn-block">Coming soon</div>
           )}

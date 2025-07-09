@@ -7,7 +7,6 @@ export default function MainHero() {
             Community Hosting for all
           </div>
           <div className="mb-5">A community focused hosting provider.</div>
-          <div className="text-2xl font-bold text-primary">Coming soon</div>
         </div>
       </div>
     </div>
