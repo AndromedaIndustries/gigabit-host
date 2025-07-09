@@ -4,8 +4,8 @@ import { env } from "process";
 
 export default function About() {
 
-  const company = process.env.NEXT_PUBLIC_SITE_COMPANY
-  const companyUrl = process.env.NEXT_PUBLIC_SITE_COMPANY_URL || "localhost"
+  const company = process.env.NEXT_PUBLIC_SITE_COMPANY || "Andromeda Industries"
+  const companyUrl = process.env.NEXT_PUBLIC_SITE_COMPANY_URL || "https://www.andromedaindustries.com"
 
   return (
     <>
@@ -29,9 +29,9 @@ export default function About() {
               Profits from purchased services are used to provide resources, services, and spaces for communities to thrive and grow.
             </div>
 
-            <div className="pt-5">
+            {/* <div className="pt-5">
               More information about our mission visit:  <Link className="link link-primary" href={companyUrl}>{company}</Link>
-            </div>
+            </div> */}
 
           </div>
         </div>

@@ -6,7 +6,7 @@ export default function ErrorPage() {
     return (
         <div>
             <p>Sorry, something went wrong</p>
-            <Link className="btn btn-accent" href={"/"}>Return Home</Link>
+            <Link className="btn btn-accent" href={"/dashboard"}>Return Home</Link>
         </div>
     )
 }
