@@ -16,8 +16,8 @@ importers:
         specifier: 2.1.1
         version: 2.1.1
       dotenv:
-        specifier: ^17.1.0
-        version: 17.1.0
+        specifier: ^17.2.0
+        version: 17.2.0
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -65,10 +65,10 @@ importers:
         version: 7.4.0
       '@supabase/ssr':
         specifier: ^0.6.1
-        version: 0.6.1(@supabase/supabase-js@2.50.3)
+        version: 0.6.1(@supabase/supabase-js@2.50.4)
       '@supabase/supabase-js':
-        specifier: ^2.50.3
-        version: 2.50.3
+        specifier: ^2.50.4
+        version: 2.50.4
       '@temporalio/client':
         specifier: ^1.12.1
         version: 1.12.1
@@ -1249,8 +1249,8 @@ packages:
     resolution: {integrity: sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==}
     engines: {node: 4.x || >=6.0.0}
 
-  '@supabase/postgrest-js@1.19.4':
-    resolution: {integrity: sha512-O4soKqKtZIW3olqmbXXbKugUtByD2jPa8kL2m2c1oozAO11uCcGrRhkZL0kVxjBLrXHE0mdSkFsMj7jDSfyNpw==}
+  '@supabase/postgrest-js@1.21.0':
+    resolution: {integrity: sha512-fqpV5ZwaLVJyQnsmljJF6MnpRWnkjbLEymPylhVo9nFxr6XpkmP0XjRdsDwICBR2ugezoyPYj8yPCrPgSyys3Q==}
 
   '@supabase/realtime-js@2.11.15':
     resolution: {integrity: sha512-HQKRnwAqdVqJW/P9TjKVK+/ETpW4yQ8tyDPPtRMKOH4Uh3vQD74vmj353CYs8+YwVBKubeUOOEpI9CT8mT4obw==}
@@ -1263,8 +1263,8 @@ packages:
   '@supabase/storage-js@2.7.1':
     resolution: {integrity: sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==}
 
-  '@supabase/supabase-js@2.50.3':
-    resolution: {integrity: sha512-Ld42AbfSXKnbCE2ObRvrGC5wj9OrfTOzswQZg0OcGQGx+QqcWYN/IqsLqrt4gCFrD57URbNRfGESSWzchzKAuQ==}
+  '@supabase/supabase-js@2.50.4':
+    resolution: {integrity: sha512-houC5IKEncIQ06qz0W+TZiTmXVA954ZargG0IJHYWMVUiJ6CmQqvFXJ59ChdHP/EhMIjGeCaol5qQ/QchAJKSQ==}
 
   '@swc/core-darwin-arm64@1.12.11':
     resolution: {integrity: sha512-J19Jj9Y5x/N0loExH7W0OI9OwwoVyxutDdkyq1o/kgXyBqmmzV7Y/Q9QekI2Fm/qc5mNeAdP7aj4boY4AY/JPw==}
@@ -2134,8 +2134,8 @@ packages:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
 
-  dotenv@17.1.0:
-    resolution: {integrity: sha512-tG9VUTJTuju6GcXgbdsOuRhupE8cb4mRgY5JLRCh4MtGoVo3/gfGUtOMwmProM6d0ba2mCFvv+WrpYJV6qgJXQ==}
+  dotenv@17.2.0:
+    resolution: {integrity: sha512-Q4sgBT60gzd0BB0lSyYD3xM4YxrXA9y4uBDof1JNYGzOXrQdQ6yX+7XIAqoFOGQFOTK1D3Hts5OllpxMDZFONQ==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -4670,7 +4670,7 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
-  '@supabase/postgrest-js@1.19.4':
+  '@supabase/postgrest-js@1.21.0':
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
@@ -4685,21 +4685,21 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.50.3)':
+  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.50.4)':
     dependencies:
-      '@supabase/supabase-js': 2.50.3
+      '@supabase/supabase-js': 2.50.4
       cookie: 1.0.2
 
   '@supabase/storage-js@2.7.1':
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
-  '@supabase/supabase-js@2.50.3':
+  '@supabase/supabase-js@2.50.4':
     dependencies:
       '@supabase/auth-js': 2.70.0
       '@supabase/functions-js': 2.4.5
       '@supabase/node-fetch': 2.6.15
-      '@supabase/postgrest-js': 1.19.4
+      '@supabase/postgrest-js': 1.21.0
       '@supabase/realtime-js': 2.11.15
       '@supabase/storage-js': 2.7.1
     transitivePeerDependencies:
@@ -5629,7 +5629,7 @@ snapshots:
 
   dotenv@16.0.3: {}
 
-  dotenv@17.1.0: {}
+  dotenv@17.2.0: {}
 
   dunder-proto@1.0.1:
     dependencies:
