@@ -20,7 +20,7 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.1",
+    "@biomejs/biome": "2.1.2",
     "prettier": "^3.6.2",
     "prisma": "^6.12.0",
     "supabase": "^2.23.4",
