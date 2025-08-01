@@ -25,6 +25,8 @@ spec:
     spec:
       containers:
       - env:
+        - name: HOSTNAME
+          value: {{ .Values.site.url.admin | quote }}
         - name: SUPABASE_JWT_SECRET
           valueFrom:
             secretKeyRef:
@@ -97,6 +99,8 @@ spec:
     spec:
       containers:
       - env:
+        - name: HOSTNAME
+          value: {{ .Values.site.url.web | quote }}
         - name: SUPABASE_JWT_SECRET
           valueFrom:
             secretKeyRef:

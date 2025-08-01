@@ -25,10 +25,8 @@ export default async function VmManagementPage({
     }
 
     return (
-        <div>
+        <div className="w-full pt-20 px-10 pb-24">
             <h1>{vm?.hostname}</h1>
-
-
 
             <div>
                 <h2>Subscription Status</h2>

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"os"
 	"os/signal"
@@ -48,13 +49,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	temporalHost := os.Getenv("NEXT_PUBLIC_TEMPORAL_SERVER")
+	temporalHost := os.Getenv("TEMPORAL_SERVER")
+	temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
+	temporalAccountId := os.Getenv("TEMPORAL_ACCOUNT_ID")
+	temporalApiKey := os.Getenv("TEMPORAL_API_KEY")
 
 	// Create a Temporal Client
 	// A Temporal Client is a heavyweight object that should be created just once per process.
 	temporalClient, err := client.Dial(client.Options{
-		HostPort: temporalHost,
-		Logger:   logger,
+		HostPort:          temporalHost,
+		Namespace:         temporalNamespace + "." + temporalAccountId,
+		ConnectionOptions: client.ConnectionOptions{TLS: &tls.Config{}},
+		Credentials:       client.NewAPIKeyStaticCredentials(temporalApiKey),
+		Logger:            logger,
 	})
 	if err != nil {
 		logger.Error("Unable to create client", err)

@@ -20,7 +20,7 @@ COPY packages /app/packages
 COPY apps/web /app/apps/web
 
 WORKDIR /app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN pnpm install
 
 # Build the database client
 WORKDIR /app/packages/database

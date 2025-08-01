@@ -13,12 +13,14 @@ export async function updatePassword(data: FormData) {
 
   const password = data.get("password") as string;
 
-  const { error: passwordUpdateError } = await supabase.auth.updateUser({
+  const passwordReponse = await supabase.auth.updateUser({
     password: password,
   });
 
-  if (passwordUpdateError) {
-    throw new Error(passwordUpdateError.message);
+  console.log(passwordReponse.error)
+
+  if (passwordReponse.error) {
+    throw new Error(passwordReponse.error.message);
   }
 
   redirect("/dashboard/settings");
