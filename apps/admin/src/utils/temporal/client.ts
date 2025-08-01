@@ -1,19 +1,23 @@
+"use server";
 import { Client, Connection } from "@temporalio/client";
 
 export default async function createTemporalClient() {
   const temporal_address =
-    process.env.NEXT_PUBLIC_TEMPORAL_SERVER || "localhost:7233";
+    process.env.TEMPORAL_SERVER || "localhost:7233";
+
+  const temporal_namespace = process.env.TEMPORAL_NAMESPACE
+  const temporal_account_id = process.env.TEMPORAL_ACCOUNT_ID
+  const temporal_api_key = process.env.TEMPORAL_API_KEY
 
   console.log("Temporal address:", temporal_address);
 
   const connectionOptions = {
     address: temporal_address,
+    tls: true,
+    apiKey: temporal_api_key,
     // timeout of 30 seconds
     connectionTimeout: 30000,
   };
-
-  const proxmox_namespace: string =
-    process.env.NEXT_PUBLIC_PROXMOX_NAMESPACE || "default";
 
   // Create a connection to the Temporal server
   const connection = await Connection.connect(connectionOptions);
@@ -27,7 +31,7 @@ export default async function createTemporalClient() {
   // Create a Temporal client
   const client = new Client({
     connection,
-    namespace: proxmox_namespace,
+    namespace: temporal_namespace + "." + temporal_account_id,
   });
 
   return client;
