@@ -24,9 +24,9 @@ export async function GET(request: NextRequest) {
         revalidatePath("/dashboard")
 
         if (!error) {
-            return NextResponse.redirect(redirectTo)
+            return NextResponse.redirect(new URL(redirectTo, request.url))
         }
     }
 
-    return NextResponse.redirect("/dashboard/login")
+    return NextResponse.redirect(new URL("/dashboard/login", request.url))
 }
