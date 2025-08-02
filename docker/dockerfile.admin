@@ -20,7 +20,7 @@ COPY packages /app/packages
 COPY apps/admin /app/apps/admin
 
 WORKDIR /app
-RUN pnpm install
+RUN pnpm install --production  
 
 # Build the database client
 WORKDIR /app/packages/database
