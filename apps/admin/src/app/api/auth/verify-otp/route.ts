@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
     const token_hash = searchParams.get('token_hash')
     const type = searchParams.get('type') as EmailOtpType | null
     const redirectTo = request.nextUrl.pathname
+    const adminURL = "https://portal.gigabit.host"
 
 
     if (token_hash && type) {
@@ -23,9 +24,9 @@ export async function GET(request: NextRequest) {
         revalidatePath("/dashboard")
 
         if (!error) {
-            return NextResponse.rewrite(redirectTo)
+            return NextResponse.redirect(adminURL + redirectTo)
         }
     }
 
-    return NextResponse.rewrite("/dashboard/login")
+    return NextResponse.redirect(adminURL + "/dashboard/login")
 }
