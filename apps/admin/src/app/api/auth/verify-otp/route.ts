@@ -13,6 +13,13 @@ export async function GET(request: NextRequest) {
     const redirectTo = request.nextUrl.clone()
     redirectTo.pathname = next
 
+    console.log("Request URL: " + request.url)
+    console.log("next: " + next)
+    console.log("redirectTo: " + redirectTo)
+
+
+    const redirectaddress = "https://portal.gigabit.host/" + redirectTo
+
     if (token_hash && type) {
         const supabase = await createClient()
 

@@ -1,6 +1,7 @@
 #use the node base image provided by the official Docker Hub
 FROM node:22-alpine AS builder
 WORKDIR /app
+ENV NODE_ENV=production
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -32,6 +33,7 @@ RUN pnpm run build
 
 FROM node:22-alpine AS production-dependencies
 WORKDIR /app
+ENV NODE_ENV=production
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -51,10 +53,11 @@ COPY packages /app/packages
 COPY apps/admin /app/apps/admin
 
 WORKDIR /app
-RUN pnpm install --production  
+RUN pnpm install --production
 
 # Create the runtime image 
 FROM node:22-alpine AS runner
+ENV NODE_ENV=production
 
 # Set the working directory in the container
 WORKDIR /app/apps/admin
@@ -76,4 +79,5 @@ COPY --from=builder /app/apps/admin/public /app/apps/admin/public
 COPY --from=builder /app/apps/admin/.next /app/apps/admin/.next
 
 # Serve the app
+ENV HOSTNAME="0.0.0.0"
 CMD ["/app/apps/admin/node_modules/.bin/next", "start"] 

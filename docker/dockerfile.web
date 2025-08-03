@@ -78,4 +78,5 @@ COPY --from=builder /app/apps/web/public /app/apps/web/public
 COPY --from=builder /app/apps/web/.next /app/apps/web/.next
 
 # Serve the app
+ENV HOSTNAME="0.0.0.0"
 CMD ["/app/apps/web/node_modules/.bin/next", "start"] 
