@@ -9,16 +9,8 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const token_hash = searchParams.get('token_hash')
     const type = searchParams.get('type') as EmailOtpType | null
-    const next = searchParams.get('next') ?? '/'
-    const redirectTo = request.nextUrl.clone()
-    redirectTo.pathname = next
+    const redirectTo = request.nextUrl.pathname
 
-    console.log("Request URL: " + request.url)
-    console.log("next: " + next)
-    console.log("redirectTo: " + redirectTo)
-
-
-    const redirectaddress = "https://portal.gigabit.host/" + redirectTo
 
     if (token_hash && type) {
         const supabase = await createClient()
@@ -31,9 +23,9 @@ export async function GET(request: NextRequest) {
         revalidatePath("/dashboard")
 
         if (!error) {
-            return NextResponse.redirect(new URL(redirectTo, request.url))
+            return NextResponse.redirect(redirectTo)
         }
     }
 
-    return NextResponse.redirect(new URL("/dashboard/login", request.url))
+    return NextResponse.redirect("/dashboard/login")
 }
