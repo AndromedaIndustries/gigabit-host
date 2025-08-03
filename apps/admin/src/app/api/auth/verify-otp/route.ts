@@ -23,9 +23,9 @@ export async function GET(request: NextRequest) {
 
         revalidatePath("/dashboard")
 
-        if (!error) {
-            return NextResponse.redirect(adminURL + redirectTo)
-        }
+        console.log(error)
+
+        return NextResponse.redirect(adminURL + redirectTo)
     }
 
     return NextResponse.redirect(adminURL + "/dashboard/login")
