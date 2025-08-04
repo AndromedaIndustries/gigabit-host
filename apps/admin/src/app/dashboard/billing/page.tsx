@@ -19,7 +19,12 @@ export default async function Billing() {
     })
 
     if (!user_mapping) {
-        throw new Error("No User Mapping Found")
+        return (
+            <div className="pt-20 px-10 pb-24">
+                <div className="text-3xl">No billing information found</div>
+                <div>If you think this is an error please create a support thread in discord.</div>
+            </div>
+        )
     }
 
     const stripe = getStripe();
