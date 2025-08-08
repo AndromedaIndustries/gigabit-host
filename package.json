@@ -20,7 +20,7 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.2",
+    "@biomejs/biome": "2.1.4",
     "prettier": "^3.6.2",
     "prisma": "^6.13.0",
     "supabase": "^2.33.9",
@@ -46,6 +46,6 @@
   },
   "dependencies": {
     "@prisma/client": "latest",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   }
 }
