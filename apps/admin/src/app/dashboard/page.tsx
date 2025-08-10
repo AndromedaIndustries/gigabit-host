@@ -1,5 +1,6 @@
 import { GetSku } from "@/components/layouts/vm/vmHelpers";
 import { VmTable, VmTableShort } from "@/components/layouts/vm/vmTable";
+import { GetCustomerActiveVMs } from "@/utils/database/common/vms";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import Link from "next/link";
@@ -14,12 +15,7 @@ export default async function Dashboard() {
         redirect("/dashboard/login")
     }
 
-    const vms = await prisma.services.findMany({
-        where: {
-            user_id: user_id,
-            service_active: true
-        },
-    });
+    const vms = await GetCustomerActiveVMs(user_id);
 
     const vm_count = vms.length
 
