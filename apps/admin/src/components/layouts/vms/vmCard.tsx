@@ -36,7 +36,7 @@ export async function NewVmCard({ vms }: { vms: Services[] }) {
                 <div className="text-lg">
                     {totalVms}
                 </div>
-                <Link href={"/dashboard/vm/new"} className="btn btn-outline btn-primary mt-auto">
+                <Link href={"/dashboard/vm/new"} className="btn btn-outline btn-accent mt-auto">
                     Add new VM
                 </Link>
             </div>
@@ -80,7 +80,7 @@ export async function VmCard({ vm }: vmCardProp) {
                         {vm.subscription_active ? (
                             <div className="badge badge-success badge-sm">Active</div>
                         ) : (
-                            <div className="badge badge-error badge-sm">Ina ctive</div>
+                            <div className="badge badge-error badge-sm">Inactive</div>
                         )}
                     </div>
                     <div className="flex-1/2">

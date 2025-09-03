@@ -15,7 +15,7 @@ async function Selector({ table }: { table?: boolean }) {
             {(table) ? (
                 <div>
                     {/* <OpenNewVmModal /> */}
-                    <Link className="btn btn-primary" href={"vm/new"}>New VM</Link>
+                    <Link className="btn btn-accent" href={"vm/new"}>New VM</Link>
                     <AddNewVmModel />
                 </div>
             ) : null}

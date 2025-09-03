@@ -39,9 +39,15 @@
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",
+      "@swc/core",
+      "@tailwindcss/oxide",
+      "core-js-pure",
       "esbuild",
       "prisma",
-      "supabase"
+      "protobufjs",
+      "sharp",
+      "supabase",
+      "unrs-resolver"
     ]
   },
   "dependencies": {

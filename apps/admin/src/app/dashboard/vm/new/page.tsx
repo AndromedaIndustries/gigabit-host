@@ -76,7 +76,7 @@ export default async function Purchase() {
 
 
                     <div className="w-full pt-5">
-                        <button type="submit" className="btn btn-primary w-full">Purchase</button>
+                        <button type="submit" className="btn btn-accent w-full">Purchase</button>
                     </div>
 
                 </fieldset>

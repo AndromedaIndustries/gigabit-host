@@ -36,7 +36,7 @@ export default async function Settings() {
             <div className="w-fit bg-base-200 border-base-300 rounded-box">
                 <form action={saveSettings}>
                     <fieldset className="fieldset w-xs bg-base-200 border-base-300 p-4 ">
-                        <legend className="fieldset-legend">Account Information</legend>
+                        <legend className="fieldset-legend">Personal Information</legend>
 
                         <label htmlFor="email" className="fieldset-label">Email</label>
                         <input
@@ -49,26 +49,37 @@ export default async function Settings() {
                             defaultValue={email}
                         />
 
-                        <OpenPasswordModal />
-
                         <SetName first_name={first_name} last_name={last_name} />
 
                         <AccountType accountType={accountType} />
 
-                        <button type="submit" className="btn btn-primary">Save</button>
+                        <button type="submit" className="btn btn-accent mt-4">Save</button>
                     </fieldset>
                 </form>
-                {(user?.role === "superadmin") ? null : (
-                    <form action={deleteAccount}>
-                        <fieldset className="fieldset w-xs bg-base-200 p-4 rounded-box">
-                            <button type="submit" className="btn btn-warning">Delete Account</button>
-                        </fieldset>
-                    </form>
-                )}
-                <UpdatePasswordModal />
             </div>
             <div className="bg-base-200 border-base-300 rounded-box gap-4 w-86 ml-4">
                 <SshCard ssh_keys={sshKeys} userID={user.id} />
+            </div>
+
+            <div className="bg-base-200 border-base-300 rounded-box gap-4 w-86 ml-4">
+
+                <fieldset className="fieldset w-xs bg-base-200 px-4 rounded-box">
+                    <legend className="fieldset-legend">Account Settings</legend>
+                </fieldset>
+
+                <fieldset className="fieldset w-xs bg-base-200 px-4 rounded-box">
+                    <OpenPasswordModal />
+
+                    <form action={deleteAccount}>
+
+                    </form>
+                </fieldset>
+
+                <fieldset className="fieldset w-xs bg-base-200 px-4 rounded-box">
+                    <button type="submit" className="btn btn-secondary">Delete Account</button>
+                </fieldset>
+
+                <UpdatePasswordModal />
             </div>
         </div>
     );
