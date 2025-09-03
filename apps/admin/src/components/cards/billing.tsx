@@ -1,6 +1,6 @@
 import { Services, prisma } from "database";
 import Stripe from "stripe";
-import { GetSku } from "../layouts/vm/vmHelpers";
+import { GetSku } from "../layouts/vms/vmHelpers";
 
 async function GetVmFromSubscriptionId(subscriptionId: string): Promise<Services | null> {
 

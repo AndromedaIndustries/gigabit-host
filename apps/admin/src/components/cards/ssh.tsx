@@ -26,7 +26,7 @@ function limit_key_display(key_name: string): string {
 
 export function SshCard({ ssh_keys, userID }: sshCardProp) {
     return (
-        <div className="card card-border w-full">
+        <div className="card card-border w-full h-fit">
             <div className="card-body">
                 <h2 className="fieldset-legend">SSH Keys</h2>
                 <ul>
@@ -37,12 +37,12 @@ export function SshCard({ ssh_keys, userID }: sshCardProp) {
                     {ssh_keys.map((ssh_key, index) => (
                         <li key={mapIdKey(index)} className="ssh-row w-full">
                             <div className="ssh-row-name pt-2" >{limit_key_display(ssh_key.name)} </div>
-                            <div className="pl-8"><DeleteSSHKeyModalButton className="btn btn-neutral join-item" btn_name="Delete" ssh_key={ssh_key} index={index} /></div>
+                            <div className="pl-8"><DeleteSSHKeyModalButton className="btn btn-secondary join-item" btn_name="Delete" ssh_key={ssh_key} index={index} /></div>
                             <DeleteSSHKeyModalDialog ssh_key={ssh_key} index={index} />
                         </li>
                     ))}
                 </ul>
-                <AddSSHKeyModalButton className="btn btn-primary join-item" btn_name="New SSH Key" />
+                <AddSSHKeyModalButton className="btn btn-accent join-item" btn_name="New SSH Key" />
                 <AddSSHKeyModalDialog />
             </div>
         </div>

@@ -23,7 +23,6 @@ export async function GET(request: NextRequest) {
 
         revalidatePath("/dashboard")
 
-        console.log(error)
 
         return NextResponse.redirect(adminURL + redirectTo)
     }

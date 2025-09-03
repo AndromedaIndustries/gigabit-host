@@ -49,7 +49,7 @@ export async function VmRow({ vm }: { vm: Services }) {
                 )}
             </td>
             <td className="text-left">
-                <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-primary btn-sm">
+                <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-accent btn-sm">
                     Manage
                 </Link>
             </td>
@@ -90,7 +90,7 @@ export async function VmRowShort({ vm }: { vm: Services }) {
             <td className="text-left">{sku?.sku}</td>
             <td className="text-left">{sku?.price} $/mo</td>
             <td className="text-left">
-                <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-primary btn-sm">
+                <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-accent btn-sm">
                     Manage
                 </Link>
             </td>

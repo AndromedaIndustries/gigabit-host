@@ -1,5 +1,5 @@
-import { GetSku } from "@/components/layouts/vm/vmHelpers";
-import { VmTable, VmTableShort } from "@/components/layouts/vm/vmTable";
+import { GetSku } from "@/components/layouts/vms/vmHelpers";
+import { VmTable, VmTableShort } from "@/components/layouts/vms/vmTable";
 import { GetCustomerActiveVMs } from "@/utils/database/common/vms";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
@@ -20,10 +20,12 @@ export default async function Dashboard() {
     const vm_count = vms.length
 
     let total_cost = 0
+    let active_subscriptions = 0
 
     for await (const vm of vms) {
         if (vm.subscription_active) {
             const sku = await GetSku(vm.current_sku_id)
+            active_subscriptions++
             if (sku != null) {
                 total_cost += sku.price
             }
@@ -39,7 +41,7 @@ export default async function Dashboard() {
                     </div>
                     <VmTableShort vms={vms.slice(0, 4)} />
                     <div className="card-actions pt-4">
-                        <Link className="btn btn-primary" href={"/dashboard/vm"}>Manage All VMs</Link>
+                        <Link className="btn btn-accent" href={"/dashboard/vm"}>Manage All VMs</Link>
                     </div>
                 </div>
             </div>
@@ -49,8 +51,20 @@ export default async function Dashboard() {
                         Billing
                     </div>
                     {(total_cost > 0) ? (
-                        <div className="text-lg">
-                            Monthly costs: ${total_cost}
+                        <div className="grid grid-cols-2 gap-2">
+
+                            <div className="text-lg">
+                                Active Subscriptions:
+                            </div>
+                            <div className="text-lg">
+                                {active_subscriptions}
+                            </div>
+                            <div className="text-lg">
+                                Monthly Costs:
+                            </div>
+                            <div>
+                                ${total_cost}
+                            </div>
                         </div>
                     ) : (
                         <div className="text-lg">

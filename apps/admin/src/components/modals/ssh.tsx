@@ -35,7 +35,7 @@ export function ListSSHModalKeys({ ssh_keys, id }: ListSSHKeysProps) {
                 <select id={id} name={id} className="select select-bordered w-full" defaultValue="">
                     <option disabled value="">No SSH Keys - Please Click New</option>
                 </select>
-                <AddSSHKeyModalButton className="btn btn-neutral join-item" btn_name="New" />
+                <AddSSHKeyModalButton className="btn btn-accent join-item" btn_name="New" />
             </div>
         )
     }
@@ -49,7 +49,7 @@ export function ListSSHModalKeys({ ssh_keys, id }: ListSSHKeysProps) {
                     </option>
                 ))}
             </ select>
-            <AddSSHKeyModalButton className="btn btn-neutral join-item" btn_name="New" />
+            <AddSSHKeyModalButton className="btn btn-accent join-item" btn_name="New" />
         </div>
     );
 }
