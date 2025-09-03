@@ -63,7 +63,7 @@ export default async function VmFirewallManagementPage({
                 </Link>
             </div>
             <div className="bg-base-200 mt-2 px-2 py-2 rounded-xl">
-                <div className="text-2xl py-3 ">Firewall Confuration for {vm?.hostname}</div>
+                <div className="text-2xl py-3 ">Firewall Configuration for {vm?.hostname}</div>
                 <FirewallConfig vm_id={id} firewallRules={firewallRuleList} proxmox_node={vm_proxmox_node} proxmox_vm_id={vm_proxmox_id} key={0} />
             </div>
             <div className="mt-5">
