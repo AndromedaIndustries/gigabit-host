@@ -42,8 +42,8 @@ export async function FirewallConfig(
                         <th>Proto</th>
                         <th className="w-32">Source IP</th>
                         <th>Source<br /> Port</th>
-                        <th className="w-32">Desination IP</th>
-                        <th>Desination Port/<br /> ICMP Type</th>
+                        <th className="w-32">Destination IP</th>
+                        <th>Destination Port/<br /> ICMP Type</th>
                         <th className="w-32">Comment</th>
                         <th>Actions</th>
                     </tr>
