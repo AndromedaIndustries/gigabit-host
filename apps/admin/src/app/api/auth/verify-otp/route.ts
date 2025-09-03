@@ -9,8 +9,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const token_hash = searchParams.get('token_hash')
     const type = searchParams.get('type') as EmailOtpType | null
-    const redirectTo = request.nextUrl.pathname
     const adminURL = "https://portal.gigabit.host"
+    const redirectTo = searchParams.get('next') || "/dashboard/login"
+    const redirectPath = adminURL + redirectTo
 
 
     if (token_hash && type) {
@@ -22,10 +23,10 @@ export async function GET(request: NextRequest) {
         })
 
         revalidatePath("/dashboard")
-
+        revalidatePath(redirectTo)
 
         return NextResponse.redirect(adminURL + redirectTo)
     }
 
-    return NextResponse.redirect(adminURL + "/dashboard/login")
+    return NextResponse.redirect(redirectPath)
 }
