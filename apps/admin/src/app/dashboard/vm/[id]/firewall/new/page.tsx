@@ -112,7 +112,7 @@ export default async function NewVmFirewallRulePage({
                             <div className="w-full">
                                 <legend className="fieldset-legend">Destination IP</legend>
                                 <input type="text"
-                                    id="desination" name="desination" className="input" placeholder="ALL" />
+                                    id="destination" name="destination" className="input" placeholder="ALL" />
                                 <p className="label">IPv4 or IPv6 - Not Both</p>
                             </div>
 
