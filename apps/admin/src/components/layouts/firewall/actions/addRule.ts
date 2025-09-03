@@ -79,7 +79,7 @@ export default async function NewRuleSubmit(formData: FormData) {
     const formProtocol = checkUndefined(formData.get("protocol"))
     const formSource = checkUndefined(formData.get("source"))
     const formSourcePort = checkUndefined(formData.get("sport"))
-    const formDestination = checkUndefined(formData.get("destination"))
+    const formDestination = checkUndefined(formData.get("desination"))
     const formDestinationPort = checkUndefined(formData.get("dport"))
     const formEnable = checkUndefined(formData.get("enable"))
     const formComment = checkUndefined(formData.get("comment"))
