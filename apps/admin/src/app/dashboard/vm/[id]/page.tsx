@@ -1,7 +1,7 @@
 import RebootVM from "@/components/services/vm/action/reboot";
 import StartVM from "@/components/services/vm/action/start";
 import StopVM from "@/components/services/vm/action/stop";
-import { VmMetadata } from "@/components/services/vm/metadataType";
+import { VmMetadata } from "@/types/vmMetadata";
 import { GetSku } from "@/components/services/vms/vmHelpers";
 import { proxmoxClient } from "@/utils/proxmox/client";
 import { createClient } from "@/utils/supabase/server";
@@ -70,7 +70,7 @@ export default async function VmManagementPage({
         running = true;
         [uptimeDays, uptimeHours, uptimeMinutes, uptimeSecond] = convertTime(vmUptimeSeconds);
     }
-    const vmMetadata = vm.metadata as unknown as VmMetadata
+    const vmMetadata = vm.metadata as VmMetadata
 
 
 
