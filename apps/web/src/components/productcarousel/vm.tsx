@@ -13,6 +13,8 @@ export default async function VmProductCarousel({ skus }: { skus: Sku[] }) {
     return `carousel-item-${index}`;
   }
 
+  skus.sort((a, b) => a.price - b.price);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-clip">
       {skus.map((sku, index) => (

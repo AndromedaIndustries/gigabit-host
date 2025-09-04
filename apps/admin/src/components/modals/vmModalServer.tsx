@@ -1,6 +1,6 @@
 import { prisma } from "database";
 import { createClient } from "@/utils/supabase/server";
-import { VM_Specs } from "../service/client/vms";
+import { VM_Specs } from "../services/vms/vms";
 import OsSelector from "../input/osSelector";
 import { AddSSHKeyModalDialog, ListSSHModalKeys } from "./ssh";
 
