@@ -1,7 +1,8 @@
 import type { Services } from "database";
-import type { ServiceMetadata } from "@/types/services";
+
 import Link from "next/link";
 import { GetSku } from "./vmHelpers";
+import { VmMetadata } from "@/types/vmMetadata";
 
 
 export async function VmTable({ vms }: { vms: Services[] }) {
@@ -29,10 +30,10 @@ export async function VmTable({ vms }: { vms: Services[] }) {
 
 export async function VmRow({ vm }: { vm: Services }) {
     const sku = await GetSku(vm.current_sku_id);
-    const metadata: ServiceMetadata =
+    const metadata =
         typeof vm.metadata === 'object' && vm.metadata !== null && !Array.isArray(vm.metadata)
-            ? (vm.metadata as ServiceMetadata)
-            : {}
+            ? (vm.metadata as VmMetadata)
+            : null
 
     return (
         <tr>
@@ -79,10 +80,10 @@ export async function VmTableShort({ vms }: { vms: Services[] }) {
 
 export async function VmRowShort({ vm }: { vm: Services }) {
     const sku = await GetSku(vm.current_sku_id);
-    const metadata: ServiceMetadata =
+    const metadata =
         typeof vm.metadata === 'object' && vm.metadata !== null && !Array.isArray(vm.metadata)
-            ? (vm.metadata as ServiceMetadata)
-            : {}
+            ? (vm.metadata as VmMetadata)
+            : null
 
     return (
         <tr>

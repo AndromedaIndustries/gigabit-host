@@ -1,4 +1,4 @@
-import NewRuleSubmit from "@/components/layouts/firewall/actions/addRule";
+import NewRuleSubmit from "@/components/services/firewall/actions/addRule";
 import { proxmoxClient } from "@/utils/proxmox/client";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";

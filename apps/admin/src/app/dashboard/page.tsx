@@ -1,5 +1,5 @@
-import { GetSku } from "@/components/layouts/vms/vmHelpers";
-import { VmTable, VmTableShort } from "@/components/layouts/vms/vmTable";
+import { GetSku } from "@/components/services/vms/vmHelpers";
+import { VmTable, VmTableShort } from "@/components/services/vms/vmTable";
 import { GetCustomerActiveVMs } from "@/utils/database/common/vms";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";

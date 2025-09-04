@@ -2,7 +2,7 @@ import { Proxmox } from "proxmox-api";
 import { proxmoxClient } from "@/utils/proxmox/client";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
-import { FirewallConfig } from "@/components/layouts/firewall/config";
+import { FirewallConfig } from "@/components/services/firewall/config";
 import Link from "next/link";
 
 export default async function VmFirewallManagementPage({

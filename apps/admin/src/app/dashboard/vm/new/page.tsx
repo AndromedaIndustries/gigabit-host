@@ -1,8 +1,8 @@
-import { VM_Specs } from "@/components/service/client/vms";
 import { ListSSHModalKeys, AddSSHKeyModalDialog } from "@/components/modals/ssh";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import OsSelector from "@/components/input/osSelector";
+import { VM_Specs } from "@/components/services/vms/vms";
 
 export default async function Purchase() {
     const supabase = await createClient();

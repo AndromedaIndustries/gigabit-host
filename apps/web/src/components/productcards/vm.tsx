@@ -1,19 +1,6 @@
 import type { Sku } from "database";
 import Link from "next/link";
-
-interface attributes {
-  cpu_mfg: string;
-  cpu_type: string;
-  cpu_model: string;
-  cpu_assignment: string;
-  cpu_generation: number;
-  cpu_cores: number;
-  memory: number;
-  storage_size: number;
-  storage_type: string;
-  catagory: string;
-  size: string;
-}
+import type { ProductAttributes } from "@/types/productAttributes";
 
 function formatGeneration(generation: number): string {
   if (generation === 11 || generation === 12 || generation === 13) {
@@ -50,7 +37,7 @@ export default function VmCard(product: Sku) {
   let storage_type = null;
 
   if (product.attributes != null) {
-    const attr = product.attributes as unknown as attributes;
+    const attr = product.attributes as unknown as ProductAttributes;
 
     cpu_mfg = attr.cpu_mfg;
     cpu_type = attr.cpu_type;
