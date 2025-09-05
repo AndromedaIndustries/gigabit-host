@@ -7,8 +7,8 @@ import { proxmoxClient } from "@/utils/proxmox/client";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import Link from "next/link";
-import { uptime } from "node:process";
-import { run } from "node:test";
+import { UsageBar } from "@/components/services/vm/usageBar";
+import { ProductAttributes } from "@/types/productAttributes";
 
 export default async function VmManagementPage({
     params,
@@ -36,6 +36,14 @@ export default async function VmManagementPage({
 
     const currentSku = await GetSku(vm.sku_id)
 
+    if (currentSku == undefined) {
+        throw new Error("sku not found")
+    }
+
+    if (currentSku.attributes == undefined) {
+        throw new Error("sku attributes missing")
+    }
+
     const proxmoxNode = vm.proxmox_node
     if (proxmoxNode == null) {
         throw new Error("Missing Proxmox Node")
@@ -49,8 +57,16 @@ export default async function VmManagementPage({
 
     const vmPowerState = await proxmoxApiClient.nodes.$(proxmoxNode).qemu.$(proxmoxVmId).status.current.$get()
 
+    var maxmem = vmPowerState.maxmem
+
+    if (maxmem == undefined) {
+        maxmem = (currentSku.attributes as unknown as ProductAttributes).memory
+    }
+
     const vmUptimeSeconds = vmPowerState.uptime
     const runningState = vmPowerState.status
+    const cpuUsage = parseFloat((vmPowerState.cpu * 100).toFixed(2))
+    const memoryUsage = parseFloat(((vmPowerState.mem / maxmem) * 100).toFixed(2))
 
     var isUp: boolean
     var running: boolean
@@ -80,13 +96,21 @@ export default async function VmManagementPage({
                 <div className="card bg-base-200 ">
                     <div className="card-body">
                         <div className="card-title">Host Overview</div>
-                        <div className="grid grid-cols-2">
+                        <div className="grid grid-cols-2 gap-1">
                             <div>Hostname:</div>
                             <div>{vm?.hostname}</div>
                             <div>Size:</div>
                             <div>{currentSku?.name}</div>
                             <div>Created:</div>
                             <div>{vm?.created_at.toDateString()}</div>
+                            <div>CPU Usage:</div>
+                            <div>
+                                <UsageBar max={100} value={cpuUsage} additionalCSS="w-56" />
+                            </div>
+                            <div>Memory Usage:</div>
+                            <div>
+                                <UsageBar max={100} value={memoryUsage} additionalCSS="w-56" />
+                            </div>
                             <div>Power Status:</div>
                             <div>{normalize(runningState)}</div>
                             <div>Uptime:</div>
@@ -108,38 +132,52 @@ export default async function VmManagementPage({
                     </div>
                 </div>
 
-                <div className="card bg-base-200 ">
-                    <div className="card-body">
-                        <div className="card-title">VM Configurations</div>
-                        <ul>
-                            <li>
+
+                <div className="grid grid-cols-2 gap-2 align-top">
+                    <div className="card bg-base-200 place-items-center">
+                        <div className="card-body">
+                            <div className="card-title">VM Configuration</div>
+                            <div>
                                 <Link href={`/dashboard/vm/${vm.id}/firewall`} className="btn btn-primary w-36">
                                     Firewall Settings
                                 </Link>
-                            </li>
-                            <li>
-                                <VmRebootButton
-                                    vm_id={vm.id}
-                                    proxmox_node={proxmoxNode}
-                                    proxmox_vm_id={proxmoxVmId}
-                                />
-                            </li>
-                            <li>
-                                <VmStartButton
-                                    vm_id={vm.id}
-                                    proxmox_node={proxmoxNode}
-                                    proxmox_vm_id={proxmoxVmId}
-                                />
-                            </li>
-                            <li>
-                                <VmStopButton
-                                    vm_id={vm.id}
-                                    proxmox_node={proxmoxNode}
-                                    proxmox_vm_id={proxmoxVmId}
-                                />
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card bg-base-200 place-items-center">
+                        <div className="card-body">
+                            <div className="card-title">VM Power Control</div>
+                            <div className="grid gap-2">
+                                {(runningState == "stopped") ?
+                                    <div>
+                                        <VmStartButton
+                                            vm_id={vm.id}
+                                            proxmox_node={proxmoxNode}
+                                            proxmox_vm_id={proxmoxVmId}
+                                        />
 
+                                    </div>
+                                    : null}
+                                {(runningState == "running") ?
+                                    <div>
+                                        <VmStopButton
+                                            vm_id={vm.id}
+                                            proxmox_node={proxmoxNode}
+                                            proxmox_vm_id={proxmoxVmId}
+                                        />
+                                    </div>
+                                    : null}
+                                {(runningState == "running") ?
+                                    <div>
+                                        <VmRebootButton
+                                            vm_id={vm.id}
+                                            proxmox_node={proxmoxNode}
+                                            proxmox_vm_id={proxmoxVmId}
+                                        />
+                                    </div>
+                                    : null}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="card bg-base-200">
