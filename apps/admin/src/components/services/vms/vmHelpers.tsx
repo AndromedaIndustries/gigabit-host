@@ -14,13 +14,6 @@ export async function GetSku(skuId: string): Promise<Sku | null> {
     return skuName;
 }
 
-
-// Set the view in cookies
-export async function HandleViewChange(view: "card" | "table") {
-    const sessionCookies = await cookies();
-    sessionCookies.set("vm_view", view, { path: "/" });
-};
-
 export async function VmTable({ vms }: { vms: Services[] }) {
     return (
         <table className="table w-full">
@@ -40,13 +33,5 @@ export async function VmTable({ vms }: { vms: Services[] }) {
                 ))}
             </tbody>
         </table>
-    );
-}
-
-export async function VmCards({ vms }: { vms: Services[] }) {
-    return (
-        <div className="flex flex-row flex-wrap space-x-5 space-y-5">
-            <VmCards vms={vms} />
-        </div>
     );
 }

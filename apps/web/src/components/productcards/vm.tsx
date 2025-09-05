@@ -91,10 +91,10 @@ export default function VmCard(product: Sku) {
           </ul>
         )}
         <div className="mt-6">
-          {product.available === true ? (
+          {(product.available && product.quantity > 0) === true ? (
             <Link href={"https://portal.gigabit.host/dashboard/vm/new"} className="btn btn-primary btn-block">Available now</Link>
           ) : (
-            <div className="btn btn-info btn-block">Coming soon</div>
+            <div className="btn btn-info btn-block">Not Avalible</div>
           )}
         </div>
       </div>
