@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/utils/stripe/stripe";
 import { redirect } from "next/navigation";
-import { prisma } from "database";
+import { Sku, prisma } from "database";
 import { UpdateService } from "@/utils/database/services/update";
 import createTemporalClient from "@/utils/temporal/client";
 import { createClient } from "@/utils/supabase/server";
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
 
   if (!session_id) {
     return NextResponse.json(
-      { error: "Please provide a valid session_id (`cs_test_...`)" },
+      { error: "Please provide a valid session_id" },
       { status: 400 }
     );
   }
@@ -101,6 +101,33 @@ export async function GET(request: Request) {
       workflowId: `new_service_${newService.id}`,
     }
   );
+
+
+  const sku = await prisma.sku.findUnique({
+    where: {
+      sku: newService.current_sku_id
+    },
+  })
+
+  if (sku) {
+
+    const currentInventory = sku.quantity
+    const expectedInventory = currentInventory - 1
+
+    const updatedSku = await prisma.sku.update({
+      where: {
+        sku: newService.current_sku_id,
+      },
+      data: {
+        quantity: expectedInventory
+      },
+    })
+
+    if (updatedSku.quantity != expectedInventory) {
+
+    }
+
+  }
 
   if (!temporal_workflow.workflowId) {
     return NextResponse.json({ error: "Workflow failed to start" });

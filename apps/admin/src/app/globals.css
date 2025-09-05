@@ -3,6 +3,7 @@
   /* biome-ignore lint: lint/correctness/noUnknownProperty */
   themes: light --preferslight, sunset --default;
 }
+
 body {
   font-family: "Ubuntu", sans-serif;
 }

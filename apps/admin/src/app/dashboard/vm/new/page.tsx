@@ -1,8 +1,8 @@
-import { VM_Specs } from "@/components/service/client/vms";
-import { ListSSHModalKeys, AddSSHKeyModalDialog } from "@/components/modals/ssh";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import OsSelector from "@/components/input/osSelector";
+import { VM_Specs } from "@/components/services/vms/vms";
+import { AddSSHKeyModalDialog, SshKeyModalButton } from "@/components/services/ssh/addModal";
 
 export default async function Purchase() {
     const supabase = await createClient();
@@ -72,18 +72,29 @@ export default async function Purchase() {
                         title="Must be a valid *nix username" />
 
                     <label htmlFor="public_key_id" className="fieldset-label">SSH Public Key</label>
-                    <ListSSHModalKeys id="public_key_id" ssh_keys={sshKeys} />
+                    <div className="join w-full">
+                        <div className="w-full">
+                            <select id="public_key_id" name="public_key_id" className="select select-bordered w-full">
+                                {sshKeys.map((sshKey) => (
+                                    <option key={sshKey.id} value={sshKey.id} className="flex flex-col">
+                                        {sshKey.name}
+                                    </option>
+                                ))}
+                            </ select>
+                        </div>
+                        <SshKeyModalButton additionalCss="btn-success join-item" />
+                    </div>
 
 
                     <div className="w-full pt-5">
-                        <button type="submit" className="btn btn-primary w-full">Purchase</button>
+                        <button type="submit" className="btn btn-accent w-full">Purchase</button>
                     </div>
 
                 </fieldset>
             </form>
             <div>
-                <AddSSHKeyModalDialog />
+                <AddSSHKeyModalDialog revalidatePathString="/dashboard/vm/new" />
             </div>
-        </div>
+        </div >
     )
 }

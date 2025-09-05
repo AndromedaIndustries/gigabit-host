@@ -17,10 +17,7 @@ export default function Page() {
 
         try {
             const { error } = await supabase.auth.updateUser({ password })
-            if (error) throw error
-
-            redirect("/dashboard")
-
+            if (error) setError(error instanceof Error ? error.message : 'An error occurred')
         } catch (error: unknown) {
             setError(error instanceof Error ? error.message : 'An error occurred')
         } finally {

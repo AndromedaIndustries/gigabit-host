@@ -33,7 +33,7 @@ export default function LoginPage() {
                     <input id="password" name="password" type="password" required placeholder="Password" minLength={8} pattern=".{12,}" title="Must be more than 12 characters" />
                 </label>
                 <p className="validator-hint hidden">Must be more than 12 characters</p>
-                <button type="submit" formAction={login} className="btn btn-primary w-full">Log in</button>
+                <button type="submit" formAction={login} className="btn btn-accent w-full">Log in</button>
                 {allowSignup === "true" ?
                     <div className='align-middle flex flex-col justify-between'>
                         <div className="text-center">

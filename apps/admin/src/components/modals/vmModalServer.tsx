@@ -1,8 +1,7 @@
 import { prisma } from "database";
 import { createClient } from "@/utils/supabase/server";
-import { VM_Specs } from "../service/client/vms";
+import { VM_Specs } from "../services/vms/vms";
 import OsSelector from "../input/osSelector";
-import { AddSSHKeyModalDialog, ListSSHModalKeys } from "./ssh";
 
 export async function AddNewVmModel() {
     const supabase = await createClient();
@@ -83,7 +82,7 @@ export async function AddNewVmModel() {
                             title="Must be a valid *nix username" />
 
                         <label htmlFor="public_key_id" className="fieldset-label">SSH Public Key</label>
-                        <ListSSHModalKeys id="public_key_id" ssh_keys={sshKeys} />
+                        {/* <ListSSHModalKeys id="public_key_id" ssh_keys={sshKeys} /> */}
 
 
                         <div className="w-full pt-5">
@@ -93,7 +92,7 @@ export async function AddNewVmModel() {
                     </fieldset>
                 </form>
                 <div>
-                    <AddSSHKeyModalDialog />
+                    {/* <AddSSHKeyModalDialog /> */}
                 </div>
 
             </div>

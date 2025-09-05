@@ -11,7 +11,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/luthermonson/go-proxmox v0.2.2
 	github.com/magefile/mage v1.15.0 // indirect
-	go.temporal.io/sdk v1.35.0
+	go.temporal.io/sdk v1.36.0
 	logur.dev/logur v0.17.0
 )
 
@@ -21,7 +21,6 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/google/uuid v1.6.0
-	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1 // indirect
 	github.com/nexus-rpc/sdk-go v0.4.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
@@ -29,7 +28,7 @@ require (
 	github.com/sirupsen/logrus v1.9.4-0.20230606125235-dd1b4c2e81af
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
-	go.temporal.io/api v1.50.0 // indirect
+	go.temporal.io/api v1.51.0 // indirect
 	golang.org/x/net v0.43.0
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.35.0 // indirect
@@ -52,6 +51,7 @@ require (
 )
 
 require (
+	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect

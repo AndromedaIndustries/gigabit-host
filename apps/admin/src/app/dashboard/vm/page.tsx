@@ -1,4 +1,4 @@
-import { VmView } from "@/components/layouts/vm/vmParent";
+import { VmView } from "@/components/services/vms/vmParent";
 import { GetCustomerActiveVMs } from "@/utils/database/common/vms";
 import { createClient } from "@/utils/supabase/server";
 
