@@ -1,6 +1,7 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { prisma, type Ssh_keys } from "database";
+import { revalidatePath } from "next/cache";
 
 export async function SshTable({ ssh_keys }: { ssh_keys: Ssh_keys[] }) {
 
@@ -31,6 +32,8 @@ async function SshTableRow({ ssh_key }: { ssh_key: Ssh_keys }) {
                 id: ssh_key.id
             }
         })
+
+        revalidatePath("/dashboard/settings")
     }
     var public_key = ssh_key.public_key
 
