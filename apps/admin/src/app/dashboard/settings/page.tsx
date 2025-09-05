@@ -5,7 +5,7 @@ import SetName from "@/components/input/setName";
 import { OpenPasswordModalButton, UpdatePasswordModal } from "@/components/services/password/password";
 import { prisma } from "database";
 import { SshTable } from "@/components/services/ssh/ssh";
-import { SsshKeyModalButton } from "@/components/services/ssh/addModal";
+import { SshKeyModalButtonAndModal } from "@/components/services/ssh/addModal";
 
 export default async function Settings() {
     const supabase = await createClient();
@@ -60,7 +60,7 @@ export default async function Settings() {
             <div className="card bg-base-200 w-sm border-base-300">
                 <div className="card-body grid grid-cols-1 gap-3 content-start">
                     <div className="card-title">SSH Keys</div>
-                    <SsshKeyModalButton />
+                    <SshKeyModalButtonAndModal additionalCss="btn-accent w-40" />
                     <SshTable ssh_keys={sshKeys} />
                 </div>
             </div>

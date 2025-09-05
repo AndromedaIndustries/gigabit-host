@@ -1,7 +1,6 @@
 import { prisma, type Services } from "database";
 import { VmTable } from "./vmTable";
 import { cookies } from "next/headers";
-import { ViewSelector } from "./vmClient";
 import { OpenNewVmModal } from "@/components/modals/vmModalClient";
 import { AddNewVmModel } from "@/components/modals/vmModalServer";
 import Link from "next/link";

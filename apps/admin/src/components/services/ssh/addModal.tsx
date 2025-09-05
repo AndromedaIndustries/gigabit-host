@@ -2,32 +2,45 @@
 
 import { NewSshKey } from "./actions/new";
 
-export function SsshKeyModalButton() {
-    function openModal() {
-        const modal = document.getElementById("ssh_key_modal") as HTMLDialogElement | null;
+function openModal() {
+    const modal = document.getElementById("ssh_key_modal") as HTMLDialogElement | null;
 
-        if (!modal) {
-            return;
-        }
-
-        if (modal as HTMLDialogElement) {
-            modal.showModal();
-        }
+    if (!modal) {
+        return;
     }
+
+    if (modal as HTMLDialogElement) {
+        modal.showModal();
+    }
+}
+
+export function SshKeyModalButtonAndModal({ additionalCss }: { additionalCss: string }) {
+
+
+    const buttonCss = "btn " + additionalCss
 
     return (
         <div className="grid grid-cols-1 w-full">
-            <AddSSHKeyModalDialog />
-            <button type="button" onClick={openModal} className="btn btn-accent w-40">New SSH Key</button>
+            <AddSSHKeyModalDialog revalidatePathString="/dashboard/settings" />
+            <button type="button" onClick={openModal} className={buttonCss}>New SSH Key</button>
         </div>
     )
 
 }
 
-export function AddSSHKeyModalDialog() {
+export function SshKeyModalButton({ additionalCss }: { additionalCss: string }) {
+
+    const buttonCss = "btn " + additionalCss
+
+    return (
+        <button type="button" onClick={openModal} className={buttonCss}>New SSH Key</button>
+    )
+}
+
+export function AddSSHKeyModalDialog({ revalidatePathString }: { revalidatePathString: string }) {
 
     const handleAction = async (formData: FormData) => {
-        NewSshKey(formData)
+        NewSshKey(formData, revalidatePathString)
 
         const modal = document.getElementById("ssh_key_modal") as HTMLDialogElement | null;
 

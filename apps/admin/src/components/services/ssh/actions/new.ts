@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import { revalidatePath } from "next/cache";
 
-export async function NewSshKey(formData: FormData) {
+export async function NewSshKey(formData: FormData, revalidatePathString: string) {
     const supabaseClint = await createClient();
 
     const user = (await supabaseClint.auth.getUser()).data.user;
@@ -60,6 +60,6 @@ export async function NewSshKey(formData: FormData) {
         throw new Error("Error inserting key")
     }
 
-    revalidatePath("/dashboard/settings")
+    revalidatePath(revalidatePathString)
 
 }
