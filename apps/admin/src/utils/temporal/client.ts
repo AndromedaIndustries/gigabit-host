@@ -9,7 +9,6 @@ export default async function createTemporalClient() {
   const temporal_account_id = process.env.TEMPORAL_ACCOUNT_ID
   const temporal_api_key = process.env.TEMPORAL_API_KEY
 
-  console.log("Temporal address:", temporal_address);
 
   const connectionOptions = {
     address: temporal_address,
@@ -26,7 +25,6 @@ export default async function createTemporalClient() {
   if (!connection) {
     throw new Error("Failed to connect to Temporal server");
   }
-  console.log("Connected to Temporal server at", temporal_address);
 
   // Create a Temporal client
   const client = new Client({
@@ -36,3 +34,4 @@ export default async function createTemporalClient() {
 
   return client;
 }
+

@@ -5,10 +5,6 @@ import { login } from './login'
 export default function LoginPage() {
 
     const allowSignup = process.env.NEXT_PUBLIC_ALLOW_SIGNUP || false;
-    const allowInviteCode = process.env.NEXT_PUBLIC_ALLOW_INVITE_CODE || true;
-
-    console.log(allowInviteCode)
-
 
     return (
         <div className="flex items-center justify-center h-screen bg-base-100">

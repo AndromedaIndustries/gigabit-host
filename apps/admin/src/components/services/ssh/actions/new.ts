@@ -44,8 +44,6 @@ export async function NewSshKey(formData: FormData, revalidatePathString: string
 
     const sanitizedKey = keyType + " " + keyData
 
-    console.log(sanitizedKey)
-
     const userId = user.id
 
     const created_ssh_key = await prisma.ssh_keys.create({

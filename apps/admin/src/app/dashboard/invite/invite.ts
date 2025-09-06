@@ -24,8 +24,6 @@ export async function invite(formData: FormData) {
         }
     })
 
-    console.log(inviteObject)
-
     if (inviteObject == null) {
         redirect("/dashboard/invite?error=invalid_invite_code&error=1")
     }

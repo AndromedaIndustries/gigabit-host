@@ -59,7 +59,6 @@ export async function GET(request: Request) {
     },
   });
 
-  console.log("Processing session with status:", status);
 
   if (status === "open") {
     newService.status = "pending";
@@ -76,9 +75,7 @@ export async function GET(request: Request) {
   }
 
   const updated_service = UpdateService(newService);
-  console.log("Service Updated Successfully");
   const temporal_client = await createTemporalClient();
-  console.log("Temporal Client Created Successfully");
 
   const data = {
     user_id: newService.user_id,
@@ -92,6 +89,10 @@ export async function GET(request: Request) {
       description: `New service created with ID ${newService.id} and status ${newService.status}`,
     },
   });
+
+  if (!temporal_client) {
+    return NextResponse.json({ error: "Failed to create client" });
+  }
 
   const temporal_workflow = await temporal_client.workflow.start(
     "New VM Workflow",
@@ -130,7 +131,7 @@ export async function GET(request: Request) {
   }
 
   if (!temporal_workflow.workflowId) {
-    return NextResponse.json({ error: "Workflow failed to start" });
+    return NextResponse.json({ error: "Create Service Workflow failed to start" });
   }
 
   if (!updated_service) {

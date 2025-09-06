@@ -47,5 +47,5 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(adminURL + "/dashboard/login?log=otpfailure")
     }
 
-    return NextResponse.redirect(adminURL + "/dashboard")
+    return NextResponse.redirect(adminURL + "/dashboard/login?=email_verified")
 }
