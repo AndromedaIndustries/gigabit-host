@@ -12,12 +12,7 @@ export const config = {
     // exclude _next/image
     "/dashboard/((?!_next/image).*)",
     // exclude favicon.ico
-    "/dashboard/((?!favicon\.ico).*)",
-    // exclude /login
-    "/dashboard/((?!login).*)",
-    // exclude /signup
-    "/dashboard/((?!signup).*)",
-    // exclude common image extensions
+    "/dashboard/((?!favicon\.ico).*)",    // exclude common image extensions
     "/dashboard/((?!.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

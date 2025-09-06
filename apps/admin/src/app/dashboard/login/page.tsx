@@ -1,10 +1,13 @@
 import Link from 'next/link'
-import { login } from './actions'
+import { login } from './login'
 
 
 export default function LoginPage() {
 
     const allowSignup = process.env.NEXT_PUBLIC_ALLOW_SIGNUP || false;
+    const allowInviteCode = process.env.NEXT_PUBLIC_ALLOW_INVITE_CODE || true;
+
+    console.log(allowInviteCode)
 
 
     return (
@@ -39,10 +42,16 @@ export default function LoginPage() {
                         <div className="text-center">
                             Don&apos;t have an account?
                         </div>
-                        <Link href={"/signup"} className="btn btn-outline btn-primary">Sign up</Link>
+                        <Link href={"/dashboard/signup"} className="btn btn-outline btn-primary">Sign up</Link>
 
                     </div>
-                    : <></>}
+                    : <div className='align-middle flex flex-col justify-between'>
+                        <div className="text-center">
+                            Have an invite code?
+                        </div>
+                        <Link href={"/dashboard/invite"} className="btn btn-outline btn-accent">Sign up with Invite Code</Link>
+
+                    </div>}
             </form>
         </div>
     )
