@@ -51,5 +51,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(adminURL + redirectTo)
     }
 
+    revalidatePath(redirectPath)
     return NextResponse.redirect(redirectPath)
 }

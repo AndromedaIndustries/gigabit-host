@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // The client you created from the Server-Side Auth instructions
 import { createClient } from '@/utils/supabase/server'
 import { userMetadata } from '@/types/userMetadata'
+import { revalidatePath } from 'next/cache'
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
@@ -47,5 +48,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(adminURL + "/dashboard/login?log=otpfailure")
     }
 
-    return NextResponse.redirect(adminURL + "/dashboard/login?=email_verified")
+    revalidatePath("/dashboard")
+    return NextResponse.redirect(adminURL + "/dashboard?=email_verified")
 }
