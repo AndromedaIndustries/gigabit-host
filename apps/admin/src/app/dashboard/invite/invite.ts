@@ -68,7 +68,7 @@ export async function invite(formData: FormData) {
         data: {
             user_id: userId,
             action: "user_signup_via_invite_code",
-            description: `User signed up with invite code ${invite_code}`,
+            description: `User signed up with invite code ${invite_code_string}`,
         },
     });
 
@@ -78,6 +78,5 @@ export async function invite(formData: FormData) {
         redirect("/error");
     }
 
-    revalidatePath("/dashboard", "layout");
-    redirect("/dashboard");
+    redirect("/dashboard/signup/success");
 }
