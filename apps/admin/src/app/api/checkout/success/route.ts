@@ -85,7 +85,7 @@ export async function GET(request: Request) {
     service_id: newService.id,
   };
 
-  prisma.audit_Log.create({
+  await prisma.audit_Log.create({
     data: {
       user_id: newService.user_id,
       action: "new_service",

@@ -35,7 +35,7 @@ export default async function UpdatePage() {
 
                     <p className="validator-hint hidden">Must be more than 12 characters</p>
                     <div className='align-middle flex flex-col justify-between pt-6'>
-                        <button type="submit" formAction={update} className="btn btn-outline btn-primary">Complete your account setup</button>
+                        <button type="submit" formAction={update} className="btn btn-outline btn-accent">Complete your account setup</button>
                     </div>
                 </fieldset>
             </form>

@@ -1,16 +1,8 @@
 import AccountType from '@/components/input/accountType'
-import { signup } from './signup'
+import { invite } from './invite'
 import SetName from '@/components/input/setName'
-import { redirect } from 'next/navigation';
 
-
-export default function SignupPage() {
-
-    const disallowSignups = (process.env.NEXT_PUBLIC_ALLOW_SIGNUP == "false");
-
-    if (disallowSignups) {
-        redirect("/dashboard/login");
-    }
+export default function InvitePage() {
 
     return (
         <div className="flex items-center justify-center h-screen bg-base-100">
@@ -25,12 +17,16 @@ export default function SignupPage() {
 
                     <label htmlFor="password" className="fieldset-label">Password</label>
                     <input id="password" name="password" type="password" className="input w-full" required placeholder="Password" minLength={8} pattern=".{12,}" title="Must be more than 12 characters" />
-
+                    <p className="validator-hint hidden">Must be more than 12 characters</p>
                     <AccountType />
 
-                    <p className="validator-hint hidden">Must be more than 12 characters</p>
+                    <label htmlFor="password" className="fieldset-label">Invite Code</label>
+                    <input id="invite_code" name="invite_code" type="text" className="input w-full" />
+
+
+
                     <div className='align-middle flex flex-col justify-between pt-6'>
-                        <button type="submit" formAction={signup} className="btn btn-outline btn-primary">Create Account</button>
+                        <button type="submit" formAction={invite} className="btn btn-outline btn-accent">Create Account</button>
                     </div>
                 </fieldset>
             </form>

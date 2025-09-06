@@ -9,6 +9,22 @@ datasource db {
   url      = env("POSTGRES_SUPABASE_URL")
 }
 
+model InviteCode {
+  id         String         @id @default(ulid()) @db.VarChar(255)
+  inviteCode String         @unique @db.VarChar(10)
+  maxUses    Int            @db.Integer
+  uses       Int            @db.Integer
+  userIds    InvitedUsers[]
+}
+
+model InvitedUsers {
+  userIds      String      @id @db.VarChar(255)
+  email        String      @db.VarChar(255)
+  dateAccepted DateTime    @default(now()) @db.Timestamp(6)
+  InviteCode   InviteCode? @relation(fields: [inviteCodeId], references: [id])
+  inviteCodeId String?     @db.VarChar(255)
+}
+
 model Permission {
   id   String @id @default(ulid()) @db.VarChar(255)
   name String @unique @db.VarChar(255)
