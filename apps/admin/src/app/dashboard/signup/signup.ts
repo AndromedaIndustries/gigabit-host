@@ -47,5 +47,5 @@ export async function signup(formData: FormData) {
 
 
 
-  redirect("/dashboard/signup/success");
+  redirect("/dashboard/signup/success?type=signup");
 }

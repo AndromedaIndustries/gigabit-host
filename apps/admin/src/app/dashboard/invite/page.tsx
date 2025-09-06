@@ -1,6 +1,7 @@
 import AccountType from '@/components/input/accountType'
 import { invite } from './invite'
 import SetName from '@/components/input/setName'
+import Link from 'next/link'
 
 export default function InvitePage() {
 
@@ -25,8 +26,9 @@ export default function InvitePage() {
 
 
 
-                    <div className='align-middle flex flex-col justify-between pt-6'>
-                        <button type="submit" formAction={invite} className="btn btn-outline btn-accent">Create Account</button>
+                    <div className='align-middle flex flex-col justify-between pt-6 gap-2'>
+                        <button type="submit" formAction={invite} className="btn btn-accent">Create Account</button>
+                        <Link href={"/dashboard/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
                     </div>
                 </fieldset>
             </form>

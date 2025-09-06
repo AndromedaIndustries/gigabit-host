@@ -32,7 +32,10 @@ export default function LoginPage() {
                     <input id="password" name="password" type="password" required placeholder="Password" minLength={8} pattern=".{12,}" title="Must be more than 12 characters" />
                 </label>
                 <p className="validator-hint hidden">Must be more than 12 characters</p>
-                <button type="submit" formAction={login} className="btn btn-accent w-full">Log in</button>
+
+                <button type="submit" formAction={login} className="btn btn-accent w-full">Sign in</button>
+
+                <Link href={"/dashboard/login/otp"} className="btn btn-accent w-full"> Sign in with OTP</Link>
                 {allowSignup === "true" ?
                     <div className='align-middle flex flex-col justify-between'>
                         <div className="text-center">
@@ -45,7 +48,7 @@ export default function LoginPage() {
                         <div className="text-center">
                             Have an invite code?
                         </div>
-                        <Link href={"/dashboard/invite"} className="btn btn-outline btn-accent">Sign up with Invite Code</Link>
+                        <Link href={"/dashboard/invite"} className="btn btn-accent">Sign up with Invite Code</Link>
 
                     </div>}
             </form>

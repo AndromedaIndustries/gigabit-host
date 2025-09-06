@@ -76,5 +76,5 @@ export async function invite(formData: FormData) {
         redirect("/error");
     }
 
-    redirect("/dashboard/signup/success");
+    redirect("/dashboard/signup/success?type=invite");
 }
