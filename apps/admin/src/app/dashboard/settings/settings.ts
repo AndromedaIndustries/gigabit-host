@@ -1,6 +1,7 @@
 "use server";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
+import { prisma } from "database";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -25,6 +26,16 @@ export async function saveSettings(data: FormData) {
   if (response.error) {
     throw new Error(response.error.message);
   }
+
+  const user = response.data.user
+
+  await prisma.audit_Log.create({
+    data: {
+      user_id: user.id,
+      action: "user_deleted_account",
+      description: `User deleted account with ID ${user.id}`,
+    },
+  });
 
   // Optionally revalidate the current page (if using ISR)
   revalidatePath("/dashboard/settings");
@@ -61,6 +72,14 @@ export async function deleteAccount() {
   }
 
   supabaseAdmin.auth.signOut();
+
+  await prisma.audit_Log.create({
+    data: {
+      user_id: user_id,
+      action: "user_deleted_account",
+      description: `User deleted account with ID ${user_id}`,
+    },
+  });
 
   redirect("/dashboard/login");
 }

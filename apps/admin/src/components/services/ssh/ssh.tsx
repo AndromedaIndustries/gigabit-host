@@ -1,3 +1,4 @@
+import { createClient } from "@/utils/supabase/server";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { prisma, type Ssh_keys } from "database";
@@ -27,11 +28,26 @@ async function SshTableRow({ ssh_key }: { ssh_key: Ssh_keys }) {
 
     async function deleteKey() {
         "use server"
+        const supabaseClint = await createClient();
+        const user = (await supabaseClint.auth.getUser()).data.user;
+
+        if (!user) {
+            throw new Error("user not found")
+        }
+
         await prisma.ssh_keys.delete({
             where: {
                 id: ssh_key.id
             }
         })
+
+        await prisma.audit_Log.create({
+            data: {
+                user_id: user.id,
+                action: "deleted_ssh_key",
+                description: `User created a new SSH key ${ssh_key.public_key} with id: ${ssh_key.id}`,
+            },
+        });
 
         revalidatePath("/dashboard/settings")
     }

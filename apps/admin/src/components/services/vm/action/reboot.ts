@@ -2,11 +2,20 @@ import { proxmoxClient } from "@/utils/proxmox/client";
 import { CommonVMParameters } from "./common";
 import { revalidatePath } from "next/cache";
 import { setTimeout } from "timers/promises";
+import { prisma } from "database";
+import { createClient } from "@/utils/supabase/server";
 
 
 export default async function RebootVM(params: CommonVMParameters) {
 
     const proxmoxApiClient = await proxmoxClient();
+    const supabaseClint = await createClient();
+
+    const user = (await supabaseClint.auth.getUser()).data.user;
+
+    if (!user) {
+        throw new Error("user not found")
+    }
 
     const vm_id = params.vm_id
     const vm_proxmox_node = params.proxmox_node
@@ -22,6 +31,14 @@ export default async function RebootVM(params: CommonVMParameters) {
         // Timeout in Seconds
         timeout: 5
     })
+
+    await prisma.audit_Log.create({
+        data: {
+            user_id: user.id,
+            action: "rebooted_vm",
+            description: `User rebooted service with id: ${params.vm_id}`,
+        },
+    });
 
     setTimeout(1000)
 

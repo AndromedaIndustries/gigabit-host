@@ -130,6 +130,14 @@ export async function GET(request: Request) {
 
   }
 
+  await prisma.audit_Log.create({
+    data: {
+      user_id: supabaseSessionData.data.session.user.id,
+      action: "checkout_session_completed",
+      description: `User completed new service checkout: ${newService.id}`,
+    },
+  });
+
   if (!temporal_workflow.workflowId) {
     return NextResponse.json({ error: "Create Service Workflow failed to start" });
   }

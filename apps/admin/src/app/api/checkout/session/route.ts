@@ -169,6 +169,15 @@ export async function POST(request: Request) {
       throw new Error("Service not created");
     }
 
+    await prisma.audit_Log.create({
+      data: {
+        user_id: userID,
+        action: "new_checkout_session_initiated",
+        description: `User requested new service to be provisioned: serviceId: ${newService.id}`,
+      },
+    });
+
+
     return NextResponse.redirect(session.url, 303);
   } catch (error) {
     redirect("/error");

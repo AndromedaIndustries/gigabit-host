@@ -58,6 +58,14 @@ export async function NewSshKey(formData: FormData, revalidatePathString: string
         throw new Error("Error inserting key")
     }
 
+    await prisma.audit_Log.create({
+        data: {
+            user_id: user.id,
+            action: "created_ssh_key",
+            description: `User created a new SSH key ${sanitizedKey} with id: ${created_ssh_key.id}`,
+        },
+    });
+
     revalidatePath(revalidatePathString)
 
 }

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
+import { prisma } from "database";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
@@ -16,6 +17,20 @@ export async function login(formData: FormData) {
   if (error) {
     redirect("/dashboard/login");
   }
+
+  if (!data) {
+    console.log("Failure with retriving user data `/dashboard/login/login.ts`")
+    revalidatePath("/", "layout");
+    redirect("/dashboard");
+  }
+
+  await prisma.audit_Log.create({
+    data: {
+      user_id: data.user.id,
+      action: "user_login_event",
+      description: `User logged in`,
+    },
+  });
 
   revalidatePath("/", "layout");
   redirect("/dashboard");

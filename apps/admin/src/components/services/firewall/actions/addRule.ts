@@ -89,6 +89,10 @@ export default async function NewRuleSubmit(formData: FormData) {
     const userObject = await supabase.auth.getUser();
     const user_id = userObject.data.user?.id;
 
+    if (!user_id) {
+        throw new Error("User not found");
+    }
+
     const vm = await prisma.services.findFirst({
         where: {
             user_id: user_id,
@@ -142,6 +146,14 @@ export default async function NewRuleSubmit(formData: FormData) {
             moveto: Number.parseInt(formPosition)
         })
     }
+
+    await prisma.audit_Log.create({
+        data: {
+            user_id: user_id,
+            action: "new_firewall_rule",
+            description: `User added a new firewall rule for service: ${vm.id}`,
+        },
+    });
 
     redirect(`/dashboard/vm/${vm.id}/firewall`, RedirectType.push)
 }

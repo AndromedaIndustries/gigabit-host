@@ -18,8 +18,13 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createClient();
-  const userObject = await supabase.auth.getUser();
-  const user_id = userObject.data.user?.id;
+  const user = (await supabase.auth.getUser()).data.user;
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" });
+  }
+
+  const user_id = user.id;
   const vm = await prisma.services.findFirst({
     where: {
       user_id: user_id,
@@ -53,6 +58,14 @@ export async function POST(request: Request) {
   if (!updated_service) {
     return NextResponse.json({ error: "Service failed to update" });
   }
+
+  await prisma.audit_Log.create({
+    data: {
+      user_id: user_id,
+      action: "cancled_subscription",
+      description: `User cancled subscription for service with id: ${vm_id}`,
+    },
+  });
 
   revalidatePath(`/dashboard/vm/${vm.id}`);
   redirect(`/dashboard/vm/${vm.id}`);
