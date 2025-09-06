@@ -20,13 +20,13 @@ export async function GET(request: NextRequest) {
         })
 
         if (userResponse.error) {
-            return NextResponse.redirect(adminURL + "/dashboard/login")
+            return NextResponse.redirect(adminURL + "/dashboard/login?log=userGetFailed")
         }
 
         const user = userResponse.data.user
 
         if (!user) {
-            return NextResponse.redirect(adminURL + "/dashboard/login")
+            return NextResponse.redirect(adminURL + "/dashboard/login?log=userNull")
         }
 
         await supabase.auth.updateUser({
@@ -43,6 +43,9 @@ export async function GET(request: NextRequest) {
                 return NextResponse.redirect(adminURL + "/dashboard/update")
             }
         }
+    } else {
+        return NextResponse.redirect(adminURL + "/dashboard/login?log=otpfailure")
     }
+
     return NextResponse.redirect(adminURL + "/dashboard")
 }
