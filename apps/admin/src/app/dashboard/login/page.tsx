@@ -35,7 +35,7 @@ export default function LoginPage() {
 
                 <button type="submit" formAction={login} className="btn btn-accent w-full">Sign in</button>
 
-                <Link href={"/dashboard/login/otp"} className="btn btn-accent w-full"> Sign in with OTP</Link>
+                <Link href={"/dashboard/login/otp"} className="btn btn-accent w-full"> Sign in with Magic Link</Link>
                 {allowSignup === "true" ?
                     <div className='align-middle flex flex-col justify-between'>
                         <div className="text-center">

@@ -9,7 +9,7 @@ export default function OtpLoginPage() {
     return (
         <div className="flex items-center justify-center h-screen bg-base-100">
             <form className="flex flex-col gap-4 p-6 bg-base-200 rounded-lg shadow-md w-full max-w-sm mx-auto justify-center">
-                <h1 className="text-2xl font-bold text-center">Login via Email</h1>
+                <h1 className="text-2xl font-bold text-center">Login with Magic Link</h1>
                 <label className="input validator w-full">
                     <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <title>Email Icon</title>
@@ -23,7 +23,7 @@ export default function OtpLoginPage() {
                 <div className="validator-hint hidden">Enter valid email address</div>
 
 
-                <button type="submit" formAction={LoginWithMagicLink} className="btn btn-accent w-full">Send Email Link</button>
+                <button type="submit" formAction={LoginWithMagicLink} className="btn btn-accent w-full">Send Email</button>
                 <Link href={"/dashboard/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
             </form>
         </div>

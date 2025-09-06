@@ -15,6 +15,9 @@ export default async function SuccessPage({
                     <div className="card-body place-items-center">
                         <div>Successfully sent Magic Link</div>
                         <div>Check your email to complete Sign In</div>
+                        <hr className="w-full bg-primary" />
+                        <div>Emails will come from support@gigabit.host</div>
+                        <div>Check Spam if not found</div>
                     </div>
                 </div>
             </div>
@@ -27,6 +30,9 @@ export default async function SuccessPage({
                 <div className="card-body place-items-center">
                     <div>Successfully created Account</div>
                     <div>Check your email to confirm your email address</div>
+                    <hr className="w-full bg-primary" />
+                    <div>Emails will come from support@gigabit.host</div>
+                    <div>Check Spam if not found</div>
                 </div>
             </div>
         </div>
