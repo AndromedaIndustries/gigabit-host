@@ -16,11 +16,11 @@ export async function invite(formData: FormData) {
     const password = formData.get("password") as string;
     const invite_code_string = formData.get("invite_code") as string;
 
-    console.log(invite_code_string)
+    const invite_code = invite_code_string.toLowerCase()
 
     const inviteObject = await prisma.inviteCode.findUnique({
         where: {
-            inviteCode: invite_code_string
+            inviteCode: invite_code
         }
     })
 
@@ -36,7 +36,7 @@ export async function invite(formData: FormData) {
 
     await prisma.inviteCode.update({
         where: {
-            inviteCode: invite_code_string
+            inviteCode: invite_code
         },
         data: {
             uses: inviteObject.uses + 1
@@ -68,7 +68,7 @@ export async function invite(formData: FormData) {
         data: {
             user_id: userId,
             action: "user_signup_via_invite_code",
-            description: `User signed up with invite code ${invite_code_string}`,
+            description: `User signed up with invite code ${invite_code}`,
         },
     });
 
