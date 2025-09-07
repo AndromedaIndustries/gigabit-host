@@ -10,8 +10,6 @@ export default async function Navbar() {
 
   const first_name = user?.user_metadata.first_name || null
 
-
-
   return (
     <div className="navbar bg-base-300 shadow-sm fixed z-50">
       <div className="navbar-start">
