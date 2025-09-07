@@ -2,7 +2,8 @@ import { createClient } from "@/utils/supabase/server";
 import { saveSettings, deleteAccount } from "./settings";
 import AccountType from "@/components/input/accountType";
 import SetName from "@/components/input/setName";
-import { OpenPasswordModalButton, UpdatePasswordModal } from "@/components/services/password/password";
+import { OpenPasswordModalButton } from "@/components/services/password/clientModal"
+import { UpdatePasswordModal } from "@/components/services/password/serverModal";
 import { prisma } from "database";
 import { SshTable } from "@/components/services/ssh/ssh";
 import { SshKeyModalButtonAndModal } from "@/components/services/ssh/addModal";
