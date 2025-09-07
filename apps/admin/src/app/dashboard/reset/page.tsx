@@ -1,4 +1,4 @@
-import { UpdatePasswordForm } from '@/components/auth/resetPassword';
+import { UpdatePasswordForm } from '@/components/services/password/reset';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
