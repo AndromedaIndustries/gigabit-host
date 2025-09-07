@@ -3,8 +3,8 @@ package proxmox
 import (
 	"os"
 
-	"github.com/andromeda/gigabit-host/internal/temporal/proxmox/activities"
-	"github.com/andromeda/gigabit-host/internal/temporal/proxmox/workflows"
+	"github.com/andromeda/gigabit-host/internal/temporal/gigabitHost/activities"
+	"github.com/andromeda/gigabit-host/internal/temporal/gigabitHost/workflows"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 	"go.temporal.io/sdk/workflow"

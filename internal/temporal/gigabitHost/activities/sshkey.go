@@ -7,6 +7,7 @@ import (
 
 	"github.com/Masterminds/squirrel"
 	"go.temporal.io/sdk/activity"
+	"golang.org/x/crypto/ssh"
 
 	"github.com/andromeda/gigabit-host/internal/PostgressInterface"
 	"github.com/andromeda/gigabit-host/internal/types"
@@ -61,6 +62,16 @@ func (a *Activities) GetSSHKey(
 		return nil, errors.New("ssh key not found or invalid JSON")
 	}
 	logger.Info("SSH key found", "key", key.ID)
+
+	// 4) Validate SSH Key
+
+	keyBytes := []byte(key.PublicKey)
+	_, _, _, _, pubKeyErr := ssh.ParseAuthorizedKey(keyBytes)
+
+	if pubKeyErr != nil {
+		logger.Error("Failed to get a valid public key: %v", err)
+		return nil, errors.New("ssh key not valid")
+	}
 
 	return &GetSshKeyResponse{Key: *key}, nil
 }
