@@ -30,7 +30,7 @@ export default async function Sidebar() {
 
 
     return (
-        <div className="menu bg-base-200 rounded-box p-2 fixed">
+        <div className="menu bg-base-200 rounded-box p-2 md:w-1/8 fixed">
             <ul className="list">
                 <li><Link href={"/dashboard"}>Dashboard</Link></li>
                 <li><Link href={"/dashboard/vm"}>VMs</Link></li>
