@@ -51,21 +51,18 @@ export default async function Dashboard() {
                             Billing
                         </div>
                         {(total_cost > 0) ? (
-                            <div className="grid grid-cols-2 gap-2">
-
-                                <div className="text-lg">
-                                    Active Subscriptions:
-                                </div>
-                                <div className="text-lg">
-                                    {active_subscriptions}
-                                </div>
-                                <div className="text-lg">
-                                    Monthly Costs:
-                                </div>
-                                <div>
-                                    ${total_cost}
-                                </div>
-                            </div>
+                            <table className="table">
+                                <tbody>
+                                    <tr>
+                                        <th className="text-right">Active Subscriptions:</th>
+                                        <th className="text-left">{active_subscriptions}</th>
+                                    </tr>
+                                    <tr>
+                                        <th className="text-right">Monthly Costs:</th>
+                                        <th className="text-left">${total_cost}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         ) : (
                             <div className="text-lg">
                                 You have no active subscriptions
