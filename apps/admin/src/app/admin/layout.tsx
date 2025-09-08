@@ -1,10 +1,13 @@
+import AdminSidebar from "@/components/navigation/adminSideBar";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function Sidebar() {
-
+export default async function DashboardLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
     const supabaseClent = await createClient();
     const userObject = await supabaseClent.auth.getUser();
     const user = userObject.data.user || null;
@@ -29,17 +32,26 @@ export default async function Sidebar() {
     const siteAdmin = userPermissions.find((permission) => permission.roleId == role.id) ? true : false
 
 
-    return (
-        <div className="menu bg-base-200 rounded-box p-2 fixed">
-            <ul className="list">
-                <li><Link href={"/dashboard"}>Dashboard</Link></li>
-                <li><Link href={"/dashboard/vm"}>VMs</Link></li>
-                <li><Link href={"/dashboard/billing"}>Billing</Link></li>
-                <li><Link href={"/dashboard/settings"}>Settings</Link></li>
-                {(siteAdmin) ? (
-                    <li><Link href={"/admin"}>Admin Portal</Link></li>
+
+
+    if (siteAdmin) {
+        return (
+            <div className="flex md:flex-row">
+                {(user !== null) ? (
+                    <div className="flex-1/8">
+                        <div className="hidden md:flex fixed md:w-1/8 mt-16 h-screen bg-base-200">
+                            {AdminSidebar()}
+                        </div>
+                    </div>
                 ) : null}
-            </ul>
-        </div>
-    )
+
+                <div className="bg-base-100 flex-7/8">
+                    {children}
+                </div>
+            </div >
+        );
+    }
+
+    redirect("/dashboard")
 }
+

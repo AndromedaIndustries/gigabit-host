@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Name from "../name";
+import Name from "@/components/navigation/name";
 import { createClient } from "@/utils/supabase/server";
 import Logout from "@/utils/supabase/logout";
 

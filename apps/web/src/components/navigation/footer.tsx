@@ -13,9 +13,34 @@ export default function Footer() {
           <Link href={"/aup"}>Acceptable Use Policy</Link>
           <Link href={"/privacy"}>Privacy Policy</Link>
         </div>
-        <div className="">
-          Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
-          {new Date().getFullYear()} - All rights reserved by {company}
+        <div className="flex flex-row-reverse gap-2">
+          <div>
+            Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
+            {new Date().getFullYear()} - All rights reserved by {company}
+          </div>
+          <div className="flex gap-1.5 place-items-center">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1em" viewBox="0 0 16 10" aria-label="Trans flag" role="img" >
+                <rect y="0" width="16" height="2" fill="#55D4FF" />
+                <rect y="2" width="16" height="2" fill="#FF66A3" />
+                <rect y="4" width="16" height="2" fill="#FFFFFF" />
+                <rect y="6" width="16" height="2" fill="#FF66A3" />
+                <rect y="8" width="16" height="2" fill="#55D4FF" />
+              </svg>
+            </div>
+            <div>
+              Trans rights are human rights!
+            </div>
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1em" viewBox="0 0 16 10" aria-label="Trans flag" role="img" >
+                <rect y="0" width="16" height="2" fill="#55D4FF" />
+                <rect y="2" width="16" height="2" fill="#FF66A3" />
+                <rect y="4" width="16" height="2" fill="#FFFFFF" />
+                <rect y="6" width="16" height="2" fill="#FF66A3" />
+                <rect y="8" width="16" height="2" fill="#55D4FF" />
+              </svg>
+            </div>
+          </div>
         </div>
       </aside>
     </footer>

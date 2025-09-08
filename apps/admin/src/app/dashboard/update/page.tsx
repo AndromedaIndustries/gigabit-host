@@ -1,9 +1,9 @@
 import AccountType from '@/components/input/accountType'
 import SetName from '@/components/input/setName'
 import { redirect } from 'next/navigation';
-import { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/utils/supabase/server';
 import { update } from './update';
+import { userMetadata } from '@/types/userMetadata';
 
 
 export default async function UpdatePage() {
@@ -12,6 +12,8 @@ export default async function UpdatePage() {
     const userResponse = await supabase.auth.getUser();
 
     const user = userResponse.data.user;
+
+    const userMetadata = user?.user_metadata as userMetadata
 
     if (user === null) {
         redirect("/dashboard/login")
@@ -23,7 +25,7 @@ export default async function UpdatePage() {
                 <fieldset>
                     <h1 className="text-2xl font-bold text-center">Finish Creating your Account</h1>
 
-                    <SetName />
+                    <SetName first_name={userMetadata.first_name} last_name={userMetadata.last_name} />
 
                     <label htmlFor="email" className="fieldset-label">Email</label>
                     <input id="email" name="email" type="email" className="input w-full" defaultValue={user.email} />
@@ -31,7 +33,7 @@ export default async function UpdatePage() {
                     <label htmlFor="password" className="fieldset-label">Password</label>
                     <input id="password" name="password" type="password" className="input w-full" required placeholder="Password" minLength={8} pattern=".{12,}" title="Must be more than 12 characters" />
 
-                    <AccountType />
+                    <AccountType accountType={userMetadata.account_type} />
 
                     <p className="validator-hint hidden">Must be more than 12 characters</p>
                     <div className='align-middle flex flex-col justify-between pt-6'>
