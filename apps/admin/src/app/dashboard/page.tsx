@@ -74,6 +74,6 @@ export default async function Dashboard() {
     }
 
 
-    redirect("/dashboard/login")
+    redirect("/login")
 
 }

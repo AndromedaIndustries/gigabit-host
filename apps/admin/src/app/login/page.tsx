@@ -35,26 +35,26 @@ export default function LoginPage() {
 
                 <button type="submit" formAction={login} className="btn btn-accent w-full">Sign in</button>
 
-                <Link href={"/dashboard/login/otp"} className="btn btn-accent w-full"> Sign in with Magic Link</Link>
+                <Link href={"/login/otp"} className="btn btn-accent w-full"> Sign in with Magic Link</Link>
                 {allowSignup === "true" ?
                     <div className='align-middle flex flex-col justify-between'>
                         <div className="text-center">
                             Don&apos;t have an account?
                         </div>
-                        <Link href={"/dashboard/signup"} className="btn btn-outline btn-primary">Sign up</Link>
+                        <Link href={"/signup"} className="btn btn-outline btn-primary">Sign up</Link>
 
                     </div>
                     : <div className='align-middle flex flex-col justify-between'>
                         <div className="text-center">
                             Have an invite code?
                         </div>
-                        <Link href={"/dashboard/invite"} className="btn btn-accent">Sign up with Invite Code</Link>
+                        <Link href={"/invite"} className="btn btn-accent">Sign up with Invite Code</Link>
 
                     </div>}
                 <div>
 
                     <div className="text-center">Don't have an invite code?</div>
-                    <Link href={"/dashboard/invite/request"} className="btn btn-accent w-full">Request an Invite</Link>
+                    <Link href={"/invite/request"} className="btn btn-accent w-full">Request an Invite</Link>
                 </div>
             </form>
         </div>

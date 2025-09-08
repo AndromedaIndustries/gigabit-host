@@ -12,7 +12,7 @@ export default async function Dashboard() {
     const roles = await prisma.role.findMany()
 
     if (user == null) {
-        redirect("/dashboard/login")
+        redirect("/login")
     }
 
     const userPermissions = await prisma.permissions.findMany({

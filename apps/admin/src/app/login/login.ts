@@ -15,11 +15,11 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
-    redirect("/dashboard/login");
+    redirect("/login");
   }
 
   if (!data) {
-    console.log("Failure with retriving user data `/dashboard/login/login.ts`")
+    console.log("Failure with retriving user data `/login/login.ts`")
     revalidatePath("/", "layout");
     redirect("/dashboard");
   }

@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const token_hash = searchParams.get('token_hash')
     const type = searchParams.get('type') as EmailOtpType | null
     const adminURL = "https://portal.gigabit.host"
-    const redirectTo = searchParams.get('next') || "/dashboard/login"
+    const redirectTo = searchParams.get('next') || "/login"
     const redirectPath = adminURL + redirectTo
 
 
@@ -23,13 +23,13 @@ export async function GET(request: NextRequest) {
         })
 
         if (userResponse.error) {
-            return NextResponse.redirect(adminURL + "/dashboard/login")
+            return NextResponse.redirect(adminURL + "/login")
         }
 
         const user = userResponse.data.user
 
         if (!user) {
-            return NextResponse.redirect(adminURL + "/dashboard/login")
+            return NextResponse.redirect(adminURL + "/login")
         }
 
         if (user.user_metadata) {

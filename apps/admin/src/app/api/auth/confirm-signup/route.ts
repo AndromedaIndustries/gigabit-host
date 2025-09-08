@@ -21,13 +21,13 @@ export async function GET(request: NextRequest) {
         })
 
         if (userResponse.error) {
-            return NextResponse.redirect(adminURL + "/dashboard/login?log=userGetFailed")
+            return NextResponse.redirect(adminURL + "/login?log=userGetFailed")
         }
 
         const user = userResponse.data.user
 
         if (!user) {
-            return NextResponse.redirect(adminURL + "/dashboard/login?log=userNull")
+            return NextResponse.redirect(adminURL + "/login?log=userNull")
         }
 
         await supabase.auth.updateUser({
@@ -41,11 +41,11 @@ export async function GET(request: NextRequest) {
 
             if (metadata.first_name == "" || metadata.last_name == "" || metadata.account_type == "") {
                 // if any of the above is blank, redirect the user to update their information
-                return NextResponse.redirect(adminURL + "/dashboard/update")
+                return NextResponse.redirect(adminURL + "/update")
             }
         }
     } else {
-        return NextResponse.redirect(adminURL + "/dashboard/login?log=otpfailure")
+        return NextResponse.redirect(adminURL + "/login?log=otpfailure")
     }
 
     revalidatePath("/dashboard")

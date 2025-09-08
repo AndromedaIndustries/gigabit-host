@@ -34,7 +34,7 @@ export async function signup(formData: FormData) {
   const user = authResponse.data.user
 
   if (user == null) {
-    redirect("/dashboard/invite?error=invalid_invite_code&error=3")
+    redirect("/invite?error=invalid_invite_code&error=3")
   }
 
   await prisma.audit_Log.create({
@@ -47,5 +47,5 @@ export async function signup(formData: FormData) {
 
 
 
-  redirect("/dashboard/signup/success?type=signup");
+  redirect("/signup/success?type=signup");
 }

@@ -81,5 +81,5 @@ export async function deleteAccount() {
     },
   });
 
-  redirect("/dashboard/login");
+  redirect("/login");
 }

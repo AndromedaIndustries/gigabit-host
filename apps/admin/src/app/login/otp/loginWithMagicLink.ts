@@ -17,8 +17,8 @@ export async function LoginWithMagicLink(formData: FormData) {
     })
 
     if (error) {
-        redirect("/dashboard/login?failed_to_request_otp");
+        redirect("/login?failed_to_request_otp");
     }
 
-    redirect("/dashboard/signup/success?type=otp");
+    redirect("/signup/success?type=otp");
 }

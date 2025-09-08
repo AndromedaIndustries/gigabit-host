@@ -25,11 +25,11 @@ export async function invite(formData: FormData) {
     })
 
     if (inviteObject == null) {
-        redirect("/dashboard/invite?error=invalid_invite_code&error=1")
+        redirect("/invite?error=invalid_invite_code&error=1")
     }
 
     if (inviteObject.uses >= inviteObject.maxUses) {
-        redirect("/dashboard/invite?error=invalid_invite_code&error=2")
+        redirect("/invite?error=invalid_invite_code&error=2")
     }
 
     await prisma.inviteCode.update({
@@ -57,7 +57,7 @@ export async function invite(formData: FormData) {
     const user = authResponse.data.user
 
     if (user == null) {
-        redirect("/dashboard/invite?error=invalid_invite_code&error=3")
+        redirect("/invite?error=invalid_invite_code&error=3")
     }
 
     const userId = user.id
@@ -76,5 +76,5 @@ export async function invite(formData: FormData) {
         redirect("/error");
     }
 
-    redirect("/dashboard/signup/success?type=invite");
+    redirect("/signup/success?type=invite");
 }

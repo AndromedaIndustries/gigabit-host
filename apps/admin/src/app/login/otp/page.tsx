@@ -24,7 +24,7 @@ export default function OtpLoginPage() {
 
 
                 <button type="submit" formAction={LoginWithMagicLink} className="btn btn-accent w-full">Send Email</button>
-                <Link href={"/dashboard/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
+                <Link href={"/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
             </form>
         </div>
     )

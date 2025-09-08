@@ -50,7 +50,7 @@ export default function InvitePage() {
 
                     <div className='align-middle flex flex-col justify-between pt-6 gap-2'>
                         <button type="submit" className="btn btn-accent">Submit Request</button>
-                        <Link href={"/dashboard/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
+                        <Link href={"/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
                     </div>
                 </fieldset>
             </form>

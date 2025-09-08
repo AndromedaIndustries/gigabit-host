@@ -7,7 +7,7 @@ export default async function Dashboard() {
     const user_id = userObject.data.user?.id || null;
 
     if (user_id == null) {
-        redirect("/dashboard/login");
+        redirect("/login");
     } else {
         redirect("/dashboard");
     }

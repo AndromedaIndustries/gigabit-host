@@ -11,7 +11,7 @@ export default async function Page() {
     const user = userResponse.data.user;
 
     if (user === null) {
-        redirect("/dashboard/login")
+        redirect("/login")
     }
 
     return (

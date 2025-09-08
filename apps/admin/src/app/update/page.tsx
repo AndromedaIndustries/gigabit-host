@@ -16,7 +16,7 @@ export default async function UpdatePage() {
     const userMetadata = user?.user_metadata as userMetadata
 
     if (user === null) {
-        redirect("/dashboard/login")
+        redirect("/login")
     }
 
     return (
