@@ -21,6 +21,12 @@ export async function SendInvite(id: string) {
 
     const supabase = await createAdminClient();
 
+    const adminUser = (await supabase.auth.getUser()).data.user
+
+    if (!adminUser) {
+        return "User not signed in"
+    }
+
     const { data, error } = await supabase.auth.admin.inviteUserByEmail(invite.email)
 
     if (error) {
@@ -39,6 +45,14 @@ export async function SendInvite(id: string) {
             id: invite.id
         },
         data: invite
+    })
+
+    await prisma.audit_Log.create({
+        data: {
+            user_id: adminUser.id,
+            action: "approved_invite_request",
+            description: `"User invited ${invite.email} to create an account`
+        }
     })
 
     revalidatePath("/admin/invites")
