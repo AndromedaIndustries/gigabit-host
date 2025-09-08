@@ -48,7 +48,8 @@ export default async function Dashboard() {
 
 
     return (
-        <div className="grid grid-cols-4 gap-5 pt-20 px-10 pb-24">
+        <div className="grid grid-cols-4 gap-5 pt-20 px-5 pb-24">
+            <div className="card bg-base-300 shadow-sm p-4 col-span-3"></div>
             <div>
                 <div>Current Roles:</div>
                 <div>

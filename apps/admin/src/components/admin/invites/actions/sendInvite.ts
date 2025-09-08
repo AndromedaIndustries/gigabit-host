@@ -1,4 +1,5 @@
 "use server"
+import { userMetadata } from "@/types/userMetadata";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { prisma } from "database";
 import { revalidatePath } from "next/cache";
@@ -17,14 +18,13 @@ export async function SendInvite(id: string) {
     const timestamp = Date.now()
 
     invite.sent_at = new Date(timestamp)
-    invite
 
     const supabase = await createAdminClient();
 
-    const adminUser = (await supabase.auth.getUser()).data.user
+    const user = (await supabase.auth.getUser()).data.user
 
-    if (!adminUser) {
-        return "User not signed in"
+    if (!user) {
+        throw new Error("User not signed in")
     }
 
     const { data, error } = await supabase.auth.admin.inviteUserByEmail(invite.email)
@@ -39,6 +39,7 @@ export async function SendInvite(id: string) {
     }
 
     invite.user_id = data.user.id
+    console.log(data.user.id)
 
     await prisma.inviteRequest.update({
         where: {
@@ -49,7 +50,7 @@ export async function SendInvite(id: string) {
 
     await prisma.audit_Log.create({
         data: {
-            user_id: adminUser.id,
+            user_id: user.id,
             action: "approved_invite_request",
             description: `"User invited ${invite.email} to create an account`
         }
