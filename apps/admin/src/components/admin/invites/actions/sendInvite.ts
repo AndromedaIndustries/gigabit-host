@@ -1,6 +1,6 @@
 "use server"
-import { userMetadata } from "@/types/userMetadata";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
 import { revalidatePath } from "next/cache";
 
@@ -19,7 +19,7 @@ export async function SendInvite(id: string) {
 
     invite.sent_at = new Date(timestamp)
 
-    const supabase = await createAdminClient();
+    const supabase = await createClient()
 
     const user = (await supabase.auth.getUser()).data.user
 
@@ -27,7 +27,9 @@ export async function SendInvite(id: string) {
         throw new Error("User not signed in")
     }
 
-    const { data, error } = await supabase.auth.admin.inviteUserByEmail(invite.email)
+    const supabaseAdmin = await createAdminClient();
+
+    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(invite.email)
 
     if (error) {
         console.log(error)
