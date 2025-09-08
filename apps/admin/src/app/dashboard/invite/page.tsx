@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function InvitePage() {
 
     return (
-        <div className="flex items-center justify-center h-screen bg-base-100">
+        <div className="flex items-center justify-center h-screen bg-base-100 mb-10">
             <form className="flex flex-col gap-4 p-6 bg-base-200 rounded-lg shadow-md w-full max-w-sm mx-auto justify-center">
                 <fieldset>
                     <h1 className="text-2xl font-bold text-center">Create Account</h1>
@@ -28,7 +28,10 @@ export default function InvitePage() {
 
                     <div className='align-middle flex flex-col justify-between pt-6 gap-2'>
                         <button type="submit" formAction={invite} className="btn btn-accent">Create Account</button>
+
                         <Link href={"/dashboard/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
+                        <label htmlFor="request_invie" className="fieldset-label">Don't have an invite code?</label>
+                        <Link href={"/dashboard/invite/request"} className="btn btn-accent btn-outline w-full">Request an Invite</Link>
                     </div>
                 </fieldset>
             </form>

@@ -1,4 +1,6 @@
-export default function Name() {
+export default async function Name() {
+
+
   return (
     <>
       <span className="gigabit">Gigabit</span>.

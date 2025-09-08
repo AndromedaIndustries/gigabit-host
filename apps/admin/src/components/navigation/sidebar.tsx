@@ -30,15 +30,16 @@ export default async function Sidebar() {
 
 
     return (
-
-        <ul className="menu bg-base-200 rounded-box p-2 fixed">
-            <li><Link href={"/dashboard"}>Dashboard</Link></li>
-            <li><Link href={"/dashboard/vm"}>VMs</Link></li>
-            <li><Link href={"/dashboard/billing"}>Billing</Link></li>
-            <li><Link href={"/dashboard/settings"}>Settings</Link></li>
-            {(siteAdmin) ? (
-                <li><Link href={"/admin"}>Admin Portal</Link></li>
-            ) : null}
-        </ul>
+        <div className="menu bg-base-200 rounded-box p-2 fixed">
+            <ul className="list">
+                <li><Link href={"/dashboard"}>Dashboard</Link></li>
+                <li><Link href={"/dashboard/vm"}>VMs</Link></li>
+                <li><Link href={"/dashboard/billing"}>Billing</Link></li>
+                <li><Link href={"/dashboard/settings"}>Settings</Link></li>
+                {(siteAdmin) ? (
+                    <li><Link href={"/admin"}>Admin Portal</Link></li>
+                ) : null}
+            </ul>
+        </div>
     )
 }
