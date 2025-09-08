@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/andromeda/gigabit-host/internal/temporal/proxmox/activities"
+	"github.com/andromeda/gigabit-host/internal/temporal/gigabitHost/activities"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
