@@ -3,7 +3,9 @@
 import { createClient } from "@/utils/supabase/server"
 import { prisma } from "database"
 
-export async function updatePassword(password: string) {
+export async function updatePassword(formData: FormData) {
+    const password = formData.get("password") as string
+
     const supabaseClient = await createClient()
 
     const user = (await supabaseClient.auth.getUser()).data.user

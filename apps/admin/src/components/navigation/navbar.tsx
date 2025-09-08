@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Name from "../name";
+import Name from "@/components/navigation/name";
 import { createClient } from "@/utils/supabase/server";
 import Logout from "@/utils/supabase/logout";
 
@@ -9,8 +9,6 @@ export default async function Navbar() {
   const user = userResponse.data.user;
 
   const first_name = user?.user_metadata.first_name || null
-
-
 
   return (
     <div className="navbar bg-base-300 shadow-sm fixed z-50">

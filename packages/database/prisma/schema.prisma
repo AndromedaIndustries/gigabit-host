@@ -9,25 +9,47 @@ datasource db {
   url      = env("POSTGRES_SUPABASE_URL")
 }
 
+model InviteRequest {
+  id         String    @id @default(ulid()) @db.VarChar(255)
+  email      String    @unique @db.Text
+  purpose    String    @db.Text
+  use        String    @db.Text
+  user_id    String?   @db.VarChar(255)
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  sent_at    DateTime? @db.Timestamp(6)
+}
+
 model InviteCode {
   id         String         @id @default(ulid()) @db.VarChar(255)
   inviteCode String         @unique @db.VarChar(10)
   maxUses    Int            @db.Integer
   uses       Int            @db.Integer
   userIds    InvitedUsers[]
+  created_at DateTime       @default(now()) @db.Timestamp(6)
 }
 
 model InvitedUsers {
   userIds      String      @id @db.VarChar(255)
   email        String      @db.VarChar(255)
-  dateAccepted DateTime    @default(now()) @db.Timestamp(6)
+  invited      Boolean     @default(false) @db.Boolean
   InviteCode   InviteCode? @relation(fields: [inviteCodeId], references: [id])
   inviteCodeId String?     @db.VarChar(255)
+  created_at   DateTime    @default(now()) @db.Timestamp(6)
 }
 
-model Permission {
-  id   String @id @default(ulid()) @db.VarChar(255)
-  name String @unique @db.VarChar(255)
+model Permissions {
+  id         String   @id @default(ulid()) @db.VarChar(255)
+  userId     String   @db.Uuid
+  Role       Role?    @relation(fields: [roleId], references: [id])
+  roleId     String?  @db.VarChar(255)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @updatedAt @db.Timestamp(6)
+}
+
+model Role {
+  id          String        @id @default(ulid()) @db.VarChar(255)
+  name        String        @db.VarChar(255)
+  Permissions Permissions[]
 }
 
 model Ssh_keys {
@@ -44,6 +66,7 @@ model Ssh_keys {
 model Account {
   id          String    @id @default(ulid()) @db.VarChar(255)
   name        String    @db.VarChar(255)
+  active      Boolean   @db.Boolean
   description String?   @db.Text
   created_at  DateTime  @default(now()) @db.Timestamp(6)
   updated_at  DateTime  @updatedAt @db.Timestamp(6)

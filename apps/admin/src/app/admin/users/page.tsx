@@ -1,4 +1,4 @@
-import { UpdatePasswordForm } from '@/components/services/password/reset';
+
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
@@ -15,8 +15,10 @@ export default async function Page() {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen bg-base-100">
-            <UpdatePasswordForm />
+        <div className="w-full pt-20 px-10 pb-24 ">
+            <div>
+                Work in Progress
+            </div>
         </div>
     )
 }
