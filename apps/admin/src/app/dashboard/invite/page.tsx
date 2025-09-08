@@ -30,8 +30,6 @@ export default function InvitePage() {
                         <button type="submit" formAction={invite} className="btn btn-accent">Create Account</button>
 
                         <Link href={"/dashboard/login"} className="btn btn-accent btn-outline w-full"> Back to Sign in page</Link>
-                        <label htmlFor="request_invie" className="fieldset-label">Don't have an invite code?</label>
-                        <Link href={"/dashboard/invite/request"} className="btn btn-accent btn-outline w-full">Request an Invite</Link>
                     </div>
                 </fieldset>
             </form>

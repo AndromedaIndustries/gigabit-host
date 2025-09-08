@@ -51,6 +51,11 @@ export default function LoginPage() {
                         <Link href={"/dashboard/invite"} className="btn btn-accent">Sign up with Invite Code</Link>
 
                     </div>}
+                <div>
+
+                    <div className="text-center">Don't have an invite code?</div>
+                    <Link href={"/dashboard/invite/request"} className="btn btn-accent w-full">Request an Invite</Link>
+                </div>
             </form>
         </div>
     )
