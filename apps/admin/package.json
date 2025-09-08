@@ -27,11 +27,13 @@
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.2",
     "@temporalio/client": "^1.13.0",
+    "@xterm/xterm": "^5.5.0",
     "database": "workspace:*",
     "next": "^15",
     "proxmox-api": "^1.1.1",
     "react": "^19",
     "react-dom": "^19",
+    "react-vnc": "^3.1.0",
     "stripe": "^18.5.0",
     "ulid": "3.0.1"
   },
