@@ -20,6 +20,10 @@ export default async function Page() {
 
     const users = await supabaseAdmin.auth.admin.listUsers()
 
+    if (users.error === undefined) {
+        throw new Error("error getting all users")
+    }
+
     return (
         <div className="w-full pt-20 px-10 pb-24 ">
             <UsersTable users={users.data.users} />
