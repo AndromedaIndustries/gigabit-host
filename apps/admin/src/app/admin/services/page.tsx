@@ -1,4 +1,6 @@
+import { ServicesTable } from '@/components/admin/services/table';
 import { createClient } from '@/utils/supabase/server';
+import { prisma } from 'database';
 import { redirect } from 'next/navigation';
 
 
@@ -13,11 +15,15 @@ export default async function Page() {
         redirect("/login")
     }
 
+    const services = await prisma.services.findMany({
+        where: {
+            service_active: true
+        }
+    });
+
     return (
         <div className="w-full pt-20 px-10 pb-24 ">
-            <div>
-                Work in Progress
-            </div>
+            <ServicesTable services={services} />
         </div >
     )
 }
