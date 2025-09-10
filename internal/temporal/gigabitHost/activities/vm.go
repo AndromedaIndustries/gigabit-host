@@ -300,6 +300,30 @@ func (a *Activities) DeleteVMActivity(
 		return fmt.Errorf("failed to get Proxmox VM %d: %w", proxmoxVmId, nodeErr)
 	}
 
+	// 2) Stop the VM
+	stopTask, stopErr := vm.Stop(ctx)
+	if stopErr != nil {
+		logger.Error("Failed to stop Proxmox VM", "vmId", proxmoxVmId, "error", stopErr)
+		return fmt.Errorf("failed to stop Proxmox VM %d: %w", proxmoxVmId, stopErr)
+	}
+
+	status, completed, waitErr := stopTask.WaitForCompleteStatus(ctx, 30, 5) // Wait for up to 30 seconds, checking every 5 seconds
+
+	if waitErr != nil {
+		logger.Error("Failed to wait for Proxmox VM stop task", "vmId", proxmoxVmId, "error", waitErr)
+		return fmt.Errorf("failed to wait for Proxmox VM %d stop task: %w", proxmoxVmId, waitErr)
+	}
+
+	if !completed {
+		logger.Error("Proxmox VM stop task did not complete in time", "vmId", proxmoxVmId, "status", status)
+		return fmt.Errorf("proxmox VM %d stop task did not complete in time, status: %v", proxmoxVmId, status)
+	}
+
+	if !status {
+		logger.Error("Proxmox VM stop task failed", "vmId", proxmoxVmId, "status", status)
+		return fmt.Errorf("proxmox VM %d stop task failed", proxmoxVmId)
+	}
+
 	// 2) Delete the VM
 	deleteTask, deleteErr := vm.Delete(ctx)
 	if deleteErr != nil {
@@ -308,7 +332,7 @@ func (a *Activities) DeleteVMActivity(
 	}
 
 	// 3) Wait for the task to complete
-	status, completed, waitErr := deleteTask.WaitForCompleteStatus(ctx, 30, 5) // Wait for up to 30 seconds, checking every 5 seconds
+	status, completed, waitErr = deleteTask.WaitForCompleteStatus(ctx, 30, 5) // Wait for up to 30 seconds, checking every 5 seconds
 
 	if waitErr != nil {
 		logger.Error("Failed to wait for Proxmox VM delete task", "vmId", proxmoxVmId, "error", waitErr)
