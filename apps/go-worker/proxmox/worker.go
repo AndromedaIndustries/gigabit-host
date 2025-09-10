@@ -10,14 +10,14 @@ import (
 	"go.temporal.io/sdk/workflow"
 )
 
-func registerNewVM(worker worker.Worker) {
+func registerWorkflow(worker worker.Worker, name string, w interface{}) {
 	// Register your Workflow Definitions with the Worker.
 	// Use the RegisterWorkflow or RegisterWorkflowWithOptions method for each Workflow registration.
 	registerNewVMWorkflowOptions := workflow.RegisterOptions{
-		Name: "New VM Workflow",
+		Name: name,
 	}
 
-	worker.RegisterWorkflowWithOptions(workflows.NewVMWorkflow, registerNewVMWorkflowOptions)
+	worker.RegisterWorkflowWithOptions(w, registerNewVMWorkflowOptions)
 
 	// Register your Activity Definitons with the Worker.
 	// Use this technique for registering all Activities that are part of a struct and set the shared variable values.
@@ -30,7 +30,8 @@ func ProxmoxWorkers(interrupt chan os.Signal, temporalClient client.Client) erro
 	proxmoxWorker := worker.New(temporalClient, "proxmox", worker.Options{})
 
 	// Register new VM Workflow
-	registerNewVM(proxmoxWorker)
+	registerWorkflow(proxmoxWorker, "New VM Workflow", workflows.NewVMWorkflow)
+	registerWorkflow(proxmoxWorker, "Delete Cancled Services Workflow", workflows.DeleteServicesWorkflow)
 
 	// Register your Activity Definitons with the Worker.
 	// Use this technique for registering all Activities that are part of a struct and set the shared variable values.
