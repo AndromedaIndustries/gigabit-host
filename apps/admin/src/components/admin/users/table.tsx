@@ -43,7 +43,8 @@ async function UserItem({ user }: { user: User }) {
 
     const service_count = await prisma.services.count({
         where: {
-            user_id: user.id
+            user_id: user.id,
+            service_active: true,
         }
     })
 
