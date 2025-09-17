@@ -22,7 +22,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "prettier": "^3.6.2",
-    "prisma": "^6.16.1",
+    "prisma": "^6.16.2",
     "supabase": "^2.33.9",
     "tsx": "^4.20.5",
     "turbo": "^2.5.6"
