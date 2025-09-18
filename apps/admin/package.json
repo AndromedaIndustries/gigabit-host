@@ -44,7 +44,7 @@
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "daisyui": "5.1.12",
+    "daisyui": "5.1.13",
     "eslint": "^9",
     "eslint-config-next": "^15",
     "postcss": "^8",
