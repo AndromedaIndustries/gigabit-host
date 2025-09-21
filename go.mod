@@ -1,6 +1,6 @@
 module github.com/andromeda/gigabit-host
 
-go 1.23.5
+go 1.24.0
 
 require (
 	github.com/buger/goterm v1.0.4 // indirect
@@ -29,10 +29,10 @@ require (
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
 	go.temporal.io/api v1.51.0 // indirect
-	golang.org/x/net v0.43.0
-	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/sys v0.35.0 // indirect
-	golang.org/x/text v0.28.0 // indirect
+	golang.org/x/net v0.44.0
+	golang.org/x/sync v0.17.0 // indirect
+	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/text v0.29.0 // indirect
 	golang.org/x/time v0.12.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822 // indirect
@@ -44,9 +44,10 @@ require (
 
 require (
 	github.com/Masterminds/squirrel v1.5.4
-	github.com/jackc/pgx/v5 v5.7.5
+	github.com/jackc/pgx/v5 v5.7.6
 	github.com/nautobot/go-nautobot/v2 v2.3.2-beta
 	github.com/oklog/ulid/v2 v2.1.1
+	golang.org/x/crypto v0.42.0
 	resty.dev/v3 v3.0.0-beta.3
 )
 
@@ -56,6 +57,5 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
 	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
-	golang.org/x/crypto v0.41.0 // indirect
 	gopkg.in/validator.v2 v2.0.1 // indirect
 )

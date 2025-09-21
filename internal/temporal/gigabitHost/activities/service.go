@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 	"unicode/utf8"
 
 	"github.com/Masterminds/squirrel"
@@ -197,4 +198,104 @@ func (a *Activities) UpdateService(
 
 	logger.Info("Updated service successfully", "ServiceID", idStr)
 	return &UpdateServiceResponse{"Success", true}, nil
+}
+
+type GetServicesResponse struct {
+	Services []types.Service
+}
+
+func (a *Activities) GetServices(ctx context.Context) (*GetServicesResponse, error) {
+
+	logger := activity.GetLogger(ctx)
+
+	// Initialize Squirrel with PostgreSQL dialect
+	qb := squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar)
+
+	// Build the query
+	query := qb.
+		Select("row_to_json(t) AS full_service").
+		From(`"Services"`).
+		FromSelect(
+			squirrel.Select(
+				"id",
+				"user_id",
+				"service_type",
+				"hostname",
+				"template_id",
+				"os_name",
+				"os_version",
+				"public_key_id",
+				"username",
+				// cast metadata text → JSON so it's emitted as an object
+				"metadata::json AS metadata",
+				"sku_id",
+				"current_sku_id",
+				"initial_sku_id",
+				"service_active",
+				"subscription_active",
+				"subscription_id",
+				"initial_checkout_id",
+				"status",
+				"status_reason",
+				"payment_ids",
+				"payment_status",
+				"created_at",
+				"updated_at",
+				"deleted_at",
+				"account_id",
+				"proxmox_node",
+				"proxmox_vm_id",
+			).
+				From(`"Services"`),
+			"t",
+		).
+		Where(squirrel.Eq{
+			"subscription_active": false,
+			"service_active":      true,
+		})
+
+	// Convert to SQL + args
+	sql, args, err := query.ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	dbClient := PostgressInterface.GetClient(logger)
+
+	//logger.Warn("GetServices SQL", "sql", sql, "args", args)
+
+	// Execute with pgx
+	rows, err := dbClient.Query(ctx, sql, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	int := 0
+	var services []types.Service
+	for rows.Next() {
+		int++
+		logger.Debug(strconv.Itoa(int))
+		var rawJSON []byte
+		if scanError := rows.Scan(&rawJSON); scanError != nil {
+			logger.Error("unmarshal failed", "err", err)
+			return nil, errors.New("service not found")
+		}
+
+		// 3) Unmarshal
+		svc := &types.Service{}
+		if err := json.Unmarshal(rawJSON, svc); err != nil {
+			logger.Error("unmarshal failed", "err", err)
+			return nil, errors.New("service not found")
+		}
+		services = append(services, *svc)
+	}
+
+	if rows.Err() != nil {
+		return nil, fmt.Errorf("row iteration failed: %w", rows.Err())
+	}
+
+	return &GetServicesResponse{
+		Services: services,
+	}, nil
 }

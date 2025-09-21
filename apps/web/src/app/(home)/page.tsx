@@ -20,7 +20,7 @@ export default async function Home() {
         <div className="content px-10 pb-10 text-center">
           <div>
             Our Virtual Machines run in a secure datacenter with redundant
-            infrastructure to ensure your applications are always available.
+            power to ensure your applications are always available.
           </div>
           <div>
             {" "}

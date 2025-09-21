@@ -31,11 +31,19 @@ func main() {
 		logger.Info("Error loading .env file")
 	}
 
+	environment := os.Getenv("ENV")
+
 	// Create a channel to signal the Worker to stop
 	signalInterrupt := make(chan os.Signal, 1)
 
 	// Initial heloworld log
 	logger.Info("Hello World")
+
+	if environment == "prod" {
+		logger.Info("Running in Production Environment")
+	} else {
+		logger.Warn("Running in Development Environment")
+	}
 
 	// Attempt to connect to Proxmox
 	logger.Info(fmt.Sprintf("Connected to proxmox running %s", ProxmoxInterface.GetVersion(logger)))
@@ -49,22 +57,39 @@ func main() {
 		os.Exit(1)
 	}
 
-	temporalHost := os.Getenv("TEMPORAL_SERVER")
-	temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
-	temporalAccountId := os.Getenv("TEMPORAL_ACCOUNT_ID")
-	temporalApiKey := os.Getenv("TEMPORAL_API_KEY")
+	var temporalClient client.Client
+	var temporalErr error
 
-	// Create a Temporal Client
-	// A Temporal Client is a heavyweight object that should be created just once per process.
-	temporalClient, err := client.Dial(client.Options{
-		HostPort:          temporalHost,
-		Namespace:         temporalNamespace + "." + temporalAccountId,
-		ConnectionOptions: client.ConnectionOptions{TLS: &tls.Config{}},
-		Credentials:       client.NewAPIKeyStaticCredentials(temporalApiKey),
-		Logger:            logger,
-	})
-	if err != nil {
-		logger.Error("Unable to create client", err)
+	if environment == "prod" {
+		temporalHost := os.Getenv("TEMPORAL_SERVER")
+		temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
+		temporalAccountId := os.Getenv("TEMPORAL_ACCOUNT_ID")
+		temporalApiKey := os.Getenv("TEMPORAL_API_KEY")
+
+		// Create a Temporal Client
+		// A Temporal Client is a heavyweight object that should be created just once per process.
+		temporalClient, temporalErr = client.Dial(client.Options{
+			HostPort:          temporalHost,
+			Namespace:         temporalNamespace + "." + temporalAccountId,
+			ConnectionOptions: client.ConnectionOptions{TLS: &tls.Config{}},
+			Credentials:       client.NewAPIKeyStaticCredentials(temporalApiKey),
+			Logger:            logger,
+		})
+	} else {
+		temporalHost := os.Getenv("TEMPORAL_SERVER")
+		temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
+
+		// Create a Temporal Client
+		// A Temporal Client is a heavyweight object that should be created just once per process.
+		temporalClient, temporalErr = client.Dial(client.Options{
+			HostPort:  temporalHost,
+			Namespace: temporalNamespace,
+			Logger:    logger,
+		})
+	}
+
+	if temporalErr != nil {
+		logger.Error("Unable to create client", temporalErr)
 		os.Exit(1)
 	}
 	defer func() {

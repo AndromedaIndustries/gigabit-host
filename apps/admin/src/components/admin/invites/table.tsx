@@ -52,7 +52,7 @@ async function InviteItem({ invite }: { invite: InviteRequest }) {
             <td>{invite.user_id}</td>
             <td>
                 {(!invite.sent_at) ?
-                    <button onClick={onClick}>
+                    <button onClick={onClick} className="btn btn-accent w-10 rounded-full">
                         <FontAwesomeIcon icon={faMailForward} />
                     </button> : null}
             </td>

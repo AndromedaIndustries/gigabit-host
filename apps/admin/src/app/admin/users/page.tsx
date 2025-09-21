@@ -1,4 +1,6 @@
 
+import { UsersTable } from '@/components/admin/users/table';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
@@ -14,11 +16,17 @@ export default async function Page() {
         redirect("/login")
     }
 
+    const supabaseAdmin = await createAdminClient()
+
+    const users = await supabaseAdmin.auth.admin.listUsers()
+
+    if (users.error === undefined) {
+        throw new Error("error getting all users")
+    }
+
     return (
         <div className="w-full pt-20 px-10 pb-24 ">
-            <div>
-                Work in Progress
-            </div>
+            <UsersTable users={users.data.users} />
         </div>
     )
 }

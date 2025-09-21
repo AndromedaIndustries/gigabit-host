@@ -1,7 +1,5 @@
 import { InvitesTable } from '@/components/admin/invites/table';
-import { createClient } from '@/utils/supabase/server';
 import { prisma } from 'database';
-import { redirect } from 'next/navigation';
 
 
 export default async function Page() {
