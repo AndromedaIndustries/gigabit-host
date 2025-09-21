@@ -1,6 +1,4 @@
-import RebootVM from "@/components/services/vm/action/reboot";
-import StartVM from "@/components/services/vm/action/start";
-import StopVM from "@/components/services/vm/action/stop";
+
 import { VmMetadata } from "@/types/vmMetadata";
 import { GetSku } from "@/components/services/vms/vmHelpers";
 import { proxmoxClient } from "@/utils/proxmox/client";
@@ -9,6 +7,7 @@ import { prisma } from "database";
 import Link from "next/link";
 import { UsageBar } from "@/components/services/vm/usageBar";
 import { ProductAttributes } from "@/types/productAttributes";
+import { VmRebootButton, VmStartButton, VmStopButton } from "@/components/services/vm/buttons";
 
 export default async function VmManagementPage({
     params,
@@ -146,6 +145,16 @@ export default async function VmManagementPage({
                     </div>
                     <div className="card bg-base-200 place-items-center">
                         <div className="card-body">
+                            <div className="card-title">VM Utilites</div>
+                            <div className="grid gap-2">
+                                {(runningState == "running") ?
+                                    <div>
+                                        <Link href={`/dashboard/vm/${id}/vnc`} className="btn btn-success w-36">
+                                            VM Console
+                                        </Link>
+                                    </div>
+                                    : null}
+                            </div>
                             <div className="card-title">VM Power Control</div>
                             <div className="grid gap-2">
                                 {(runningState == "stopped") ?
@@ -218,71 +227,3 @@ function convertTime(totalSeconds: number): [number, number, number, number] {
     return [days, hours, minutes, seconds]
 }
 
-async function VmRebootButton({ vm_id, proxmox_node, proxmox_vm_id }: {
-    vm_id: string, proxmox_node: string, proxmox_vm_id: number
-}) {
-
-    async function rebootVm() {
-        // Server Function
-        'use server';
-
-        RebootVM({
-            vm_id: vm_id,
-            proxmox_node,
-            proxmox_vm_id
-        })
-    }
-
-    return (
-        <button onClick={rebootVm} className="btn btn-warning w-36">
-            Reboot VM
-        </button>
-    )
-
-}
-
-async function VmStartButton({ vm_id, proxmox_node, proxmox_vm_id }: {
-    vm_id: string, proxmox_node: string, proxmox_vm_id: number
-}) {
-
-    async function startVm() {
-        // Server Function
-        'use server';
-
-        StartVM({
-            vm_id: vm_id,
-            proxmox_node,
-            proxmox_vm_id
-        })
-    }
-
-    return (
-        <button onClick={startVm} className="btn btn-success w-36">
-            Start VM
-        </button>
-    )
-
-}
-
-async function VmStopButton({ vm_id, proxmox_node, proxmox_vm_id }: {
-    vm_id: string, proxmox_node: string, proxmox_vm_id: number
-}) {
-
-    async function rebootVm() {
-        // Server Function
-        'use server';
-
-        StopVM({
-            vm_id: vm_id,
-            proxmox_node,
-            proxmox_vm_id
-        })
-    }
-
-    return (
-        <button onClick={rebootVm} className="btn btn-error w-36">
-            Stop VM
-        </button>
-    )
-
-}
