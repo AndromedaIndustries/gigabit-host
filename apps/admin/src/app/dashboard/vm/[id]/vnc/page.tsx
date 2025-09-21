@@ -1,8 +1,13 @@
-
-import VncTerminalWrapper from '@/components/services/vm/terminal/vnc/VncTerminalWrapper';
-import VncTerminal from '@/components/services/vm/terminal/vnc/vnc';
-import { proxmoxClient } from "@/utils/proxmox/client"
+import VncTerminal from '@/components/services/vm/terminal/vnc/terminal';
+import { createClient } from '@/utils/supabase/server';
 import { prisma } from "database"
+
+type sessionRequest = {
+    session_id: number;
+    status: string;
+    password: string;
+};
+
 
 export default async function VncViewer({
     params,
@@ -10,13 +15,23 @@ export default async function VncViewer({
     params: Promise<{ id: string }>
 }) {
 
+    const proxmoxServer = process.env.PROXMOX_ADDRESS
 
+    if (!proxmoxServer) {
+        throw new Error("Proxmox Server Not Set")
+    }
 
-    // eslint-disable-next-line turbo/no-undeclared-env-vars
-    const proxmox_address = process.env.PROXMOX_ADDRESS;
+    const supabase = await createClient();
+    const userObject = await supabase.auth.getUser();
+    const userSession = (await supabase.auth.getSession()).data.session;
+    const user_id = userObject.data.user?.id;
 
-    if (!proxmox_address) {
-        throw new Error("PROXMOX_ADDRESS is not defined");
+    if (typeof user_id == "undefined") {
+        throw new Error("User not found")
+    }
+
+    if (userSession == null) {
+        throw new Error("User Session not found")
     }
 
     const vm = await prisma.services.findUnique({
@@ -29,40 +44,36 @@ export default async function VncViewer({
         throw new Error("Failed to retrieve VM")
     }
 
-    const proxmox_node = vm.proxmox_node
-    if (!proxmox_node) {
-        throw new Error("Failed to retrieve VM proxmox node")
-    }
-    const proxmox_vm_id_string = vm.proxmox_vm_id
-    if (!proxmox_vm_id_string) {
-        throw new Error("Failed to retrieve VM proxmox id")
-    }
-    const proxmox = await proxmoxClient()
-    const proxmox_vm_id = parseInt(proxmox_vm_id_string, 10)
+    const sessionParams = {
+        service_id: vm.id,
+        user_id: vm.user_id,
+    };
 
-    const vncProxy = await proxmox.nodes.$(proxmox_node).qemu.$(proxmox_vm_id).vncproxy.$post({
-        websocket: true,
-        "generate-password": true
-    })
+    const sessionRequestURL = `https://${proxmoxServer}/api/request/session/id`
 
-    const vncSession = await proxmox.nodes.$(proxmox_node).qemu.$(proxmox_vm_id).vncwebsocket.$get({
-        vncticket: vncProxy.ticket,
-        port: vncProxy.port
-    })
+    const res = await fetch(sessionRequestURL, {
+        method: 'POST',
+        cache: 'no-store',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userSession.access_token,
+        },
+        body: JSON.stringify(sessionParams),
+    });; // Or a relative path
+    const session: sessionRequest = await res.json();
+
+    if (session == undefined) {
+        throw new Error("Session is undefined")
+    }
+
+    const ws_url = `wss://${proxmoxServer}/ws?session_id=${session.session_id}&token=${userSession.access_token}`
 
     return (
-        <div>
+        <div className="w-full pt-20 px-10 pl-48 grid grid-cols-2">
             <div>
-                Connection to Host ${vm.hostname}
+                <VncTerminal url={ws_url} vncPassword={session.password} />
             </div>
-            <VncTerminal
-                node={proxmox_node}
-                vm_id={proxmox_vm_id_string}
-                port={vncSession.port}
-                host={proxmox_address}
-                token={vncProxy.ticket}
-                password={vncProxy.password || ""}
-            />
+
         </div>
     )
 }
