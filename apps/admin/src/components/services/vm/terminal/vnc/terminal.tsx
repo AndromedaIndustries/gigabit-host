@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import type { VncScreenHandle } from 'react-vnc';
+import { width } from '@fortawesome/free-brands-svg-icons/fa11ty';
 
 const VncScreen = dynamic(
     () => import('react-vnc').then(m => m.VncScreen),
@@ -15,13 +16,13 @@ export default function VncTerminal({ url, vncPassword }: { url: string, vncPass
 
 
     return (
-        <div>
+        <div className="h-full w-full">
             <VncScreen
                 url={url}
                 rfbOptions={{ credentials: { password: vncPassword } }}
                 scaleViewport
                 background="#000000"
-                style={{ width: '75vw', height: '75vh' }}
+                style={{ width: '100%', height: '100%' }}
             />
         </div>
     );

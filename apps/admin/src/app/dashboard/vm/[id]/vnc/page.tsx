@@ -1,6 +1,9 @@
+import { VmRebootButton } from '@/components/services/vm/buttons';
 import VncTerminal from '@/components/services/vm/terminal/vnc/terminal';
+import { proxmoxClient } from '@/utils/proxmox/client';
 import { createClient } from '@/utils/supabase/server';
 import { prisma } from "database"
+import Link from 'next/link';
 
 type sessionRequest = {
     session_id: number;
@@ -22,6 +25,7 @@ export default async function VncViewer({
     }
 
     const supabase = await createClient();
+    const proxmoxApiClient = await proxmoxClient();
     const userObject = await supabase.auth.getUser();
     const userSession = (await supabase.auth.getSession()).data.session;
     const user_id = userObject.data.user?.id;
@@ -43,6 +47,17 @@ export default async function VncViewer({
     if (!vm) {
         throw new Error("Failed to retrieve VM")
     }
+
+    const proxmoxNode = vm.proxmox_node
+    if (proxmoxNode == null) {
+        throw new Error("Missing Proxmox Node")
+    }
+
+    const proxmoxVmIdString = vm.proxmox_vm_id
+    if (proxmoxVmIdString == null) {
+        throw new Error("Missing VM ID")
+    }
+    const proxmoxVmId = parseInt(proxmoxVmIdString, 10)
 
     const sessionParams = {
         service_id: vm.id,
@@ -69,8 +84,26 @@ export default async function VncViewer({
     const ws_url = `wss://${proxmoxServer}/ws?session_id=${session.session_id}&token=${userSession.access_token}`
 
     return (
-        <div className="w-full pt-20 px-10 pl-48 grid grid-cols-2">
-            <div>
+        <div className="w-full h-[calc(100dvh-6rem)] pt-20 px-10 pl-5 flex flex-row">
+
+            <div className="card bg-base-200 flex-1/12 mr-5 h-fit">
+                <div className="card-body grid grid-cols-1 w-full justify-items-center">
+                    <div>
+                        <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-info w-36">
+                            Back to VM
+                        </Link>
+                    </div>
+                    <div>
+                        <VmRebootButton
+                            vm_id={vm.id}
+                            proxmox_node={proxmoxNode}
+                            proxmox_vm_id={proxmoxVmId}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div className='flex-9/12 '>
                 <VncTerminal url={ws_url} vncPassword={session.password} />
             </div>
 
