@@ -28,7 +28,7 @@
     "@types/node": "^24.5.2",
     "tsup": "^8.5.0",
     "tsx": "^4",
-    "eslint": "9.35.0"
+    "eslint": "9.36.0"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",
