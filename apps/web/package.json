@@ -39,12 +39,12 @@
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "daisyui": "5.1.18",
+    "daisyui": "5.1.23",
     "eslint": "^9",
     "eslint-config-next": "^15",
     "postcss": "^8",
     "tailwindcss": "^4",
-    "tsx": "^4.20.5",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }
