@@ -9,7 +9,7 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/joho/godotenv v1.5.1
-	github.com/luthermonson/go-proxmox v0.2.2
+	github.com/luthermonson/go-proxmox v0.2.3
 	github.com/magefile/mage v1.15.0 // indirect
 	go.temporal.io/sdk v1.36.0
 	logur.dev/logur v0.17.0
