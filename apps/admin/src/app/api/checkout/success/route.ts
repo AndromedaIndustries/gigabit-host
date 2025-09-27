@@ -5,6 +5,8 @@ import { Sku, prisma } from "database";
 import { UpdateService } from "@/utils/database/services/update";
 import createTemporalClient from "@/utils/temporal/client";
 import { createClient } from "@/utils/supabase/server";
+import { Invite_Type, userMetadata } from "@/types/userMetadata";
+import { faSkull } from "@fortawesome/free-solid-svg-icons";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -18,6 +20,8 @@ export async function GET(request: Request) {
   if (!supabaseSessionData.data.session) {
     return NextResponse.json({ error: "No session found" });
   }
+
+  const userMetadata = supabaseSessionData.data.session.user.user_metadata as userMetadata
 
   if (!session_id) {
     return NextResponse.json(
@@ -49,7 +53,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No subscription found" });
   }
 
-  prisma.billing_Log.create({
+  await prisma.billing_Log.create({
     data: {
       user_id: supabaseSessionData.data.session.user.id,
       payment_id: session.id,
@@ -111,7 +115,6 @@ export async function GET(request: Request) {
   })
 
   if (sku) {
-
     const currentInventory = sku.quantity
     const expectedInventory = currentInventory - 1
 
@@ -124,10 +127,46 @@ export async function GET(request: Request) {
       },
     })
 
-    if (updatedSku.quantity != expectedInventory) {
+    if (userMetadata.invite_type == Invite_Type.User) {
+      const invite_mapping = await prisma.invitedUserMapping.findUnique({
+        where: {
+          invitedUserId: supabaseSessionData.data.session.user.id,
+        }
+      })
 
+      if (invite_mapping && !invite_mapping.creditApplied) {
+        const invitingUser = invite_mapping.invitingUserId
+
+        const invitingUserMapping = await prisma.third_Party_User_Mapping.findUnique({
+          where: {
+            id: invitingUser
+          }
+        })
+
+        if (invitingUserMapping && sku.inviteCreditEligible) {
+          const invitingCredit = sku.inviteCreditAmmount * -100
+
+          await stripe.customers.createBalanceTransaction(
+            invitingUserMapping.stripe_customer_id,
+            {
+              amount: invitingCredit,
+              currency: 'usd',
+            }
+          );
+
+          // 
+          await prisma.invitedUserMapping.update({
+            where: {
+              invitedUserId: invite_mapping.invitedUserId
+            },
+            data: {
+              creditApplied: true,
+              creditAmmount: sku.inviteCreditAmmount
+            }
+          })
+        }
+      }
     }
-
   }
 
   await prisma.audit_Log.create({

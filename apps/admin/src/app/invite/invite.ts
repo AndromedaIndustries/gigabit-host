@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
+import { Invite_Type } from "@/types/userMetadata";
 
 export async function invite(formData: FormData) {
     const supabase = await createClient();
@@ -28,18 +29,15 @@ export async function invite(formData: FormData) {
         redirect("/invite?error=invalid_invite_code&error=1")
     }
 
-    if (inviteObject.uses >= inviteObject.maxUses) {
+    if (inviteObject.maxUses !== -1 && inviteObject.uses >= inviteObject.maxUses) {
         redirect("/invite?error=invalid_invite_code&error=2")
     }
 
-    await prisma.inviteCode.update({
-        where: {
-            inviteCode: invite_code
-        },
-        data: {
-            uses: inviteObject.uses + 1
-        }
-    })
+    let invite_type = Invite_Type.Generic
+
+    if (inviteObject.userCode) {
+        invite_type = Invite_Type.User
+    }
 
     const authResponse = await supabase.auth.signUp({
         email: email as string,
@@ -49,6 +47,8 @@ export async function invite(formData: FormData) {
                 first_name: first_name,
                 last_name: last_name,
                 account_type: account_type,
+                invited: true,
+                invite_type: invite_type,
             },
         },
     });
@@ -60,6 +60,27 @@ export async function invite(formData: FormData) {
     }
 
     const userId = user.id
+
+    inviteObject.invitedUsers.push(user.id)
+
+    await prisma.inviteCode.update({
+        where: {
+            inviteCode: invite_code
+        },
+        data: {
+            invitedUsers: inviteObject.invitedUsers,
+            uses: inviteObject.uses + 1
+        }
+    })
+
+    if (inviteObject.userCode) {
+        await prisma.invitedUserMapping.create({
+            data: {
+                invitedUserId: userId,
+                invitingUserId: inviteObject.userId
+            }
+        })
+    }
 
     await prisma.audit_Log.create({
         data: {
