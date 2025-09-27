@@ -127,10 +127,6 @@ export async function GET(request: Request) {
       },
     })
 
-    if (updatedSku.quantity != expectedInventory) {
-
-    }
-
     if (userMetadata.invite_type == Invite_Type.User) {
       const invite_mapping = await prisma.invitedUserMapping.findUnique({
         where: {
@@ -138,7 +134,7 @@ export async function GET(request: Request) {
         }
       })
 
-      if (invite_mapping) {
+      if (invite_mapping && !invite_mapping.creditApplied) {
         const invitingUser = invite_mapping.invitingUserId
 
         const invitingUserMapping = await prisma.third_Party_User_Mapping.findUnique({
@@ -150,13 +146,24 @@ export async function GET(request: Request) {
         if (invitingUserMapping && sku.inviteCreditEligible) {
           const invitingCredit = sku.inviteCreditAmmount * -100
 
-          const customerBalanceTransaction = await stripe.customers.createBalanceTransaction(
+          await stripe.customers.createBalanceTransaction(
             invitingUserMapping.stripe_customer_id,
             {
               amount: invitingCredit,
               currency: 'usd',
             }
           );
+
+          // 
+          await prisma.invitedUserMapping.update({
+            where: {
+              invitedUserId: invite_mapping.invitedUserId
+            },
+            data: {
+              creditApplied: true,
+              creditAmmount: sku.inviteCreditAmmount
+            }
+          })
         }
       }
     }
