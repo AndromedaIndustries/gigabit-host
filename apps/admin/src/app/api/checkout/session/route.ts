@@ -180,6 +180,7 @@ export async function POST(request: Request) {
 
     return NextResponse.redirect(session.url, 303);
   } catch (error) {
+    console.log(error)
     redirect("/error");
   }
 }
