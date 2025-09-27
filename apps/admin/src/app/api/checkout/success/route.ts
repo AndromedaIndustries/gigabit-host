@@ -1,27 +1,26 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/utils/stripe/stripe";
 import { redirect } from "next/navigation";
-import { Sku, prisma } from "database";
+import { prisma } from "database";
 import { UpdateService } from "@/utils/database/services/update";
 import createTemporalClient from "@/utils/temporal/client";
 import { createClient } from "@/utils/supabase/server";
 import { Invite_Type, userMetadata } from "@/types/userMetadata";
-import { faSkull } from "@fortawesome/free-solid-svg-icons";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const session_id = searchParams.get("session_id");
 
   const authClient = await createClient();
-  const supabaseSessionData = await authClient.auth.getSession();
-  if (supabaseSessionData.error) {
-    return NextResponse.json({ error: supabaseSessionData.error });
-  }
-  if (!supabaseSessionData.data.session) {
-    return NextResponse.json({ error: "No session found" });
-  }
+  const getUser = await authClient.auth.getUser();
 
-  const userMetadata = supabaseSessionData.data.session.user.user_metadata as userMetadata
+  if (!getUser.data.user) {
+    throw new Error("Invalid User")
+  }
+  const user = getUser.data.user
+
+  const userMetadata = user.user_metadata as userMetadata
+  const userId = user.id
 
   if (!session_id) {
     return NextResponse.json(
@@ -55,7 +54,7 @@ export async function GET(request: Request) {
 
   await prisma.billing_Log.create({
     data: {
-      user_id: supabaseSessionData.data.session.user.id,
+      user_id: userId,
       payment_id: session.id,
       service_id: newService.id,
       status: status === "complete" ? "success" : "pending",
@@ -115,10 +114,11 @@ export async function GET(request: Request) {
   })
 
   if (sku) {
+    console.log("Sku found")
     const currentInventory = sku.quantity
     const expectedInventory = currentInventory - 1
 
-    const updatedSku = await prisma.sku.update({
+    await prisma.sku.update({
       where: {
         sku: newService.current_sku_id,
       },
@@ -128,42 +128,54 @@ export async function GET(request: Request) {
     })
 
     if (userMetadata.invite_type == Invite_Type.User) {
+
+      console.log("User invited by a Users personal code")
       const invite_mapping = await prisma.invitedUserMapping.findUnique({
         where: {
-          invitedUserId: supabaseSessionData.data.session.user.id,
+          invitedUserId: userId,
         }
       })
 
-      if (invite_mapping && !invite_mapping.creditApplied) {
-        const invitingUser = invite_mapping.invitingUserId
+      if (invite_mapping) {
+        console.log("Invite Mapping Found")
+        if (!invite_mapping.creditApplied) {
+          console.log("Credit not Appplied yet")
+          const invitingUser = invite_mapping.invitingUserId
 
-        const invitingUserMapping = await prisma.third_Party_User_Mapping.findUnique({
-          where: {
-            id: invitingUser
-          }
-        })
-
-        if (invitingUserMapping && sku.inviteCreditEligible) {
-          const invitingCredit = sku.inviteCreditAmmount * -100
-
-          await stripe.customers.createBalanceTransaction(
-            invitingUserMapping.stripe_customer_id,
-            {
-              amount: invitingCredit,
-              currency: 'usd',
-            }
-          );
-
-          // 
-          await prisma.invitedUserMapping.update({
+          const invitingUserMapping = await prisma.third_Party_User_Mapping.findUnique({
             where: {
-              invitedUserId: invite_mapping.invitedUserId
-            },
-            data: {
-              creditApplied: true,
-              creditAmmount: sku.inviteCreditAmmount
+              id: invitingUser
             }
           })
+          if (invitingUserMapping) {
+
+            if (sku.inviteCreditEligible) {
+              console.log("Service is eligble for Invite Credit")
+              console.log("Applyign Credit to user invitor user")
+              const invitingCredit = sku.inviteCreditAmmount * -100
+
+              await stripe.customers.createBalanceTransaction(
+                invitingUserMapping.stripe_customer_id,
+                {
+                  amount: invitingCredit,
+                  currency: 'usd',
+                }
+              );
+
+              // 
+              await prisma.invitedUserMapping.update({
+                where: {
+                  invitedUserId: invite_mapping.invitedUserId
+                },
+                data: {
+                  creditApplied: true,
+                  creditAmmount: sku.inviteCreditAmmount
+                }
+              })
+
+              console.log("Applied Credit")
+            }
+          }
         }
       }
     }
@@ -171,7 +183,7 @@ export async function GET(request: Request) {
 
   await prisma.audit_Log.create({
     data: {
-      user_id: supabaseSessionData.data.session.user.id,
+      user_id: userId,
       action: "checkout_session_completed",
       description: `User completed new service checkout: ${newService.id}`,
     },
@@ -186,6 +198,7 @@ export async function GET(request: Request) {
   }
 
   if (status === "complete") {
+    console.log("Succesfully triggered created new service")
     redirect("/dashboard/vm");
   }
 
