@@ -104,7 +104,7 @@ export default async function Settings() {
                 <UpdatePasswordModal />
             </div>
             <div className="flex flex-row gap-3">
-                < InviteCodeCard invite_code={user_invite_code.inviteCode} />
+                {/* < InviteCodeCard invite_code={user_invite_code.inviteCode} /> */}
             </div>
         </div>
     );
