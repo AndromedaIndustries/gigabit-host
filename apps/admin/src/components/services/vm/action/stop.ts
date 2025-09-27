@@ -29,7 +29,7 @@ export default async function StopVM(params: CommonVMParameters) {
 
     await proxmoxApiClient.nodes.$(vm_proxmox_node).qemu.$(vm_proxmox_id).status.stop.$post({
         // Timeout in Seconds
-        timeout: 5
+        timeout: 15
     })
 
     await prisma.audit_Log.create({

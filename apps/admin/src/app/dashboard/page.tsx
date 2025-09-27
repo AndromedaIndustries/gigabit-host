@@ -1,8 +1,7 @@
 import { GetSku } from "@/components/services/vms/vmHelpers";
-import { VmTable, VmTableShort } from "@/components/services/vms/vmTable";
+import { VmTableShort } from "@/components/services/vms/vmTable";
 import { GetCustomerActiveVMs } from "@/utils/database/common/vms";
 import { createClient } from "@/utils/supabase/server";
-import { prisma } from "database";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

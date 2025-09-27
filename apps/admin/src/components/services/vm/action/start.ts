@@ -27,9 +27,9 @@ export default async function StartVM(params: CommonVMParameters) {
         return
     }
 
-    const status = await proxmoxApiClient.nodes.$(vm_proxmox_node).qemu.$(vm_proxmox_id).status.start.$post({
+    await proxmoxApiClient.nodes.$(vm_proxmox_node).qemu.$(vm_proxmox_id).status.start.$post({
         // Timeout in Seconds
-        timeout: 5
+        timeout: 15
     })
 
     await prisma.audit_Log.create({
