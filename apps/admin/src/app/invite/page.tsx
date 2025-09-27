@@ -3,7 +3,15 @@ import { invite } from './invite'
 import SetName from '@/components/input/setName'
 import Link from 'next/link'
 
-export default function InvitePage() {
+export default async function InvitePage({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+
+    const code_parameter = (await searchParams).code
+    const invite_code = Array.isArray(code_parameter) ? code_parameter[0] : (code_parameter ?? "");
+
 
     return (
         <div className="flex items-center justify-center h-screen bg-base-100 mb-10">
@@ -22,9 +30,11 @@ export default function InvitePage() {
                     <AccountType />
 
                     <label htmlFor="password" className="fieldset-label">Invite Code</label>
-                    <input id="invite_code" name="invite_code" type="text" className="input w-full" />
-
-
+                    {(invite_code != "") ?
+                        <input id="invite_code" name="invite_code" type="text" className="input w-full" readOnly value={invite_code} />
+                        :
+                        <input id="invite_code" name="invite_code" type="text" className="input w-full" />
+                    }
 
                     <div className='align-middle flex flex-col justify-between pt-6 gap-2'>
                         <button type="submit" formAction={invite} className="btn btn-accent">Create Account</button>

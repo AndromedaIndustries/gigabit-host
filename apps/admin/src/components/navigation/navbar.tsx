@@ -6,9 +6,13 @@ import Logout from "@/utils/supabase/logout";
 export default async function Navbar() {
   const supabase = await createClient();
   const userResponse = await supabase.auth.getUser();
-  const user = userResponse.data.user;
+  const user = userResponse.data.user || null;
+  let first_name = null
 
-  const first_name = user?.user_metadata.first_name || null
+  if (user) {
+    first_name = user.user_metadata.first_name
+  }
+
 
   return (
     <div className="navbar bg-base-300 shadow-sm fixed z-50">

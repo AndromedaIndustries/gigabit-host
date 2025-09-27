@@ -41,7 +41,6 @@ export async function invite(formData: FormData) {
         }
     })
 
-    const now = Date.now()
     const authResponse = await supabase.auth.signUp({
         email: email as string,
         password: password,
