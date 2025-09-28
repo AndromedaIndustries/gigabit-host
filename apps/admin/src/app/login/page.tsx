@@ -4,6 +4,7 @@ import { login } from './login'
 
 export default function LoginPage() {
 
+    const homeUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://gigabit.host";
     const allowSignup = process.env.NEXT_PUBLIC_ALLOW_SIGNUP || false;
 
     return (
@@ -32,6 +33,12 @@ export default function LoginPage() {
                     <input id="password" name="password" type="password" required placeholder="Password" minLength={8} pattern=".{12,}" title="Must be more than 12 characters" />
                 </label>
                 <p className="validator-hint hidden">Must be more than 12 characters</p>
+
+                <div className="text-xs justify-self-center"><span>By signing in, you agree to our </span>
+                    <Link className="link link-primary" href={`${homeUrl}/terms`}>Terms of Service</Link>,&nbsp;
+                    <Link className="link link-primary" href={`${homeUrl}/aup`}>Acceptable Use Policy</Link>,&nbsp;
+                    and <Link className="link link-primary" href={`${homeUrl}/privacy`}>Privacy Policy</Link>
+                </div>
 
                 <button type="submit" formAction={login} className="btn btn-accent w-full">Sign in</button>
 

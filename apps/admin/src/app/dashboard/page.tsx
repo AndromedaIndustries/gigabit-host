@@ -1,5 +1,6 @@
 import { GetSku } from "@/components/services/vms/vmHelpers";
 import { VmTableShort } from "@/components/services/vms/vmTable";
+import { logger } from "@/lib/logger";
 import { GetCustomerActiveVMs } from "@/utils/database/common/vms";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
@@ -9,6 +10,8 @@ export default async function Dashboard() {
     const supabase = await createClient();
     const userObject = await supabase.auth.getUser();
     const user_id = userObject.data.user?.id || null;
+
+    logger.info("Test")
 
     if (user_id != null) {
         const vms = await GetCustomerActiveVMs(user_id);

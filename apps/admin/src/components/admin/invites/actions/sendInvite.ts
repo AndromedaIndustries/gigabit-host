@@ -1,4 +1,5 @@
 "use server"
+import { logger } from "@/lib/logger";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
@@ -32,7 +33,7 @@ export async function SendInvite(id: string) {
     const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(invite.email)
 
     if (error) {
-        console.log(error)
+        logger.error(error)
         throw new Error("Error while inviting user")
     }
 
@@ -41,7 +42,7 @@ export async function SendInvite(id: string) {
     }
 
     invite.user_id = data.user.id
-    console.log(data.user.id)
+    logger.debug(data.user.id)
 
     await prisma.inviteRequest.update({
         where: {

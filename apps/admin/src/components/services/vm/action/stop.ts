@@ -21,6 +21,14 @@ export default async function StopVM(params: CommonVMParameters) {
     const vm_proxmox_node = params.proxmox_node
     const vm_proxmox_id = params.proxmox_vm_id
 
+    if (!vm_proxmox_node) {
+        throw new Error("Missing Proxmox Node")
+    }
+
+    if (!vm_proxmox_id) {
+        throw new Error("Missing Proxmox VM ID")
+    }
+
     const vmPowerState = await proxmoxApiClient.nodes.$(vm_proxmox_node).qemu.$(vm_proxmox_id).status.current.$get()
 
     if (vmPowerState.status == "stopped") {

@@ -1,10 +1,9 @@
+import { CommonVMParameters } from "./action/common";
 import RebootVM from "./action/reboot";
 import StartVM from "./action/start";
 import StopVM from "./action/stop";
 
-export async function VmRebootButton({ vm_id, proxmox_node, proxmox_vm_id }: {
-    vm_id: string, proxmox_node: string, proxmox_vm_id: number
-}) {
+export async function VmRebootButton({ vm_id, proxmox_node, proxmox_vm_id }: CommonVMParameters) {
 
     async function rebootVm() {
         // Server Function
@@ -25,9 +24,8 @@ export async function VmRebootButton({ vm_id, proxmox_node, proxmox_vm_id }: {
 
 }
 
-export async function VmStartButton({ vm_id, proxmox_node, proxmox_vm_id }: {
-    vm_id: string, proxmox_node: string, proxmox_vm_id: number
-}) {
+export async function VmStartButton({ vm_id, proxmox_node, proxmox_vm_id }: CommonVMParameters
+) {
 
     async function startVm() {
         // Server Function
@@ -48,9 +46,7 @@ export async function VmStartButton({ vm_id, proxmox_node, proxmox_vm_id }: {
 
 }
 
-export async function VmStopButton({ vm_id, proxmox_node, proxmox_vm_id }: {
-    vm_id: string, proxmox_node: string, proxmox_vm_id: number
-}) {
+export async function VmStopButton({ vm_id, proxmox_node, proxmox_vm_id }: CommonVMParameters) {
 
     async function rebootVm() {
         // Server Function

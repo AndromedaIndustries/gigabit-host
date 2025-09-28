@@ -130,6 +130,8 @@ export async function VmRowShort({ vm }: { vm: Services }) {
             <td className="text-left">{vm.hostname}</td>
             <td className="text-left">{sku?.sku}</td>
             <td className="text-left">{sku?.price} $/mo</td>
+
+            {statusCell}
             <td className="text-left">
                 {vm.subscription_active ? (
                     <div className="badge badge-success badge-sm">Active</div>
@@ -137,7 +139,6 @@ export async function VmRowShort({ vm }: { vm: Services }) {
                     <div className="badge badge-error badge-sm">Inactive</div>
                 )}
             </td>
-            {statusCell}
             <td className="text-left">
                 <Link href={`/dashboard/vm/${vm.id}`} className="btn btn-accent btn-sm">
                     Manage

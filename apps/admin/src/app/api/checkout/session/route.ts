@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 import { getStripe } from "@/utils/stripe/stripe";
 import { NextResponse } from "next/server";
-import { AuthError } from "@supabase/supabase-js";
+import { logger } from "@/lib/logger";
 
 // This action runs on the server
 export async function POST(request: Request) {
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
 
     return NextResponse.redirect(session.url, 303);
   } catch (error) {
-    console.log(error)
+    logger.error(error)
     redirect("/error");
   }
 }

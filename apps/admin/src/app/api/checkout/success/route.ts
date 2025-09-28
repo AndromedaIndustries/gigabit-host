@@ -6,8 +6,10 @@ import { UpdateService } from "@/utils/database/services/update";
 import createTemporalClient from "@/utils/temporal/client";
 import { createClient } from "@/utils/supabase/server";
 import { Invite_Type, userMetadata } from "@/types/userMetadata";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: Request) {
+  logger.warn("Starting Successful Checkout")
   const { searchParams } = new URL(request.url);
   const session_id = searchParams.get("session_id");
 
@@ -15,7 +17,10 @@ export async function GET(request: Request) {
   const getUser = await authClient.auth.getUser();
 
   if (!getUser.data.user) {
-    throw new Error("Invalid User")
+    return NextResponse.json(
+      { error: "Invalid User" },
+      { status: 500 }
+    );
   }
   const user = getUser.data.user
 
@@ -66,10 +71,12 @@ export async function GET(request: Request) {
   if (status === "open") {
     newService.status = "pending";
     newService.service_active = false;
+    newService.subscription_active = true;
     newService.status_reason = "Payment pending";
   }
 
   if (status === "complete") {
+    newService.service_active = true
     newService.subscription_active = true;
     newService.status = "active";
     newService.service_active = false;
@@ -106,21 +113,24 @@ export async function GET(request: Request) {
     }
   );
 
+  logger.debug(newService.sku_id)
 
-  const sku = await prisma.sku.findUnique({
+  const sku = await prisma.sku.findFirst({
     where: {
-      sku: newService.current_sku_id
+      id: newService.sku_id
     },
   })
 
+  logger.debug(`Creating new ${sku?.name}`)
+
   if (sku) {
-    console.log("Sku found")
+    logger.debug("Sku found")
     const currentInventory = sku.quantity
     const expectedInventory = currentInventory - 1
 
     await prisma.sku.update({
       where: {
-        sku: newService.current_sku_id,
+        id: newService.sku_id,
       },
       data: {
         quantity: expectedInventory
@@ -129,7 +139,7 @@ export async function GET(request: Request) {
 
     if (userMetadata.invite_type == Invite_Type.User) {
 
-      console.log("User invited by a Users personal code")
+      logger.debug("User invited by a Users personal code")
       const invite_mapping = await prisma.invitedUserMapping.findUnique({
         where: {
           invitedUserId: userId,
@@ -137,9 +147,9 @@ export async function GET(request: Request) {
       })
 
       if (invite_mapping) {
-        console.log("Invite Mapping Found")
+        logger.debug("Invite Mapping Found")
         if (!invite_mapping.creditApplied) {
-          console.log("Credit not Appplied yet")
+          logger.debug("Credit not Appplied yet")
           const invitingUser = invite_mapping.invitingUserId
 
           const invitingUserMapping = await prisma.third_Party_User_Mapping.findUnique({
@@ -150,8 +160,8 @@ export async function GET(request: Request) {
           if (invitingUserMapping) {
 
             if (sku.inviteCreditEligible) {
-              console.log("Service is eligble for Invite Credit")
-              console.log("Applyign Credit to user invitor user")
+              logger.debug("Service is eligble for Invite Credit")
+              logger.debug("Applyign Credit to user invitor user")
               const invitingCredit = sku.inviteCreditAmmount * -100
 
               await stripe.customers.createBalanceTransaction(
@@ -173,9 +183,11 @@ export async function GET(request: Request) {
                 }
               })
 
-              console.log("Applied Credit")
+              logger.debug("Applied Credit")
             }
           }
+        } else {
+          logger.debug("Credit already Applied")
         }
       }
     }
@@ -198,7 +210,7 @@ export async function GET(request: Request) {
   }
 
   if (status === "complete") {
-    console.log("Succesfully triggered created new service")
+    logger.debug("Succesfully triggered created new service")
     redirect("/dashboard/vm");
   }
 

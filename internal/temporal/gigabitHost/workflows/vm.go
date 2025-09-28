@@ -356,6 +356,9 @@ func NewVMWorkflow(ctx workflow.Context, params VmWorkflowParams) (*VmWorkflowRe
 		},
 	})
 
+	configureVMResponse.VmObject.ServiceActive = true
+	configureVMResponse.VmObject.SubscriptionActive = true
+
 	updateServiceParams := &activities.UpdateServiceParams{
 		Service: *configureVMResponse.VmObject,
 	}

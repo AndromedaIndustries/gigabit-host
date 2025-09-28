@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "database";
+import { logger } from "@/lib/logger";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
@@ -19,7 +20,7 @@ export async function login(formData: FormData) {
   }
 
   if (!data) {
-    console.log("Failure with retriving user data `/login/login.ts`")
+    logger.debug("Failure with retriving user data `/login/login.ts`")
     revalidatePath("/", "layout");
     redirect("/dashboard");
   }

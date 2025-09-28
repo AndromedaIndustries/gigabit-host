@@ -8,8 +8,8 @@ export async function GetCustomerActiveVMs(user_id: string): Promise<Services[]>
             user_id: user_id,
             OR: [
                 { service_active: true },
-                { subscription_active: true },
-            ],
+                { subscription_active: true }
+            ]
         },
     })
 
