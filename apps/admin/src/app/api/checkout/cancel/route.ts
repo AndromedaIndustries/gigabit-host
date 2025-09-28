@@ -47,10 +47,13 @@ export async function GET(request: Request) {
   if (service) {
     const vm_id = service?.id;
 
-    await prisma.services.delete({
+    await prisma.services.update({
       where: {
         id: service.id,
       },
+      data: {
+        subscription_active: false
+      }
     });
 
     await prisma.audit_Log.create({

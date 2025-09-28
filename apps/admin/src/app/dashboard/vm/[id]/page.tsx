@@ -8,6 +8,7 @@ import Link from "next/link";
 import { UsageBar } from "@/components/services/vm/usageBar";
 import { ProductAttributes } from "@/types/productAttributes";
 import { VmRebootButton, VmStartButton, VmStopButton } from "@/components/services/vm/buttons";
+import { logger } from "@/lib/logger";
 
 export default async function VmManagementPage({
     params,
@@ -43,50 +44,65 @@ export default async function VmManagementPage({
         throw new Error("sku attributes missing")
     }
 
-    const proxmoxNode = vm.proxmox_node
+    var isUp: boolean = false
+    var running: boolean = false
+    var uptimeDays: number = 0
+    var uptimeHours: number = 0
+    var uptimeMinutes: number = 0
+    var uptimeSecond: number = 0
+    var maxmem: number = 0
+    var vmUptimeSeconds = 0
+    var runningState: String = ""
+    var cpuUsage: number = 0
+    var memoryUsage: number = 0
+    var vmMetadata: VmMetadata = {
+        ipv4_address: "",
+        ipv6_address: ""
+    }
+
+    var proxmoxNode
+    var proxmoxVmId
+
+    proxmoxNode = vm.proxmox_node
     if (proxmoxNode == null) {
-        throw new Error("Missing Proxmox Node")
-    }
-
-    const proxmoxVmIdString = vm.proxmox_vm_id
-    if (proxmoxVmIdString == null) {
-        throw new Error("Missing VM ID")
-    }
-    const proxmoxVmId = parseInt(proxmoxVmIdString, 10)
-
-    const vmPowerState = await proxmoxApiClient.nodes.$(proxmoxNode).qemu.$(proxmoxVmId).status.current.$get()
-
-    var maxmem = vmPowerState.maxmem
-
-    if (maxmem == undefined) {
-        maxmem = (currentSku.attributes as unknown as ProductAttributes).memory
-    }
-
-    const vmUptimeSeconds = vmPowerState.uptime
-    const runningState = vmPowerState.status
-    const cpuUsage = parseFloat((vmPowerState.cpu * 100).toFixed(2))
-    const memoryUsage = parseFloat(((vmPowerState.mem / maxmem) * 100).toFixed(2))
-
-    var isUp: boolean
-    var running: boolean
-    var uptimeDays: number
-    var uptimeHours: number
-    var uptimeMinutes: number
-    var uptimeSecond: number
-    if (vmUptimeSeconds == undefined) {
-        isUp = false;
-        running = false;
-        uptimeDays = 0
-        uptimeHours = 0
-        uptimeMinutes = 0
-        uptimeSecond = 0
+        logger.warn("Missing Proxmox Node")
     } else {
-        isUp = true;
-        running = true;
-        [uptimeDays, uptimeHours, uptimeMinutes, uptimeSecond] = convertTime(vmUptimeSeconds);
-    }
-    const vmMetadata = vm.metadata as VmMetadata
 
+        const proxmoxVmIdString = vm.proxmox_vm_id
+        if (proxmoxVmIdString == null) {
+            logger.warn("VM ID NOT Found")
+        } else {
+            proxmoxVmId = parseInt(proxmoxVmIdString, 10)
+
+            const vmPowerState = await proxmoxApiClient.nodes.$(proxmoxNode).qemu.$(proxmoxVmId).status.current.$get()
+
+            maxmem = vmPowerState.maxmem || 0
+
+            if (maxmem == undefined) {
+                maxmem = (currentSku.attributes as unknown as ProductAttributes).memory
+            }
+
+            vmUptimeSeconds = vmPowerState.uptime || 0
+            runningState = vmPowerState.status
+            cpuUsage = parseFloat((vmPowerState.cpu * 100).toFixed(2))
+            memoryUsage = parseFloat(((vmPowerState.mem / maxmem) * 100).toFixed(2))
+
+
+            if (vmUptimeSeconds == undefined) {
+                isUp = false;
+                running = false;
+                uptimeDays = 0
+                uptimeHours = 0
+                uptimeMinutes = 0
+                uptimeSecond = 0
+            } else {
+                isUp = true;
+                running = true;
+                [uptimeDays, uptimeHours, uptimeMinutes, uptimeSecond] = convertTime(vmUptimeSeconds);
+            }
+            vmMetadata = vm.metadata as VmMetadata
+        }
+    }
 
 
     return (

@@ -61,6 +61,7 @@ func main() {
 	var temporalErr error
 
 	if environment == "prod" {
+		logger.Info("Connecting to production temporal ")
 		temporalHost := os.Getenv("TEMPORAL_SERVER")
 		temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
 		temporalAccountId := os.Getenv("TEMPORAL_ACCOUNT_ID")
@@ -76,6 +77,7 @@ func main() {
 			Logger:            logger,
 		})
 	} else {
+		logger.Warn("Connecting to dev temporal ")
 		temporalHost := os.Getenv("TEMPORAL_SERVER")
 		temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
 
