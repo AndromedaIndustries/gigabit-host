@@ -20,12 +20,12 @@
   "dependencies": {
     "@prisma/client": "latest",
     "prisma": "^6",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^24.5.2",
+    "@types/node": "^24.6.1",
     "tsup": "^8.5.0",
     "tsx": "^4",
     "eslint": "9.36.0"
