@@ -31,8 +31,8 @@ require (
 	go.temporal.io/api v1.51.0 // indirect
 	golang.org/x/net v0.45.0
 	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
-	golang.org/x/text v0.29.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/time v0.12.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822 // indirect
@@ -47,7 +47,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.6
 	github.com/nautobot/go-nautobot/v2 v2.3.2-beta
 	github.com/oklog/ulid/v2 v2.1.1
-	golang.org/x/crypto v0.42.0
+	golang.org/x/crypto v0.43.0
 	resty.dev/v3 v3.0.0-beta.3
 )
 
