@@ -113,10 +113,10 @@ go.opentelemetry.io/otel/sdk/metric v1.35.0 h1:1RriWBmCKgkeHEhM7a2uMjMUfP7MsOF5J
 go.opentelemetry.io/otel/sdk/metric v1.35.0/go.mod h1:is6XYCUMpcKi+ZsOvfluY5YstFnhW0BidkR+gL+qN+w=
 go.opentelemetry.io/otel/trace v1.35.0 h1:dPpEfJu1sDIqruz7BHFG3c7528f6ddfSWfFDVt/xgMs=
 go.opentelemetry.io/otel/trace v1.35.0/go.mod h1:WUk7DtFp1Aw2MkvqGdwiXYDZZNvA/1J8o6xRXLrIkyc=
-go.temporal.io/api v1.51.0 h1:9+e14GrIa7nWoWoudqj/PSwm33yYjV+u8TAR9If7s/g=
-go.temporal.io/api v1.51.0/go.mod h1:iaxoP/9OXMJcQkETTECfwYq4cw/bj4nwov8b3ZLVnXM=
-go.temporal.io/sdk v1.36.0 h1:WO9zetpybBNK7xsQth4Z+3Zzw1zSaM9MOUGrnnUjZMo=
-go.temporal.io/sdk v1.36.0/go.mod h1:8BxGRF0LcQlfQrLLGkgVajbsKUp/PY7280XTdcKc18Y=
+go.temporal.io/api v1.53.0 h1:6vAFpXaC584AIELa6pONV56MTpkm4Ha7gPWL2acNAjo=
+go.temporal.io/api v1.53.0/go.mod h1:iaxoP/9OXMJcQkETTECfwYq4cw/bj4nwov8b3ZLVnXM=
+go.temporal.io/sdk v1.37.0 h1:RbwCkUQuqY4rfCzdrDZF9lgT7QWG/pHlxfZFq0NPpDQ=
+go.temporal.io/sdk v1.37.0/go.mod h1:tOy6vGonfAjrpCl6Bbw/8slTgQMiqvoyegRv2ZHPm5M=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
