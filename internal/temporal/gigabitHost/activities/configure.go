@@ -11,7 +11,7 @@ import (
 	"golang.org/x/net/publicsuffix"
 
 	"github.com/andromeda/gigabit-host/internal/ProxmoxInterface"
-	"github.com/andromeda/gigabit-host/internal/nautobot"
+	ipaminterface "github.com/andromeda/gigabit-host/internal/ipam/ipamInterface"
 	"github.com/andromeda/gigabit-host/internal/types"
 )
 
@@ -81,12 +81,22 @@ func (a *Activities) ConfigureVMActivity(
 		return nil, err
 	}
 
+	ipamClient, err := ipaminterface.New(ctx, logger)
+	if err != nil {
+		logger.Error("failed to initialize ipam client: %e", err)
+	}
+
 	logger.Info("Getting next available IPs from Nautobot")
-	ipv4, ipv4Gateway, ipv6, ipv6Gateway, ipErr := nautobot.GetNextAvalableIps(logger)
+	ipv4, ipv6, ipErr := ipamClient.GetNextAvalableIps(ctx, logger, vm.ID.String(), vm.Hostname)
 	if ipErr != nil {
 		logger.Error("failed to get next available IPs", "error", ipErr)
 		return nil, ipErr
 	}
+
+	v4Gateway := ipamClient.V4Gateway().Address
+	logger.Info("v4 Gateway IP is ", "addr", v4Gateway)
+	v6Gateway := ipamClient.V6Gateway().Address
+	logger.Info("v6 Gateway IP is ", "addr", v6Gateway)
 
 	memoryInt := params.Sku.Attributes.Memory * 1024
 	// Assuming your client has a SetConfig method that mirrors the Python .config.set(...)
@@ -117,7 +127,7 @@ func (a *Activities) ConfigureVMActivity(
 		},
 		proxmox.VirtualMachineOption{
 			Name:  "ipconfig0",
-			Value: "ip=" + ipv4.Address + ",gw=" + ipv4Gateway + ",ip6=" + ipv6.Address + ",gw6=" + ipv6Gateway,
+			Value: "ip=" + ipv4.Address + ",gw=" + v4Gateway + ",ip6=" + ipv6.Address + ",gw6=" + v6Gateway,
 		},
 		proxmox.VirtualMachineOption{
 			Name:  "nameserver",
@@ -137,9 +147,9 @@ func (a *Activities) ConfigureVMActivity(
 	// 6) Success: update status and timestamp
 	vm.Status = "configured"
 	vm.Metadata.Ipv4Address = &ipv4.Address
-	vm.Metadata.Ipv4AddressId = &ipv4.Id
+	vm.Metadata.Ipv4AddressId = ipv4.ID.Str
 	vm.Metadata.Ipv6Address = &ipv6.Address
-	vm.Metadata.Ipv6AddressId = &ipv6.Id
+	vm.Metadata.Ipv6AddressId = ipv6.ID.Str
 	logger.Info("VM configured successfully", "vmID", vmID)
 
 	return &ConfigureVMActivityResponse{VmObject: &vm}, nil
@@ -195,10 +205,27 @@ func (a *Activities) ResizeDiskActivity(
 		targetDisk = "virtio0" // Default disk if not set
 	}
 
-	err = proxmoxVM.ResizeDisk(ctx, targetDisk, diskSize)
+	resizeTask, err := proxmoxVM.ResizeDisk(ctx, targetDisk, diskSize)
 	if err != nil {
 		logger.Error("failed to resize disk", "vmID", vmID, "error", err)
 		return fmt.Errorf("failed to resize disk for VM %d: %w", vmID, err)
+	}
+
+	status, completed, waitErr := resizeTask.WaitForCompleteStatus(ctx, 30, 5)
+
+	if waitErr != nil {
+		logger.Error("Failed to wait for Proxmox VM resize disk task", "vmId", vmID, "error", waitErr)
+		return fmt.Errorf("failed to wait for Proxmox VM %d  resize disk task: %w", vmID, waitErr)
+	}
+
+	if !completed {
+		logger.Error("Proxmox VM  resize disk task did not complete in time", "vmId", vmID, "status", status)
+		return fmt.Errorf("proxmox VM %d  resize disk task did not complete in time, status: %v", vmID, status)
+	}
+
+	if !status {
+		logger.Error("Proxmox VM  resize disk task failed", "vmId", vmID, "status", status)
+		return fmt.Errorf("proxmox VM %d  resize disk task failed", vmID)
 	}
 
 	logger.Info("Disk resized successfully", "vmID", vmID, "newSizeMiB", diskSize)

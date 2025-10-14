@@ -8,7 +8,8 @@ import (
 	"go.temporal.io/sdk/activity"
 
 	"github.com/andromeda/gigabit-host/internal/ProxmoxInterface"
-	"github.com/andromeda/gigabit-host/internal/nautobot"
+	ipamcommon "github.com/andromeda/gigabit-host/internal/ipam/ipamCommon"
+	ipaminterface "github.com/andromeda/gigabit-host/internal/ipam/ipamInterface"
 	"github.com/andromeda/gigabit-host/internal/types"
 	"github.com/luthermonson/go-proxmox"
 )
@@ -349,10 +350,15 @@ func (a *Activities) DeleteVMActivity(
 		return fmt.Errorf("proxmox VM %d delete task failed", proxmoxVmId)
 	}
 
+	ipamClient, err := ipaminterface.New(ctx, logger)
+	if err != nil {
+		logger.Error("failed to initialize ipam client: %e", err)
+	}
+
 	ipv4Id := params.VmObject.Metadata.Ipv4AddressId
 	if *ipv4Id != "" {
 		// 3) Delete the IPv4 address from Nautobot
-		err := nautobot.DeleteIpFromIpam(*ipv4Id)
+		err := ipamClient.DeleteIp(ctx, logger, ipamcommon.IpId{Str: ipv4Id})
 		if err != nil {
 			logger.Error("Failed to delete IPv4 address from Nautobot", "ipv4Id", ipv4Id, "error", err)
 			return fmt.Errorf("failed to delete IPv4 address %s from Nautobot: %w", *ipv4Id, err)
@@ -363,7 +369,7 @@ func (a *Activities) DeleteVMActivity(
 	ipv6Id := params.VmObject.Metadata.Ipv6AddressId
 	if *ipv6Id != "" {
 		// 3) Delete the IPv6 address from Nautobot
-		err := nautobot.DeleteIpFromIpam(*ipv6Id)
+		err := ipamClient.DeleteIp(ctx, logger, ipamcommon.IpId{Str: ipv6Id})
 		if err != nil {
 			logger.Error("Failed to delete IPv6 address from Nautobot", "ipv6Id", ipv6Id, "error", err)
 			return fmt.Errorf("failed to delete IPv6 address %s from Nautobot: %w", *ipv6Id, err)
