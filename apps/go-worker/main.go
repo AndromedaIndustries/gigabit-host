@@ -81,6 +81,9 @@ func main() {
 		temporalHost := os.Getenv("TEMPORAL_SERVER")
 		temporalNamespace := os.Getenv("TEMPORAL_NAMESPACE")
 
+		logger.Info(temporalHost)
+		logger.Info(temporalNamespace)
+
 		// Create a Temporal Client
 		// A Temporal Client is a heavyweight object that should be created just once per process.
 		temporalClient, temporalErr = client.Dial(client.Options{
@@ -88,6 +91,7 @@ func main() {
 			Namespace: temporalNamespace,
 			Logger:    logger,
 		})
+
 	}
 
 	if temporalErr != nil {

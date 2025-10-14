@@ -36,7 +36,7 @@ export default function LoginPage() {
 
                 <div className="text-xs justify-self-center"><span>By signing in, you agree to our </span>
                     <Link className="link link-primary" href={`${homeUrl}/terms`}>Terms of Service</Link>,&nbsp;
-                    <Link className="link link-primary" href={`${homeUrl}/aup`}>Acceptable Use Policy</Link>,&nbsp;
+                    <Link className="link link-primary" href={`${homeUrl}/aup`}>Acceptable Use Policy</Link>,&nbsp;``
                     and <Link className="link link-primary" href={`${homeUrl}/privacy`}>Privacy Policy</Link>
                 </div>
 
