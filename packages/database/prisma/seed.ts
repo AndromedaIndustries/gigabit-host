@@ -10,7 +10,7 @@ const skus: Prisma.SkuCreateInput[] = [
     stripe_business_sku: "price_1R7LiaClZbs5CDDAVk7OI9s1", // Test SKU
     sku_type: "virtual_machine",
     category: "shared",
-    description: "A perfect VM for simple project or persoanl projects.",
+    description: "A perfect VM for simple project or personal projects.",
     price: 20,
     attributes: {
       cpu_mfg: "AMD",
