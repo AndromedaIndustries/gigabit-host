@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <a hidden rel="me" href="https://mastodon.lesbian.dev/@diana">Mastodon</a>
         <Navbar />
         <div className="container mx-auto pb-48 md:pb-24">{children}</div>
         <Footer />
