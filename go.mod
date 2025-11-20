@@ -48,7 +48,7 @@ require (
 	github.com/nautobot/go-nautobot/v2 v2.3.2-beta
 	github.com/netbox-community/go-netbox/v4 v4.3.0
 	github.com/oklog/ulid/v2 v2.1.1
-	golang.org/x/crypto v0.44.0
+	golang.org/x/crypto v0.45.0
 	resty.dev/v3 v3.0.0-beta.3
 )
 
