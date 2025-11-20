@@ -74,8 +74,8 @@ github.com/nautobot/go-nautobot/v2 v2.3.2-beta h1:w3sDcyt5CDSSWkKWUow08loxo6o72W
 github.com/nautobot/go-nautobot/v2 v2.3.2-beta/go.mod h1:T0emSo3w4TabGb4Wwb1o3NOEgbaVL1MLMDI9rFWaxtg=
 github.com/netbox-community/go-netbox/v4 v4.3.0 h1:1kYHscOJG8+GJobC9OdgXX39zBKrBzUE5bxwMgxdlaQ=
 github.com/netbox-community/go-netbox/v4 v4.3.0/go.mod h1:1r1Dhs2sGD3izwvOBZwggFiEGLvyQ5hNgFR16nxsixg=
-github.com/nexus-rpc/sdk-go v0.4.0 h1:A/IjWWAiWecnYnt7uI0Cw6ci6zJwaM9Ma3q4hDDxUVc=
-github.com/nexus-rpc/sdk-go v0.4.0/go.mod h1:TpfkM2Cw0Rlk9drGkoiSMpFqflKTiQLWUNyKJjF8mKQ=
+github.com/nexus-rpc/sdk-go v0.5.1 h1:UFYYfoHlQc+Pn9gQpmn9QE7xluewAn2AO1OSkAh7YFU=
+github.com/nexus-rpc/sdk-go v0.5.1/go.mod h1:FHdPfVQwRuJFZFTF0Y2GOAxCrbIBNrcPna9slkGKPYk=
 github.com/oklog/ulid/v2 v2.1.1 h1:suPZ4ARWLOJLegGFiZZ1dFAkqzhMjL3J1TzI+5wHz8s=
 github.com/oklog/ulid/v2 v2.1.1/go.mod h1:rcEKHmBBKfef9DhnvX7y1HZBYxjXb0cP5ExxNsTT1QQ=
 github.com/pborman/getopt v0.0.0-20170112200414-7148bc3a4c30/go.mod h1:85jBQOZwpVEaDAr341tbn15RS4fCAsIst0qp7i8ex1o=
@@ -119,8 +119,8 @@ go.opentelemetry.io/otel/trace v1.37.0 h1:HLdcFNbRQBE2imdSEgm/kwqmQj1Or1l/7bW6mx
 go.opentelemetry.io/otel/trace v1.37.0/go.mod h1:TlgrlQ+PtQO5XFerSPUYG0JSgGyryXewPGyayAWSBS0=
 go.temporal.io/api v1.54.0 h1:/sy8rYZEykgmXRjeiv1PkFHLXIus5n6FqGhRtCl7Pc0=
 go.temporal.io/api v1.54.0/go.mod h1:iaxoP/9OXMJcQkETTECfwYq4cw/bj4nwov8b3ZLVnXM=
-go.temporal.io/sdk v1.37.0 h1:RbwCkUQuqY4rfCzdrDZF9lgT7QWG/pHlxfZFq0NPpDQ=
-go.temporal.io/sdk v1.37.0/go.mod h1:tOy6vGonfAjrpCl6Bbw/8slTgQMiqvoyegRv2ZHPm5M=
+go.temporal.io/sdk v1.38.0 h1:4Bok5LEdED7YKpsSjIa3dDqram5VOq+ydBf4pyx0Wo4=
+go.temporal.io/sdk v1.38.0/go.mod h1:a+R2Ej28ObvHoILbHaxMyind7M6D+W0L7edt5UJF4SE=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
