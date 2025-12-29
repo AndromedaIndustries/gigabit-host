@@ -49,7 +49,7 @@ require (
 	github.com/netbox-community/go-netbox/v4 v4.3.0
 	github.com/oklog/ulid/v2 v2.1.1
 	golang.org/x/crypto v0.46.0
-	resty.dev/v3 v3.0.0-beta.5
+	resty.dev/v3 v3.0.0-beta.6
 )
 
 require (
