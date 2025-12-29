@@ -195,5 +195,5 @@ logur.dev/adapter/logrus v0.5.0/go.mod h1:9VKOXYYAQU3gjKJj1gs4jwr+YtDlGHGRVJ4tVA
 logur.dev/logur v0.16.1/go.mod h1:DyA5B+b6WjjCcnpE1+HGtTLh2lXooxRq+JmAwXMRK08=
 logur.dev/logur v0.17.0 h1:lwFZk349ZBY7KhonJFLshP/VhfFa6BxOjHxNnPHnEyc=
 logur.dev/logur v0.17.0/go.mod h1:DyA5B+b6WjjCcnpE1+HGtTLh2lXooxRq+JmAwXMRK08=
-resty.dev/v3 v3.0.0-beta.5 h1:NV1xbqOLzSq7XMTs1t/HLPvu7xrxoXzF90SR4OO6faQ=
-resty.dev/v3 v3.0.0-beta.5/go.mod h1:NTOerrC/4T7/FE6tXIZGIysXXBdgNqwMZuKtxpea9NM=
+resty.dev/v3 v3.0.0-beta.6 h1:ghRdNpoE8/wBCv+kTKIOauW1aCrSIeTq7GxtfYgtevU=
+resty.dev/v3 v3.0.0-beta.6/go.mod h1:NTOerrC/4T7/FE6tXIZGIysXXBdgNqwMZuKtxpea9NM=
