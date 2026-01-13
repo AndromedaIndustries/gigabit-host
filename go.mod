@@ -29,10 +29,10 @@ require (
 	github.com/stretchr/objx v0.5.3 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
 	go.temporal.io/api v1.59.0 // indirect
-	golang.org/x/net v0.48.0
+	golang.org/x/net v0.49.0
 	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.39.0 // indirect
-	golang.org/x/text v0.32.0 // indirect
+	golang.org/x/sys v0.40.0 // indirect
+	golang.org/x/text v0.33.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251007200510-49b9836ed3ff // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251007200510-49b9836ed3ff // indirect
@@ -48,7 +48,7 @@ require (
 	github.com/nautobot/go-nautobot/v2 v2.3.2-beta
 	github.com/netbox-community/go-netbox/v4 v4.3.0
 	github.com/oklog/ulid/v2 v2.1.1
-	golang.org/x/crypto v0.46.0
+	golang.org/x/crypto v0.47.0
 	resty.dev/v3 v3.0.0-beta.6
 )
 
