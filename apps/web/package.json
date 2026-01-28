@@ -25,7 +25,7 @@
     "@fortawesome/react-fontawesome": "^3.0.2",
     "database": "workspace:*",
     "@swc/core": "^1.13.19",
-    "next": "^15",
+    "next": "^16",
     "react": "^19",
     "react-dom": "^19",
     "ulid": "3.0.1"
