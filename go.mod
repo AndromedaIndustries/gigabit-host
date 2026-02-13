@@ -11,7 +11,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/luthermonson/go-proxmox v0.3.2
 	github.com/magefile/mage v1.15.0 // indirect
-	go.temporal.io/sdk v1.39.0
+	go.temporal.io/sdk v1.40.0
 	logur.dev/logur v0.17.0
 )
 
@@ -28,7 +28,7 @@ require (
 	github.com/sirupsen/logrus v1.9.4
 	github.com/stretchr/objx v0.5.3 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
-	go.temporal.io/api v1.59.0 // indirect
+	go.temporal.io/api v1.62.1 // indirect
 	golang.org/x/net v0.49.0
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.40.0 // indirect
